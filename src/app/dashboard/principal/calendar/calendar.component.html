@@ -1,0 +1,28 @@
+<div class="card-body">
+  <h5 class="card-title">Cronograma <span>| calendario</span></h5>
+
+  <div class="calendar">
+    <div class="calendar-header">
+      <button (click)="prevMonth()">&lt;</button>
+      <h6>{{ monthYear }}</h6>
+      <button (click)="nextMonth()">&gt;</button>
+    </div>
+
+    <div class="calendar-days">
+      <div>Dom</div>
+      <div>Lun</div>
+      <div>Mar</div>
+      <div>Mié</div>
+      <div>Jue</div>
+      <div>Vie</div>
+      <div>Sáb</div>
+    </div>
+
+    <div class="calendar-dates">
+      <div *ngFor="let day of calendarDays" [class.empty]="day === 0">
+        <span *ngIf="day !== 0">{{ day }}</span>
+        <div class="event" *ngIf="getEvent(day)">{{ getEvent(day) }}</div>
+      </div>
+    </div>
+  </div>
+</div>

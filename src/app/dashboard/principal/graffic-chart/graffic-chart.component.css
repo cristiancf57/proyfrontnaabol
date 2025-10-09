@@ -1,0 +1,12 @@
+.card-body {
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.card-title {
+  margin-bottom: 20px;
+}
+
+#trafficChart {
+  width: 100%;
+  height: 400px;
+}

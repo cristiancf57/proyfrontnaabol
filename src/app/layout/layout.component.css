@@ -1,0 +1,39 @@
+/* fondo */
+.layout {
+    background: url('/assets/img/fondo.jpg') no-repeat center center fixed;
+    height: 100vh;
+    background-size: cover;
+}
+
+/* Texto */
+p {
+  font-size: 3rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: #e2e8f0;
+}
+
+/* Línea divisoria */
+hr {
+  border: none;
+  border-top: 2px solid #38bdf8;
+  border-width: 3px;
+  width: 5%;
+  margin: 10px auto 25px auto;
+  opacity: 0.7;
+}
+
+.btn-outline-info {
+  color: #38bdf8;
+  padding: 12px 35px;
+  font-size: 1rem;
+  border-radius: 25px;
+  font-weight: bold;
+  transition: all 0.1s ease;
+}
+
+.btn-outline-info:hover {
+  background-color: #38bdf8;
+  border-width: 4px;
+  /* transform: scale(1.05); */
+}

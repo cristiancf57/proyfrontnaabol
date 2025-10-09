@@ -1,0 +1,54 @@
+.header-nav .nav-icon {
+  font-size: 22px;
+  color: #ffffff;
+  margin-right: 25px;
+  position: relative;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.header-nav .nav-icon:hover {
+  color: #0A2647; 
+  transform: scale(1.2) rotate(10deg); 
+}
+
+.sidebar-nav .nav-link {
+  transition: all 0.3s ease;
+}
+
+.sidebar-nav .nav-link:hover {
+  color: #0B2447;
+  background: #a6b8db;
+  transform: translateX(5px); 
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.2); 
+}
+
+.sidebar-nav .nav-link i {
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.sidebar-nav .nav-link:hover i {
+  color: #0A2647;
+  transform: rotate(15deg) scale(1.2);
+}
+
+.sidebar-nav .nav-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-in-out;
+}
+
+.sidebar-nav .nav-link:not(.collapsed) + .nav-content {
+  max-height: 500px; /* valor grande para mostrar */
+}
+
+.sidebar-nav .nav-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
+}
+
+.sidebar-nav .nav-content.show {
+  max-height: 500px; /* valor grande suficiente */
+  opacity: 1;
+}
