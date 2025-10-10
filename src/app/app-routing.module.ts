@@ -6,7 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { PrincipalComponent } from './dashboard/principal/principal.component';
 import { CardUsuarioComponent } from './dashboard/list-usuarios/card-usuario/card-usuario.component';
 import { ListUsuariosComponent } from './dashboard/list-usuarios/list-usuarios.component';
-import { ListActivosComponent } from './dashboard/activos/list-activos/list-activos.component';
+import { ListActivosComponent } from './dashboard/list-activos/list-activos.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},

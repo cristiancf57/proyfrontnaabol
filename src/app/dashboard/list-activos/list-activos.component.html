@@ -1,1 +1,57 @@
 <p>list-activos works!</p>
+<div class="pagetitle">
+    <h1>Data Tables</h1>
+    <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Tables</li>
+          <li class="breadcrumb-item active">Data</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Activos <span>| Todos</span></h5>
+
+              <!-- Table with stripped rows -->
+              <table class="table table-borderless">
+                <thead>
+                  <tr>
+                    <th scope="col">Nro</th>
+                    <th scope="col">Detalle</th>
+                    <th scope="col">activo</th>
+                    <th scope="col">marca</th>
+                    <th scope="col">ip</th>
+                    <th scope="col">color</th>
+                    <th scope="col">tipo</th>
+                    <th scope="col">estado</th>
+                    <th scope="col" data-type="date" data-format="YYYY/DD/MM">Fecha</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let act of activos" >
+                    <td> {{act.id}}</td>
+                    <td> {{act.detalle}}</td>
+                    <td> {{act.codigo}}</td>
+                    <td> {{act.marca}}</td>
+                    <td> {{act.ip}}</td>
+                    <td> {{act.color}}</td>
+                    <td> {{act.tipo}}</td>
+                    <td> {{act.estado}}</td>
+                    <td> {{act.fecha}}</td>
+                  </tr>            
+                </tbody> 
+              </table>
+              <!-- End Table with stripped rows -->
+            </div>
+          </div>
+
+        </div>
+    </div>
+</section>
+
