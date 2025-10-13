@@ -1,0 +1,57 @@
+
+ <!-- Chart -->
+<div class="chart-container">
+  <!-- <apx-chart
+    [series]="chartOptions.series"
+    [chart]="chartOptions.chart"
+    [labels]="chartOptions.labels"
+    [responsive]="chartOptions.responsive">
+  </apx-chart> -->
+   <!-- Título y controles -->
+
+  <!-- Tarjetas de resumen -->
+  <div class="row mb-4">
+    <div class="col-md-3" *ngFor="let dato of activoData">
+      <div class="card">
+        <div class="card-body">
+          <p class="card-title text-muted">{{ dato.categoria }}</p>
+          <p class="text-primary">{{ dato.cantidad }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gráfico de activos - EN EL MISMO COMPONENTE -->
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          
+          <!-- Loading -->
+          <div *ngIf="loading" class="text-center py-4">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Cargando...</span>
+            </div>
+          </div>
+
+          <!-- Gráfico ECharts -->
+          <!-- <div *ngIf="!loading" 
+               echarts
+               [options]="chartOptions"
+               (chartInit)="onChartInit($event)"
+               style="height: 400px; width: 100%;">
+          </div> -->
+
+            <!-- <canvas baseChart
+                [data]="chartData"
+                [type]="'pie'">
+            </canvas> -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- End Chart -->

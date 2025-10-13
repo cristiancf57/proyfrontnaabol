@@ -16,6 +16,8 @@ import { CalendarComponent } from './dashboard/principal/calendar/calendar.compo
 import { GrafficChartComponent } from './dashboard/principal/graffic-chart/graffic-chart.component';
 import { ListActivosComponent } from './dashboard/list-activos/list-activos.component';
 import { FormActivoComponent } from './dashboard/activos/form-activo/form-activo.component';
+import { ActivoChartComponent } from './dashboard/principal/activo-chart/activo-chart.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,12 +32,13 @@ import { FormActivoComponent } from './dashboard/activos/form-activo/form-activo
     CalendarComponent,
     GrafficChartComponent,
     ListActivosComponent,
-    FormActivoComponent
+    FormActivoComponent,
+    ActivoChartComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
