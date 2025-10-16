@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +18,8 @@ import { GrafficChartComponent } from './dashboard/principal/graffic-chart/graff
 import { ListActivosComponent } from './dashboard/list-activos/list-activos.component';
 import { FormActivoComponent } from './dashboard/activos/form-activo/form-activo.component';
 import { ActivoChartComponent } from './dashboard/principal/activo-chart/activo-chart.component';
+import { ListMantenimientoComponent } from './dashboard/principal/list-mantenimiento/list-mantenimiento.component';
+import { FormsComponent } from './dashboard/forms/forms.component';
 
 @NgModule({
   declarations: [
@@ -33,12 +36,15 @@ import { ActivoChartComponent } from './dashboard/principal/activo-chart/activo-
     GrafficChartComponent,
     ListActivosComponent,
     FormActivoComponent,
-    ActivoChartComponent
+    ActivoChartComponent,
+    ListMantenimientoComponent,
+    FormsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

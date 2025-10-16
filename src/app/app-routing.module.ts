@@ -7,16 +7,20 @@ import { PrincipalComponent } from './dashboard/principal/principal.component';
 import { CardUsuarioComponent } from './dashboard/list-usuarios/card-usuario/card-usuario.component';
 import { ListUsuariosComponent } from './dashboard/list-usuarios/list-usuarios.component';
 import { ListActivosComponent } from './dashboard/list-activos/list-activos.component';
+import { FormsComponent } from './dashboard/forms/forms.component';
+import { FormActivoComponent } from './dashboard/forms/form-activo/form-activo.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: 'login', component:LoginComponent},
   {path: 'layout', component:LayoutComponent},
+  {path: 'forms', component:FormsComponent},
   {path: 'dashboard', component:DashboardComponent,
     children:[
       {path: 'principal', component:PrincipalComponent},
       {path: 'usuario', component:ListUsuariosComponent},
       {path: 'activo', component:ListActivosComponent},
+      {path: 'form-activo', component:FormActivoComponent},
       {path: '', redirectTo: 'principal', pathMatch: 'full'} //default
     ]
   },

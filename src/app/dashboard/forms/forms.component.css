@@ -1,0 +1,64 @@
+body {
+  background-color: #121212;
+}
+
+.green-icon {
+    color: #198754;
+}
+
+.red-icon {
+    color: #dc3545;
+}
+
+.spinner-border {
+    height: 1.5rem;
+    width: 1.5rem; 
+}
+
+.form-container {
+    /* background: #0A2647; */
+    background: url('/assets/img/fondo.jpg') no-repeat center center fixed;
+    height: 100vh;
+    background-size: cover;
+    color: #fff;
+}
+
+.form-box {
+    border: 0.5px solid rgb(199, 242, 253);
+  background-color: #0a2647b2;
+  border-radius: 1px;
+  padding: 2rem;
+  border-radius: 15px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+/* logo */
+img {
+  max-height: 80px;
+  margin-right: 6px;
+}
+
+.btn-pink {
+  color: rgb(126, 167, 206);
+  border: none;
+}
+
+.btn-pink:hover {
+  background-color: #2C74B3;
+}
+
+.welcome-section {
+  border-radius: 10px;
+  padding: 3rem;
+  color: #fff;
+}
+
+/* Texto */
+H1 {
+  font-size: 4rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: #e2e8f0;
+}

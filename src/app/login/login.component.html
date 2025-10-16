@@ -1,4 +1,4 @@
-<body class="bg-dark text-light">
+
   <div class="container-fluid login-container">
     <div class="row min-vh-100 justify-content-center align-items-center">
       <div class="col-md-5 col-lg-4 p-4">
@@ -18,13 +18,14 @@
               <label for="password" class="form-label">PASSWORD</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                <input type="password" class="form-control" id="password" placeholder="Contraseña" />
+                <input [type]="showPassword ? 'text' : 'password'"  class="form-control" id="password" placeholder="Contraseña"/>
+                <span class="input-group-text toggle-password" (click)="togglePassword()"><i class="bi" [class.bi-eye]="!showPassword" [class.bi-eye-slash]="showPassword"></i></span>
               </div>
             </div>
             <hr>
             <button type="submit" class="btn btn-outline-info w-100">LOGIN</button>
             <div class="text-end mt-2">
-              <a href="#" class="text-light text-decoration-underline">Olvidaste tu contraña?</a>
+              <a href="/forms" class="text-light text-decoration-underline">Crear Cuenta</a>
             </div>
           </form>
         </div>

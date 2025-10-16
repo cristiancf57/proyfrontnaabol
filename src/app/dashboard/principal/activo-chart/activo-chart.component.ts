@@ -10,21 +10,24 @@ import { EChartsOption } from 'echarts';
   styleUrl: './activo-chart.component.css'
 })
 export class ActivoChartComponent implements OnInit {
-  activoData!: IActivoChart[]
+  activoData: IActivoChart[] =[];
   chartOptions: EChartsOption = {}
   loading = true;
 
-  // Datos para el gráfico
-  // loading = false;
-
   otrosDatos: any[] = [];
+
+  // Variables para los datos separados
+  chartLabels: string[] = [];
+  chartValues: number[] = [];
+  totalActivos: number = 0;
 
   constructor(private activoService: ActivoService){}
   
   ngOnInit(): void {
     this.activoService.getActivosChart().subscribe({
       next: (respoonce: any) =>{
-        this.activoData = respoonce
+        this.activoData = respoonce // extrare datos
+        //separar datos
         console.log(respoonce)
       },
       error: error =>{
@@ -32,66 +35,110 @@ export class ActivoChartComponent implements OnInit {
       }
     })
 
-    this.cargarOtrosDatos();
   }
 
-  cargarDatosActivos(): void {
-    this.loading = true;
-    
+  cargarDatos(): void {
     this.activoService.getActivosChart().subscribe({
-      next: (response:any) => {
-        if (response) {
-          this.actualizarGraficoConDatos(response.data);
-        }
+      next: (response: any) => {
+        this.activoData = response;
+        this.procesarDatos();
         this.loading = false;
       },
-      error: (error) => {
-        console.error('Error:', error);
+      error: error => {
+        console.log(error);
         this.loading = false;
       }
-    })
+    });
+
+    this.cargarDatos()
   }
 
-  private actualizarGraficoConDatos(datos: any[]): void {
-    const chartData = datos.map(item => ({
-      value: item.cantidad,
-      name: this.formatearNombre(item.categoria)
-    }));
+  private procesarDatos(): void {
+    // Extraer labels y valores
+    this.chartLabels = this.activoData.map(item => 
+      this.formatearLabel(item.categoria)
+    );
+    
+    this.chartValues = this.activoData.map(item => item.cantidad);
+    
+    // Calcular total
+    this.totalActivos = this.chartValues.reduce((sum, value) => sum + value, 0);
+    
+    // Actualizar gráfico
+    this.actualizarGrafico();
+  }
 
+  private actualizarGrafico(): void {
     this.chartOptions = {
-      // ... opciones del gráfico
-      series: [{
-        type: 'pie',
-        data: chartData
-      }]
+      title: {
+        text: 'Distribución de Activos',
+        left: 'center',
+        textStyle: {
+          fontSize: 16,
+          fontWeight: 'bold'
+        }
+      },
+      tooltip: {
+        trigger: 'item',
+        formatter: '{a} <br/>{b}: {c} unidades ({d}%)'
+      },
+      legend: {
+        orient: 'horizontal',
+        bottom: '0%',
+        data: this.chartLabels
+      },
+      series: [
+        {
+          name: 'Activos',
+          type: 'pie',
+          radius: ['35%', '65%'],
+          center: ['50%', '45%'],
+          itemStyle: {
+            borderRadius: 8,
+            borderColor: '#fff',
+            borderWidth: 2
+          },
+          label: {
+            show: true,
+            formatter: '{b}: {c}',
+            fontSize: 12
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: 14,
+              fontWeight: 'bold'
+            }
+          },
+          data: this.activoData.map((item, index) => ({
+            value: item.cantidad,
+            name: this.formatearLabel(item.categoria),
+            itemStyle: {
+              color: this.getColor(index)
+            }
+          }))
+        }
+      ]
     };
   }
 
-  private formatearNombre(categoria: string): string {
+  // Métodos auxiliares para el HTML
+  formatearLabel(categoria: string): string {
     return categoria.charAt(0).toUpperCase() + categoria.slice(1);
   }
 
-  private cargarOtrosDatos(): void {
-    // Aquí cargas otros datos de tu componente
-    this.otrosDatos = [
-      { nombre: 'Total Activos', valor: 177 },
-      { nombre: 'En Mantenimiento', valor: 12 },
-      { nombre: 'Disponibles', valor: 165 }
+  calcularPorcentaje(cantidad: number): number {
+    if (this.totalActivos === 0) return 0;
+    return Math.round((cantidad / this.totalActivos) * 100);
+  }
+
+  getColor(index: number): string {
+    const colors = [
+      '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
+      '#FF9F40', '#C9CBCF', '#7CFFB2', '#F8FF7C', '#FF7C7C'
     ];
+    return colors[index % colors.length];
   }
 
-  // Evento cuando el chart se inicializa
-  onChartInit(ec: any): void {
-    console.log('Gráfico inicializado', ec);
-  }
-
-  chartData = {
-  labels: ['Computadoras', 'Cámaras', 'Impresoras', 'Switches', 'Laptops'],
-  datasets: [
-    {
-      data: [44, 55, 13, 43, 22],
-      backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545', '#6c757d']
-    }
-  ]
-}
+  
 }

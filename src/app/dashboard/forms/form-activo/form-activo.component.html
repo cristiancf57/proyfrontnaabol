@@ -1,0 +1,91 @@
+
+<div class="pagetitle">
+  <h1>Registro de activo</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="dashboard">Home</a></li>
+      <li class="breadcrumb-item">Forms</li>
+      <li class="breadcrumb-item active">activos</li>
+    </ol>
+  </nav>
+</div><!-- End Page Title -->
+
+<section class="section">
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">formulario de registro</h5>
+                <!-- Loading -->
+                <div *ngIf="loading" class="text-center py-5">
+                    <div class="spinner-border text-success" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                    </div>
+                    <p class="mt-2">Cargando datos de activo...</p>
+                </div>
+
+              <!-- Multi Columns Form -->
+              <form [formGroup]="myForm" (ngSubmit)="onGuardar()" class="needs-validation" novalidate class="row g-3">
+                <div class="col-md-8">
+                  <label for="detalle" class="form-label">Detalle</label>
+                  <input type="text" formControlName="detalle" class="form-control" id="detalle" placeholder="un breve detalle de maximo 4 palabras"/>
+                </div>
+                <div class="col-md-4">
+                  <label for="tipo" class="form-label">Tipo</label>
+                  <select id="tipo" formControlName="tipo" class="form-select">
+                    <option selected>Seleccionar</option>
+                    <option value="computadora">computadora</option>
+                    <option value="impresora">impresora</option>
+                    <option value="enrutador">enrutador</option>
+                    <option value="camara">camara</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label for="codigo" class="form-label">Codigo del Activo</label>
+                  <input type="text" formControlName="codigo" class="form-control" id="codigo" placeholder="codigo de acivo"/>
+                </div>
+                <div class="col-md-4">
+                  <label for="marca" class="form-label">Marca</label>
+                  <input type="text"formControlName="marca" class="form-control" id="marca" placeholder="marca del activo"/>
+                </div>
+                <div class="col-md-4">
+                  <label for="modelo" class="form-label">Modelo</label>
+                  <input type="text" formControlName="modelo" class="form-control" id="modelo" placeholder="modelo del activo"/>
+                </div>
+                <div class="col-md-4">
+                  <label for="serie" class="form-label">Serie</label>
+                  <input type="text" formControlName="serie" class="form-control" id="serie" placeholder="serie o MAC"/>
+                </div>
+                <div class="col-md-4">
+                  <label for="color" class="form-label">Color</label>
+                  <input type="text" formControlName="color" class="form-control" id="color" placeholder="color dominante del activo"/>
+                </div>
+                <div class="col-md-4">
+                  <label for="inputState" class="form-label">Area</label>
+                  <select id="inputState" formControlName="area" class="form-select">
+                    <option selected>Seleccionar</option>
+                    <option value="Sistemas">Sistemas</option>
+                    <option value="Electronica">Electronica</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label for="ip" class="form-label">Direccion IP</label>
+                  <input type="text" formControlName="ipAddress" class="form-control" id="ip" placeholder="192.168.1.1" maxlength="15"/>
+                </div>
+                <div class="col-8">
+                  <label for="ubicacion" class="form-label">Ubicacion</label>
+                  <input type="text" formControlName="ubicacion" class="form-control" id="ubicacion" placeholder="Ubicacion del activo">
+                </div>
+                <div class="col-12">
+                  <label for="ubicacion" class="form-label">Descripcion <span>(Opcional)</span></label>
+                  <input type="text" formControlName="descripcion" class="form-control" id="ubicacion" placeholder="opcional">
+                </div>
+                
+                <div class="text-center">
+                  <button type="submit" class="btn btn-outline-success">Submit</button> | 
+                  <button type="reset" class="btn btn-outline-danger">Reset</button>
+                </div>
+              </form><!-- End Multi Columns Form -->
+            </div>
+        </div>
+    </div>
+</section>
