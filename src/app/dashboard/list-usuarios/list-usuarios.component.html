@@ -10,42 +10,58 @@
 </div><!-- End Page Title -->
 
 <section class="section">
-    <div class="row">
-        <div class="col-lg-12">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Usuarios <span>| {{ currentFilter }}</span></h5>
 
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Usuarios <span>| Today</span></h5>
-
-              <!-- Table with stripped rows -->
-              <table class="table table-borderless">
-                <thead>
-                  <tr>
-                    <th scope="col">Img</th>
-                    <th scope="col">
-                      <b>N</b>nombre
-                    </th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Telefono</th>
-                    <th scope="col" data-type="date" data-format="YYYY/DD/MM">Fecha</th>
-                    <th scope="col">username</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let user of usuarios" >
-                    <th scope="row"><img [src]="imgUrl+'default.jpg'" alt=""></th>
-                    <td> {{user.nombre}} {{user.apellido}} </td>
-                    <td>{{user.email}}</td>
-                    <td>{{user.telefono}}</td>
-                    <td>{{user.email_verified_at}}</td>
-                    <td>{{user.username}}</td>
-                  </tr>            
-                </tbody> 
-              </table>
-              <!-- End Table with stripped rows -->
+          <!-- Search Bar -->
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input type="text" class="form-control" placeholder="Buscar Activo"(input)="onSearch($event)">
+              </div>
+            </div>
+            <div class="col-md-6 text-end">
+              <small class="text-muted">Filtrados {{ userFiltrados.length }} de {{ usuarios.length }} Usuarios</small>
             </div>
           </div>
 
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Img</th>
+                <th scope="col">
+                  <b>N</b>ombre
+                </th>
+                <th scope="col">Email</th>
+                <th scope="col">Telefono</th>
+                <th scope="col">Usuario</th>
+                <th scope="col">Accion</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of userFiltrados; let i = index">
+                    <th scope="row">{{ i + 1}}</th>
+                    <th><img [src]="imgUrl + item.perfil" alt=""></th>
+                    <th class="rows" onclick="">{{ item.nombre }} {{ item.apellido }}</th>
+                    <td>{{ item.telefono}}</td>
+                    <td>{{ item.email }}</td>
+                    <td>{{ item.username }}</td>
+                    <td>
+                      <i (click)="detalle(item)" class="bi bi-file-earmark-diff text-info"></i>&nbsp;
+                      <i (click)="editar(item)" class="bi bi-pencil-square text-warning"></i>&nbsp;
+                      <i (click)="eliminar(item)" class="bi bi-trash text-danger"></i>
+                    </td>
+                </tr>
+            </tbody>
+          </table>
         </div>
+      </div>
     </div>
+
+  </div>
 </section>

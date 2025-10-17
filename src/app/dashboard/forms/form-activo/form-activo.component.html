@@ -27,11 +27,11 @@
               <form [formGroup]="myForm" (ngSubmit)="onGuardar()" class="needs-validation" novalidate class="row g-3">
                 <div class="col-md-8">
                   <label for="detalle" class="form-label">Detalle</label>
-                  <input type="text" formControlName="detalle" class="form-control" id="detalle" placeholder="un breve detalle de maximo 4 palabras"/>
+                  <input type="text" formControlName="detalle" class="form-control" id="detalle" placeholder="un breve detalle de maximo 4 palabras" [class.is-valid]="this.myForm.get('detalle')?.valid" [class.is-invalid]="this.myForm.get('detalle')?.invalid && this.myForm.get('detalle')?.touched"/>
                 </div>
                 <div class="col-md-4">
                   <label for="tipo" class="form-label">Tipo</label>
-                  <select id="tipo" formControlName="tipo" class="form-select">
+                  <select id="tipo" formControlName="tipo" class="form-select" [class.is-valid]="this.myForm.get('tipo')?.valid" [class.is-invalid]="this.myForm.get('tipo')?.invalid && this.myForm.get('tipo')?.touched">
                     <option selected>Seleccionar</option>
                     <option value="computadora">computadora</option>
                     <option value="impresora">impresora</option>
@@ -41,27 +41,27 @@
                 </div>
                 <div class="col-md-4">
                   <label for="codigo" class="form-label">Codigo del Activo</label>
-                  <input type="text" formControlName="codigo" class="form-control" id="codigo" placeholder="codigo de acivo"/>
+                  <input type="text" formControlName="codigo" class="form-control" id="codigo" placeholder="codigo de acivo"[class.is-valid]="this.myForm.get('codigo')?.valid" [class.is-invalid]="this.myForm.get('codigo')?.invalid && this.myForm.get('codigo')?.touched"/>
                 </div>
                 <div class="col-md-4">
                   <label for="marca" class="form-label">Marca</label>
-                  <input type="text"formControlName="marca" class="form-control" id="marca" placeholder="marca del activo"/>
+                  <input type="text"formControlName="marca" class="form-control" id="marca" placeholder="marca del activo"[class.is-valid]="this.myForm.get('marca')?.valid" [class.is-invalid]="this.myForm.get('marca')?.invalid && this.myForm.get('marca')?.touched"/>
                 </div>
                 <div class="col-md-4">
                   <label for="modelo" class="form-label">Modelo</label>
-                  <input type="text" formControlName="modelo" class="form-control" id="modelo" placeholder="modelo del activo"/>
+                  <input type="text" formControlName="modelo" class="form-control" id="modelo" placeholder="modelo del activo" [class.is-valid]="this.myForm.get('modelo')?.valid" [class.is-invalid]="this.myForm.get('modelo')?.invalid && this.myForm.get('modelo')?.touched"/>
                 </div>
                 <div class="col-md-4">
                   <label for="serie" class="form-label">Serie</label>
-                  <input type="text" formControlName="serie" class="form-control" id="serie" placeholder="serie o MAC"/>
+                  <input type="text" formControlName="serie" class="form-control" id="serie" placeholder="serie o MAC" [class.is-valid]="this.myForm.get('serie')?.valid" [class.is-invalid]="this.myForm.get('serie')?.invalid && this.myForm.get('serie')?.touched"/>
                 </div>
                 <div class="col-md-4">
                   <label for="color" class="form-label">Color</label>
-                  <input type="text" formControlName="color" class="form-control" id="color" placeholder="color dominante del activo"/>
+                  <input type="text" formControlName="color" class="form-control" id="color" placeholder="color dominante del activo"[class.is-valid]="this.myForm.get('color')?.valid" [class.is-invalid]="this.myForm.get('color')?.invalid && this.myForm.get('color')?.touched"/>
                 </div>
                 <div class="col-md-4">
                   <label for="inputState" class="form-label">Area</label>
-                  <select id="inputState" formControlName="area" class="form-select">
+                  <select id="inputState" formControlName="area" class="form-select" [class.is-valid]="this.myForm.get('area')?.valid" [class.is-invalid]="this.myForm.get('area')?.invalid && this.myForm.get('area')?.touched">
                     <option selected>Seleccionar</option>
                     <option value="Sistemas">Sistemas</option>
                     <option value="Electronica">Electronica</option>
@@ -69,15 +69,15 @@
                 </div>
                 <div class="col-md-4">
                   <label for="ip" class="form-label">Direccion IP</label>
-                  <input type="text" formControlName="ipAddress" class="form-control" id="ip" placeholder="192.168.1.1" maxlength="15"/>
+                  <input type="text" formControlName="ip" class="form-control" id="ip" placeholder="192.168.1.1" maxlength="15" [class.is-valid]="this.myForm.get('ip')?.valid" [class.is-invalid]="this.myForm.get('ip')?.invalid && this.myForm.get('ip')?.touched"/>
                 </div>
                 <div class="col-8">
                   <label for="ubicacion" class="form-label">Ubicacion</label>
-                  <input type="text" formControlName="ubicacion" class="form-control" id="ubicacion" placeholder="Ubicacion del activo">
+                  <input type="text" formControlName="ubicacion" class="form-control" id="ubicacion" placeholder="Ubicacion del activo" [class.is-valid]="this.myForm.get('ubicacion')?.valid" [class.is-invalid]="this.myForm.get('ubicacion')?.invalid && this.myForm.get('ubicacion')?.touched">
                 </div>
                 <div class="col-12">
-                  <label for="ubicacion" class="form-label">Descripcion <span>(Opcional)</span></label>
-                  <input type="text" formControlName="descripcion" class="form-control" id="ubicacion" placeholder="opcional">
+                  <label for="descrip" class="form-label">Descripcion <span>(Opcional)</span></label>
+                  <input type="text" formControlName="descripcion" class="form-control" id="descrip" placeholder="opcional">
                 </div>
                 
                 <div class="text-center">

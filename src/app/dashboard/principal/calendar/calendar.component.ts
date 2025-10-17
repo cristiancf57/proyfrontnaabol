@@ -13,10 +13,6 @@ export class CalendarComponent implements OnInit {
   monthYear: string = '';
   calendarDays: number[] = [];
   events: { [key: string]: string } = {}
-  //   '2025-10-10': 'Mantenimiento PC1',
-  //   '2025-10-15': 'Mantenimiento PC2',
-  //   '2025-10-20': 'Mantenimiento Servidor'
-  // };
 
   constructor(private calendarservice: CalendarService){}
 
@@ -31,7 +27,7 @@ export class CalendarComponent implements OnInit {
         this.calendary = response
         this.mapearEventosDesdeAPI(); // Mapear los datos de la API
         this.renderCalendar(this.currentDate);
-        console.log('Datos del calendario:', response);
+        // console.log('Datos del calendario:', response);
         console.log('Eventos mapeados:', this.events);
         // console.log(response)
       },
@@ -49,8 +45,9 @@ export class CalendarComponent implements OnInit {
      // Mapear cada item del calendario al objeto events
     this.calendary.forEach((item: ICalendario) => {
       // Asumiendo que ICalendario tiene propiedades como fecha y descripcion
-      const fecha = this.formatearFecha(item.fecha); // Ajusta según tu propiedad
-      const descripcion = item.observaciones; // Ajusta según tu propiedad
+      const fecha = this.formatearFecha(item.fecha); // Ajusta según fecha
+      const descripcion = item.observaciones; // Ajusta según  propiedad
+      const estado = item.estado; // Ajusta según estado
       
       this.events[fecha] = descripcion;
     });

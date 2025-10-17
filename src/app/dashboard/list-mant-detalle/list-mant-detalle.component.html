@@ -1,0 +1,75 @@
+
+<div class="col-12">
+    <div class="card">
+      <div class="filter d-flex flex-row-reverse">
+        <a class="icon " href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+          <li class="dropdown-header text-start">
+            <h6>Filter</h6>
+            </li>
+            <li><a class="dropdown-item" href="#" (click)="filterByDate('today'); $event.preventDefault()">Todos</a></li>
+            <li><a class="dropdown-item" href="#" (click)="filterByDate('month'); $event.preventDefault()">Este mes</a></li>
+            <li><a class="dropdown-item" href="#" (click)="filterByDate('year'); $event.preventDefault()">este Año</a></li>
+        </ul>
+      </div>
+      <div class="card-body">
+      <h5 class="card-title">mantenimiento <span>| {{ currentFilter }}</span></h5>
+
+      <!-- Search Bar -->
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-search"></i>
+            </span>
+            <input 
+              type="text" 
+              class="form-control" 
+              placeholder="Buscar Activo"
+              (input)="onSearch($event)">
+          </div>
+        </div>
+        <div class="col-md-6 text-end">
+          <small class="text-muted">Filtrados {{ mantenimientosFiltrados.length }} de {{ mantenimientos.length }} mantenimientos</small>
+        </div>
+      </div>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Equipo</th>
+            <th scope="col">estado</th>
+            <th scope="col">Activo</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">ip</th>
+            <th scope="col">Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of mantenimientosFiltrados; let i = index">
+                <th scope="row">{{ i + 1}}</th>
+                <td>{{ item.activo?.detalle }}</td>
+                <td>{{ item.activo?.estado }}</td>
+                <th scope="row">{{ item.activo?.codigo}}</th>
+                <td>{{ item.fecha }}</td>
+                <td>{{ item.activo?.ip }}</td>
+                <td><span 
+                  class="badge"
+                  [class.bg-success]="item.estado === 'completado'"
+                  [class.bg-warning]="item.estado === 'pendiente'"
+                  [class.bg-danger]="item.estado === 'cancelado'"
+                  [class.bg-info]="item.estado === 'en_proceso'">
+                  {{ getEstadoText(item.estado) }}
+                </span></td>
+                <td>
+                    <i (click)="verDetalle(item)" class="bi bi-file-earmark-diff text-info"></i>&nbsp;
+                    <i (click)="editar(item)" class="bi bi-pencil-square text-warning"></i>&nbsp;
+                    <i (click)="eliminar(item)" class="bi bi-trash text-danger"></i>
+                </td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+    </div>
+</div><!-- End Reports -->

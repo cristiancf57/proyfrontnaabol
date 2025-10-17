@@ -14,35 +14,78 @@
         <div class="col-lg-12">
 
           <div class="card">
+            <div class="filter d-flex flex-row-reverse">
+              <a class="icon " href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                <li class="dropdown-header text-start">
+                  <h6>Filter</h6>
+                  </li>
+                  <li><a class="dropdown-item" href="#" (click)="filterByDate('today'); $event.preventDefault()">Todos</a></li>
+                  <li><a class="dropdown-item" href="#" (click)="filterByDate('month'); $event.preventDefault()">Este mes</a></li>
+                  <li><a class="dropdown-item" href="#" (click)="filterByDate('year'); $event.preventDefault()">este Año</a></li>
+              </ul>
+            </div>
             <div class="card-body">
               <h5 class="card-title">Activos <span>| Todos</span></h5>
 
+              <!-- Search Bar -->
+              <div class="row mb-3">
+                <div class="col-md-4">
+                  <div class="input-group">
+                    <span class="input-group-text">
+                      <i class="bi bi-search"></i>
+                    </span>
+                    <input 
+                      type="text" 
+                      class="form-control" 
+                      placeholder="Buscar Activo"
+                      (input)="onSearch($event)">
+                  </div>
+                </div>
+                <div class="col-md-6 text-end">
+                  <small class="text-muted">Filtrados {{ activoFiltrados.length }} de {{ activos.length }} Activos</small>
+                </div>
+              </div>
+
               <!-- Table with stripped rows -->
-              <table class="table table-borderless">
+              <table class="table ">
                 <thead>
                   <tr>
                     <th scope="col">Nro</th>
                     <th scope="col">Detalle</th>
-                    <th scope="col">activo</th>
-                    <th scope="col">marca</th>
-                    <th scope="col">ip</th>
-                    <th scope="col">color</th>
-                    <th scope="col">tipo</th>
-                    <th scope="col">estado</th>
-                    <th scope="col" data-type="date" data-format="YYYY/DD/MM">Fecha</th>
+                    <th scope="col">Activo</th>
+                    <th scope="col">Marca</th>
+                    <th scope="col">Direccion IP</th>
+                    <th scope="col">Color</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Area</th>
+                    <th scope="col">Estado</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let act of activos" >
-                    <td> {{act.id}}</td>
-                    <td> {{act.detalle}}</td>
-                    <td> {{act.codigo}}</td>
-                    <td> {{act.marca}}</td>
-                    <td> {{act.ip}}</td>
-                    <td> {{act.color}}</td>
-                    <td> {{act.tipo}}</td>
-                    <td> {{act.estado}}</td>
-                    <td> {{act.fecha}}</td>
+                  <tr *ngFor="let item of activoFiltrados; let i = index" >
+                    <td> {{ i + 1 }}</td>
+                    <td> {{item.detalle}}</td>
+                    <td> {{item.codigo}}</td>
+                    <td> {{item.marca}}</td>
+                    <td> {{item.ip}}</td>
+                    <td> {{item.color}}</td>
+                    <td> {{item.tipo}}</td>
+                    <td> {{item.area}}</td>
+                    <td>
+                      <span
+                        class="badge"
+                        [class.bg-success]="item.estado === 'activo'"
+                        [class.bg-warning]="item.estado === 'mantenimiento'"
+                        [class.bg-danger]="item.estado === 'baja'">
+                        {{ getEstadoText(item.estado) }}
+                      </span>
+                    </td>
+                    <td>
+                      <i (click)="detalle(item)" class="bi bi-file-earmark-diff text-info"></i>&nbsp;
+                      <i (click)="editar(item)" class="bi bi-pencil-square text-warning"></i>&nbsp;
+                      <i (click)="eliminar(item)" class="bi bi-trash text-danger"></i>
+                    </td>
                   </tr>            
                 </tbody> 
               </table>

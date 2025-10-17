@@ -1,70 +1,3 @@
-<!-- <div class="forms-container"> -->
-
-    <!-- <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
-
-              <div class="d-flex justify-content-center py-4">
-                <a href="/login" class="logo d-flex align-items-center w-auto">
-                  <img src="assets/img/fondos/logo.png" alt="">
-                </a>
-              </div>
-
-              <div class="card mb-3">
-
-                <div class="card-body">
-
-                  <form class="row g-3 needs-validation" novalidate>
-                    <div class="col-12">
-                      <label for="yourName" class="form-label">Your Name</label>
-                      <input type="text" name="name" class="form-control" id="yourName" required>
-                      <div class="invalid-feedback">Please, enter your name!</div>
-                    </div>
-
-                    <div class="col-12">
-                      <label for="yourEmail" class="form-label">Your Email</label>
-                      <input type="email" name="email" class="form-control" id="yourEmail" required>
-                      <div class="invalid-feedback">Please enter a valid Email adddress!</div>
-                    </div>
-
-                    <div class="col-12">
-                      <label for="yourUsername" class="form-label">Username</label>
-                      <div class="input-group has-validation">
-                        <span class="input-group-text" id="inputGroupPrepend">a</span>
-                        <input type="text" name="username" class="form-control" id="yourUsername" required>
-                        <div class="invalid-feedback">Please choose a username.</div>
-                      </div>
-                    </div>
-
-                    <div class="col-12">
-                      <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="password" class="form-control" id="yourPassword" required>
-                      <div class="invalid-feedback">Please enter your password!</div>
-                    </div>
-
-                    <hr>
-
-                    <div class="col-12">
-                      <button type="submit" class="btn btn-outline-info w-100">Crear Usuario</button>
-                    </div>
-                    <div class="col-12">
-                      <p class="small mb-0">Already have an account? <a href="/login">Log in</a></p>
-                    </div>
-                  </form>
-
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-    </section> -->
-
-<!-- </div> -->
-
-
 
   <div class="container-fluid form-container">
     <div class="row min-vh-100 justify-content-center align-items-center">
@@ -73,14 +6,22 @@
           <div class="text-center mb-4">
             <img src="assets/img/fondos/logo.png" alt="">
           </div>
-          <form [formGroup]="form" (ngSubmit)="crearUsuario()">
+          <!-- Loading -->
+          <div *ngIf="loading" class="text-center py-5">
+              <div class="spinner-border text-success" role="status">
+              <span class="visually-hidden">Cargando...</span>
+              </div>
+              <p class="mt-2">Cargando datos de activo...</p>
+          </div>
+
+          <form [formGroup]="form" (ngSubmit)="onGuardar()">
             <div class="col-12">
                 <label for="yourName" class="form-label">Nombres</label>
                 <div class="input-group">
                     <span class="input-group-text">
                         <i class="bi bi-person" [class.green-icon]="this.form.get('nombre')?.valid" [class.red-icon]="this.form.get('nombre')?.invalid && this.form.get('nombre')?.touched"></i>
                     </span>
-                    <input type="text" formControlName = "nombre" class="form-control" id="yourName" placeholder="Nombre"/>
+                    <input type="text" formControlName = "nombre" class="form-control" id="yourName" placeholder="Nombre" [class.is-valid]="this.form.get('nombre')?.valid" [class.is-invalid]="this.form.get('nombre')?.invalid && this.form.get('nombre')?.touched"/>
                 </div>
             </div>
 
@@ -90,7 +31,7 @@
                     <span class="input-group-text">
                         <i class="bi bi-person-add" [class.green-icon]="this.form.get('apellido')?.valid" [class.red-icon]="this.form.get('apellido')?.invalid && this.form.get('apellido')?.touched"></i>
                     </span>
-                    <input type="text" formControlName="apellido" class="form-control" id="yourlast" placeholder="Apellido"/>
+                    <input type="text" formControlName="apellido" class="form-control" id="yourlast" placeholder="Apellido"  [class.is-valid]="this.form.get('apellido')?.valid" [class.is-invalid]="this.form.get('apellido')?.invalid && this.form.get('apellido')?.touched"/>
                 </div>
             </div>
 
@@ -100,7 +41,7 @@
                     <span class="input-group-text">
                         <i class="bi bi-envelope-at" [class.green-icon]="this.form.get('email')?.valid" [class.red-icon]="this.form.get('email')?.invalid && this.form.get('email')?.touched"></i>
                     </span>
-                    <input type="email" formControlName="email" class="form-control" id="yourEmail" placeholder="example@gmail.com"/>
+                    <input type="email" formControlName="email" class="form-control" id="yourEmail" placeholder="example@gmail.com"  [class.is-valid]="this.form.get('email')?.valid" [class.is-invalid]="this.form.get('email')?.invalid && this.form.get('email')?.touched"/>
                 </div>
             </div>
 
@@ -110,7 +51,7 @@
                     <span class="input-group-text">
                         <i class="bi bi-telephone" [class.green-icon]="this.form.get('telefono')?.valid" [class.red-icon]="this.form.get('telefono')?.invalid && this.form.get('telefono')?.touched"></i>
                     </span>
-                    <input type="text" formControlName="telefono" class="form-control" maxlength="8" id="telef" placeholder="67777777"/>
+                    <input type="text" formControlName="telefono" class="form-control" maxlength="8" id="telef" placeholder="67777777"  [class.is-valid]="this.form.get('telefono')?.valid" [class.is-invalid]="this.form.get('telefono')?.invalid && this.form.get('telefono')?.touched"/>
                 </div>
             </div>
 
@@ -120,7 +61,7 @@
                 <span class="input-group-text">
                     <i class="bi bi-person-circle" [class.green-icon]="this.form.get('username')?.valid" [class.red-icon]="this.form.get('username')?.invalid && this.form.get('username')?.touched"></i>
                 </span>
-                <input type="text"  formControlName="username"  class="form-control" id="username" placeholder="Usuario" />
+                <input type="text"  formControlName="username"  class="form-control" id="username" placeholder="Usuario"  [class.is-valid]="this.form.get('username')?.valid" [class.is-invalid]="this.form.get('username')?.invalid && this.form.get('username')?.touched"/>
               </div>
             </div>
             <div class="mb-3">
@@ -129,7 +70,7 @@
                 <span class="input-group-text">
                     <i class="bi bi-lock" [class.green-icon]="this.form.get('password')?.valid" [class.red-icon]="this.form.get('password')?.invalid && this.form.get('password')?.touched"></i>
                 </span>
-                <input [type]="showPassword ? 'text' : 'password'" formControlName="password"   class="form-control" id="password" placeholder="Contraseña" formControlName="password"/>
+                <input [type]="showPassword ? 'text' : 'password'" formControlName="password"   class="form-control" id="password" placeholder="Contraseña" formControlName="password"  [class.is-valid]="this.form.get('password')?.valid" [class.is-invalid]="this.form.get('password')?.invalid && this.form.get('password')?.touched"/>
                 <span class="input-group-text toggle-password" (click)="togglePassword()"><i class="bi" [class.bi-eye]="!showPassword" [class.bi-eye-slash]="showPassword"></i></span>
               </div>
             </div>

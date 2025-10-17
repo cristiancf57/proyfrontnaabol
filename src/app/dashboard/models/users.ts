@@ -9,3 +9,12 @@ export interface IUser {
     username: string 
     password: string 
 }
+
+export interface IUserPost {
+    nombre: string 
+    apellido: string 
+    email: string 
+    telefono: string 
+    username: string 
+    password: string 
+}

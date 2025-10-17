@@ -7,3 +7,11 @@ img {
     background-repeat: no-repeat;
     display: inline-block;
 }
+.rows {
+    cursor: pointer;
+}
+
+.bi {
+    cursor: pointer;
+    margin-right: 3px;
+}

@@ -9,6 +9,7 @@ import { ListUsuariosComponent } from './dashboard/list-usuarios/list-usuarios.c
 import { ListActivosComponent } from './dashboard/list-activos/list-activos.component';
 import { FormsComponent } from './dashboard/forms/forms.component';
 import { FormActivoComponent } from './dashboard/forms/form-activo/form-activo.component';
+import { ListMantDetalleComponent } from './dashboard/list-mant-detalle/list-mant-detalle.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -20,6 +21,7 @@ const routes: Routes = [
       {path: 'principal', component:PrincipalComponent},
       {path: 'usuario', component:ListUsuariosComponent},
       {path: 'activo', component:ListActivosComponent},
+      {path: 'mantenimiento', component:ListMantDetalleComponent},
       {path: 'form-activo', component:FormActivoComponent},
       {path: '', redirectTo: 'principal', pathMatch: 'full'} //default
     ]

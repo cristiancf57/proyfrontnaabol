@@ -16,8 +16,12 @@ export class FormActivoComponent implements OnInit {
   loading = false;
   mensajeExito = '';
   mensajeError = '';
+  isEditMode = false;
+  activoId: number | null = null;
+  originalCodigo: string = '';
+  originalIp: string = '';
    
-  constructor(private fb: FormBuilder, private _activoService: ActivoService, private toastr: ToastrService){
+  constructor(private fb: FormBuilder, private _activoService: ActivoService){
     this.myForm = this.fb.group({
       detalle: ['', Validators.required],
       codigo: ['', Validators.required],
@@ -26,17 +30,18 @@ export class FormActivoComponent implements OnInit {
       serie: ['', Validators.required],
       color: ['', Validators.required],
       area: ['', Validators.required],
-      ipAddress: ['', Validators.required],
+      ip: ['', Validators.required],
       ubicacion: ['', Validators.required],
       tipo: ['', Validators.required],
       descripcion: ['']
     })
   }
+  
   ngOnInit(): void {
     
   }
 
-   // Método para enviar el formulario
+  // Método para enviar el formulario
   onGuardar(): void {
     if (this.myForm.valid) {
       this.loading = true;
@@ -79,7 +84,7 @@ export class FormActivoComponent implements OnInit {
     }
   }
 
-   // Marcar campos como tocados para mostrar errores
+  // Marcar campos como tocados para mostrar errores
   marcarCamposComoTocados(): void {
     Object.keys(this.myForm.controls).forEach(key => {
       const control = this.myForm.get(key);

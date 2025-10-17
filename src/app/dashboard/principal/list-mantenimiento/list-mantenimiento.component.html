@@ -6,59 +6,41 @@
             <li class="dropdown-header text-start">
               <h6>Filter</h6>
             </li>
-            <li><a class="dropdown-item" href="#">Today</a></li>
-            <li><a class="dropdown-item" href="#">This Month</a></li>
-            <li><a class="dropdown-item" href="#">This Year</a></li>
+            <li><a class="dropdown-item" href="#" (click)="filterByDate('today'); $event.preventDefault()">Today</a></li>
+            <li><a class="dropdown-item" href="#" (click)="filterByDate('month'); $event.preventDefault()">This Month</a></li>
+            <li><a class="dropdown-item" href="#" (click)="filterByDate('year'); $event.preventDefault()">This Year</a></li>
           </ul>
         </div>
         <div class="card-body">
-          <h5 class="card-title">Mantenimientos <span>| Posteriores</span></h5>
-          <table class="table table-borderless datatable">
+          <h5 class="card-title">Mantenimientos <span>| {{ currentFilter }}</span></h5>
+          <table class="table table-borderless">
             <thead>
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Equipo</th>
-                <th scope="col">Area</th>
+                <th scope="col">activo</th>
                 <th scope="col">Fecha</th>
+                <th scope="col">Tipo</th>
                 <th scope="col">Status</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row"><a href="#">#2457</a></th>
-                <td>Brandon Jacob</td>
-                <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                <td>2025-10-10</td>
-                <td><span class="badge bg-success">Approved</span></td>
+              <tr *ngFor="let item of mantenimientos, let i = index">
+                <th scope="row"><a href="#">{{ i + 1}}</a></th>
+                <td>{{ item.observaciones }}</td>
+                <td><a href="#" class="text-primary">{{ item.activo?.codigo }}</a></td>
+                <td>{{ item.fecha }}</td>
+                <td>{{ item.activo?.tipo }}</td>
+                <td><span 
+                  class="badge"
+                  [class.bg-success]="item.estado === 'completado'"
+                  [class.bg-warning]="item.estado === 'pendiente'"
+                  [class.bg-danger]="item.estado === 'cancelado'"
+                  [class.bg-info]="item.estado === 'en_proceso'">
+                  {{ getEstadoText(item.estado) }}
+                </span></td> 
               </tr>
-              <tr>
-                <th scope="row"><a href="#">#2147</a></th>
-                <td>Bridie Kessler</td>
-                <td><a href="#" class="text-primary">Blanditiis dolor omnis similique</a></td>
-                <td>2025-10-10</td>
-                <td><span class="badge bg-warning">Pending</span></td>
-              </tr>
-              <tr>
-                <th scope="row"><a href="#">#2049</a></th>
-                <td>Ashleigh Langosh</td>
-                <td><a href="#" class="text-primary">At recusandae consectetur</a></td>
-                <td>2025-10-10</td>
-                <td><span class="badge bg-success">Approved</span></td>
-              </tr>
-              <tr>
-                <th scope="row"><a href="#">#2644</a></th>
-                <td>Angus Grady</td>
-                <td><a href="#" class="text-primar">Ut voluptatem id earum et</a></td>
-                <td>2025-10-10</td>
-                <td><span class="badge bg-danger">Rejected</span></td>
-              </tr>
-              <tr>
-                <th scope="row"><a href="#">#2644</a></th>
-                <td>Raheem Lehner</td>
-                <td><a href="#" class="text-primary">Sunt similique distinctio</a></td>
-                <td>2025-10-10</td>
-                <td><span class="badge bg-success">Approved</span></td>
-              </tr>
+              
             </tbody>
           </table>
         </div>

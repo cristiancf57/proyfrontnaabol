@@ -20,6 +20,7 @@ import { FormActivoComponent } from './dashboard/activos/form-activo/form-activo
 import { ActivoChartComponent } from './dashboard/principal/activo-chart/activo-chart.component';
 import { ListMantenimientoComponent } from './dashboard/principal/list-mantenimiento/list-mantenimiento.component';
 import { FormsComponent } from './dashboard/forms/forms.component';
+import { ListMantDetalleComponent } from './dashboard/list-mant-detalle/list-mant-detalle.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { FormsComponent } from './dashboard/forms/forms.component';
     FormActivoComponent,
     ActivoChartComponent,
     ListMantenimientoComponent,
-    FormsComponent
+    FormsComponent,
+    ListMantDetalleComponent
   ],
   imports: [
     BrowserModule,
