@@ -47,4 +47,12 @@ export class ActivoService {
   guardarActivo(activo:IActivoPost): Observable<any>{
     return this.http.post(this.baseUrl+'activos', activo);
   }
+
+  buscarCodigo(codigo:string) {
+    return this.http.get<IActivo>(this.baseUrl+`activoscd/${codigo}`)
+  }
+
+  detallesActivo(id:number) {
+    return this.http.get<any>(this.baseUrl+`activos/${id}`)
+  }
 }

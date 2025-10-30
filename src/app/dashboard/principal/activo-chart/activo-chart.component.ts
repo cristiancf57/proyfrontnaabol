@@ -1,144 +1,185 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { IActivoChart } from '../../models/activoChart';
 import { ActivoService } from '../../../services/activos/activo.service';
-import { CommonModule } from '@angular/common';
-import { EChartsOption } from 'echarts';
+import { Chart, registerables } from 'chart.js';
+
+// Registrar todos los componentes de Chart.js
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-activo-chart',
   templateUrl: './activo-chart.component.html',
   styleUrl: './activo-chart.component.css'
 })
-export class ActivoChartComponent implements OnInit {
-  activoData: IActivoChart[] =[];
-  chartOptions: EChartsOption = {}
-  loading = true;
-
-  otrosDatos: any[] = [];
-
-  // Variables para los datos separados
-  chartLabels: string[] = [];
-  chartValues: number[] = [];
-  totalActivos: number = 0;
+export class ActivoChartComponent implements OnInit, OnDestroy {
+  @ViewChild('barChart', { static: true }) barChart!: ElementRef<HTMLCanvasElement>; 
+  private chart: Chart | undefined;
+  loading: boolean = true;
+  error: string = '';
 
   constructor(private activoService: ActivoService){}
   
   ngOnInit(): void {
-    this.activoService.getActivosChart().subscribe({
-      next: (respoonce: any) =>{
-        this.activoData = respoonce // extrare datos
-        //separar datos
-        console.log(respoonce)
-      },
-      error: error =>{
-        console.log(error)
-      }
-    })
-
+    this.cargarDatosGrafico();
   }
 
-  cargarDatos(): void {
+  cargarDatosGrafico(): void {
+    this.loading = true;
+    
     this.activoService.getActivosChart().subscribe({
-      next: (response: any) => {
-        this.activoData = response;
-        this.procesarDatos();
+      next: (datos: any) => {
+        this.inicializarGrafico(datos);
         this.loading = false;
       },
-      error: error => {
-        console.log(error);
+      error: (error) => {
+        console.error('Error al cargar datos del gráfico:', error);
+        this.error = 'Error al cargar los datos';
         this.loading = false;
+        // Opcional: Mostrar datos de ejemplo en caso de error
+        this.inicializarGraficoConDatosEjemplo();
       }
     });
-
-    this.cargarDatos()
   }
 
-  private procesarDatos(): void {
-    // Extraer labels y valores
-    this.chartLabels = this.activoData.map(item => 
-      this.formatearLabel(item.categoria)
-    );
-    
-    this.chartValues = this.activoData.map(item => item.cantidad);
-    
-    // Calcular total
-    this.totalActivos = this.chartValues.reduce((sum, value) => sum + value, 0);
-    
-    // Actualizar gráfico
-    this.actualizarGrafico();
-  }
+  inicializarGrafico(datos: any): void {
+    // Destruir gráfico anterior si existe
+    if (this.chart) {
+      this.chart.destroy();
+    }
 
-  private actualizarGrafico(): void {
-    this.chartOptions = {
-      title: {
-        text: 'Distribución de Activos',
-        left: 'center',
-        textStyle: {
-          fontSize: 16,
-          fontWeight: 'bold'
-        }
+    // Procesar datos de la API según tu estructura
+    const labels = this.obtenerLabels(datos);
+    const dataValues = this.obtenerValores(datos);
+
+    this.chart = new Chart(this.barChart.nativeElement, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Todo los activos',
+          data: dataValues,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.7)',
+            'rgba(255, 159, 64, 0.7)',
+            'rgba(255, 205, 86, 0.7)',
+            'rgba(75, 192, 192, 0.7)',
+            'rgba(54, 162, 235, 0.7)',
+            'rgba(153, 102, 255, 0.7)',
+            'rgba(201, 203, 207, 0.7)',
+            'rgba(255, 99, 132, 0.7)',
+            'rgba(255, 159, 64, 0.7)',
+            'rgba(255, 205, 86, 0.7)',
+            'rgba(75, 192, 192, 0.7)',
+            'rgba(54, 162, 235, 0.7)'
+          ],
+          borderColor: [
+            'rgb(255, 99, 132)',
+            'rgb(255, 159, 64)',
+            'rgb(255, 205, 86)',
+            'rgb(75, 192, 192)',
+            'rgb(54, 162, 235)',
+            'rgb(153, 102, 255)',
+            'rgb(201, 203, 207)',
+            'rgb(255, 99, 132)',
+            'rgb(255, 159, 64)',
+            'rgb(255, 205, 86)',
+            'rgb(75, 192, 192)',
+            'rgb(54, 162, 235)'
+          ],
+          borderWidth: 2,
+          borderRadius: 5,
+          borderSkipped: false,
+        }]
       },
-      tooltip: {
-        trigger: 'item',
-        formatter: '{a} <br/>{b}: {c} unidades ({d}%)'
-      },
-      legend: {
-        orient: 'horizontal',
-        bottom: '0%',
-        data: this.chartLabels
-      },
-      series: [
-        {
-          name: 'Activos',
-          type: 'pie',
-          radius: ['35%', '65%'],
-          center: ['50%', '45%'],
-          itemStyle: {
-            borderRadius: 8,
-            borderColor: '#fff',
-            borderWidth: 2
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
           },
-          label: {
-            show: true,
-            formatter: '{b}: {c}',
-            fontSize: 12
-          },
-          emphasis: {
-            label: {
-              show: true,
-              fontSize: 14,
-              fontWeight: 'bold'
+          title: {
+            display: true,
+            text: 'ACTIVOS REGISTRADOS'
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'CANTIDAD DE ACTIVOS'
             }
           },
-          data: this.activoData.map((item, index) => ({
-            value: item.cantidad,
-            name: this.formatearLabel(item.categoria),
-            itemStyle: {
-              color: this.getColor(index)
+          x: {
+            title: {
+              display: true,
+              text: 'TIPO DE ACTIVOS'
             }
-          }))
+          }
         }
-      ]
-    };
+      }
+    });
   }
 
-  // Métodos auxiliares para el HTML
-  formatearLabel(categoria: string): string {
-    return categoria.charAt(0).toUpperCase() + categoria.slice(1);
+  // Métodos para procesar datos de la API
+  private obtenerLabels(datos: any): string[] {
+    // Ejemplo: si tus datos vienen como array de objetos con propiedad 'mes'
+    if (Array.isArray(datos) && datos.length > 0) {
+      return datos.map(item => item.mes || item.month || item.categoria);
+    }
+    
+    // Si no hay datos, usar meses por defecto
+    return ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 
+            'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
   }
 
-  calcularPorcentaje(cantidad: number): number {
-    if (this.totalActivos === 0) return 0;
-    return Math.round((cantidad / this.totalActivos) * 100);
+  private obtenerValores(datos: any): number[] {
+    // Ejemplo: si tus datos vienen como array de objetos con propiedad 'cantidad'
+    if (Array.isArray(datos) && datos.length > 0) {
+      return datos.map(item => item.cantidad || item.count || item.total || 0);
+    }
+    
+    // Datos de ejemplo si la API falla
+    return [65, 59, 80, 81, 56, 55, 40, 30, 45, 60, 75, 50];
   }
 
-  getColor(index: number): string {
-    const colors = [
-      '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
-      '#FF9F40', '#C9CBCF', '#7CFFB2', '#F8FF7C', '#FF7C7C'
-    ];
-    return colors[index % colors.length];
+  private inicializarGraficoConDatosEjemplo(): void {
+    const labels = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'];
+    const dataValues = [65, 59, 80, 81, 56, 55];
+
+    this.chart = new Chart(this.barChart.nativeElement, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Datos de Ejemplo',
+          data: dataValues,
+          backgroundColor: 'rgba(54, 162, 235, 0.7)',
+          borderColor: 'rgb(54, 162, 235)',
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
   }
 
-  
+  actualizarGrafico(): void {
+    this.cargarDatosGrafico();
+  }
+
+  ngOnDestroy(): void {
+    // Limpiar el gráfico al destruir el componente
+    if (this.chart) {
+      this.chart.destroy();
+    }
+  }
 }

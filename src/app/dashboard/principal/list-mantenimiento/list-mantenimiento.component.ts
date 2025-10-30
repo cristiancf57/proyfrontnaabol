@@ -52,12 +52,6 @@ export class ListMantenimientoComponent implements OnInit{
                  itemDate.getFullYear() === today.getFullYear();
         });
         break;
-      case 'year':
-        this.currentFilter = 'Este Año';
-        this.mantenimientosFiltrados = this.mantenimientos.filter(item => 
-          new Date(item.fecha).getFullYear() === today.getFullYear()
-        );
-        break;
       default:
         this.currentFilter = 'Todos';
         this.mantenimientosFiltrados = [...this.mantenimientos];

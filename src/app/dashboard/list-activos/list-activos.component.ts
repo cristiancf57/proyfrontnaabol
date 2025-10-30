@@ -42,47 +42,83 @@ export class ListActivosComponent implements OnInit {
     this.activoFiltrados = [...this.activos];
   }
 
-  onSearch(event: any) {
-    this.searchTerm = event.target.value.toLowerCase();
-    if (this.searchTerm) {
-      this.activoFiltrados = this.activos.filter(item => {
-        const searchTerm = this.searchTerm;
+  // onSearch(event: any) {
+  //   this.searchTerm = event.target.value.toLowerCase();
+    
+  //   if (this.searchTerm) {
+  //     this.activoFiltrados = this.activos.filter(item => {
+  //       const searchTerm = this.searchTerm;
         
-        return (
-          // Búsqueda en campos básicos
-          item.detalle.toLowerCase().includes(searchTerm) ||
-          item.codigo.toString().includes(searchTerm) ||
-          item.area.toLowerCase().includes(searchTerm) ||
-          item.marca.toLowerCase().includes(searchTerm) ||
+  //       return (
+  //         // Búsqueda en campos básicos con optional chaining
+  //         item.detalle?.toLowerCase().includes(searchTerm) ||
+  //         item.codigo?.toString().includes(searchTerm) ||
+  //         // Búsqueda por IP
+  //         this.buscarPorIP(item.ip, searchTerm)
+  //       );
+  //     });
+  //   } else {
+  //     this.activoFiltrados = [...this.activos];
+  //   }
+  // }
 
-          // Búsqueda por IP
-          this.buscarPorIP(item.ip, searchTerm)
-        );
-      });
-    } else {
+  onSearch(event: any) {
+  // Verificación adicional del event
+    if (!event || !event.target) {
       this.activoFiltrados = [...this.activos];
+      return;
+    }
+    
+    const searchValue = event.target.value;
+    
+    // Si no hay término de búsqueda, mostrar todos
+    if (!searchValue || searchValue.trim() === '') {
+      this.activoFiltrados = [...this.activos];
+      return;
+    }
+    
+    this.searchTerm = searchValue.toLowerCase().trim();
+    
+    this.activoFiltrados = this.activos.filter(item => {
+      if (!item) return false;
+      
+      const searchTerm = this.searchTerm;
+      
+      return (
+        item.detalle?.toLowerCase().includes(searchTerm) ||
+        item.codigo?.toString().includes(searchTerm) ||
+        this.buscarPorIP(item.ip, searchTerm)
+      );
+    });
+  }
+
+  private buscarPorIP(ip: any, searchTerm: string): boolean {
+    if (!ip) return false;
+    
+    try {
+      if (Array.isArray(ip)) {
+        return ip.some(ipItem => 
+          ipItem?.toString().toLowerCase().includes(searchTerm)
+        );
+      }
+      
+      return ip.toString().toLowerCase().includes(searchTerm);
+    } catch (error) {
+      console.warn('Error al buscar por IP:', error);
+      return false;
     }
   }
 
-  buscarPorIP(ip: string | undefined, searchTerm: string): boolean {
-    if (!ip) return false;
-    // Múltiples formas de búsqueda
-    return (
-      ip.toLowerCase().includes(searchTerm) ||
-      ip.split('.').some(segment =>
-        segment.toLowerCase().includes(searchTerm)
-      )
-    );
-  }
-
-  getEstadoText(estado: string): string {
-    const estados: { [key: string]: string } = {
-      'activo': 'activo',
-      'mantenimiento': 'mantenimiento',
-      'baja': 'baja'
-    };
-    return estados[estado] || 'Unknown';
-  }
+  // buscarPorIP(ip: string | undefined, searchTerm: string): boolean {
+  //   if (!ip) return false;
+  //   // Múltiples formas de búsqueda
+  //   return (
+  //     ip.toLowerCase().includes(searchTerm) ||
+  //     ip.split('.').some(segment =>
+  //       segment.toLowerCase().includes(searchTerm)
+  //     )
+  //   );
+  // }
 
   getEstadoBadgeClass(estado: string): string {
     const clases: { [key: string]: string } = {

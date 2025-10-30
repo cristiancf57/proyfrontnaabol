@@ -1,6 +1,6 @@
 export interface IMantenimiento {
     id: number
-    iestado: string
+    estado: string
     fecha: Date
     observaciones: string
     activo_id: number

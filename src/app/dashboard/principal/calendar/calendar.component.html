@@ -1,11 +1,12 @@
+
 <div class="card-body">
   <h5 class="card-title">Cronograma <span>| calendario</span></h5>
 
   <div class="calendar">
-    <div class="calendar-header">
-      <button (click)="prevMonth()">&lt;</button>
-      <h6>{{ monthYear }}</h6>
-      <button (click)="nextMonth()">&gt;</button>
+    <div class="calendar-header text-uppercase">
+      <button class="btn btn-sm btn-outline-light" (click)="prevMonth()">&lt;</button>
+      <h6 class="mb-0">{{ monthYear }}</h6>
+      <button class="btn btn-sm btn-outline-light" (click)="nextMonth()">&gt;</button>
     </div>
 
     <div class="calendar-days">
@@ -19,9 +20,21 @@
     </div>
 
     <div class="calendar-dates">
-      <div *ngFor="let day of calendarDays" [class.empty]="day === 0">
-        <span *ngIf="day !== 0">{{ day }}</span>
-        <div class="event" *ngIf="getEvent(day)">{{ getEvent(day) }}</div>
+      <div *ngFor="let day of calendarDays" 
+           [class.empty]="day === 0"
+           class="calendar-date-cell">
+        
+        <span *ngIf="day !== 0" class="date-number">{{ day }}</span>
+        
+        <!-- Eventos apilados desde la API -->
+        <div *ngIf="day !== 0" class="events-container">
+          <div *ngFor="let event of getEvents(day)" 
+            [class]="'event-badge ' + getEventClass(event.type, event.estado)"
+            [title]="event.activo.codigo + ' - ' + event.estado">
+            {{ event.title }}
+          </div>
+        </div>
+        
       </div>
     </div>
   </div>

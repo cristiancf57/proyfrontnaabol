@@ -4,30 +4,31 @@
       <div class="col-md-5 col-lg-4 p-4">
         <div class="login-box mx-auto">
           <div class="text-center mb-4">
-            <img src="assets/img/fondos/logo.png" alt="">
+            <img [src]="logo" alt="">
           </div>
-          <form>
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <div class="mb-3">
-              <label for="username" class="form-label">USERNAME</label>
+              <label for="login" class="form-label">USERNAME</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-person"></i></span>
-                <input type="text" class="form-control" id="username" placeholder="usuario@ejemplo.com" />
+                <input type="text" formControlName="login" class="form-control" id="login" placeholder="usuario@ejemplo.com" />
               </div>
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">PASSWORD</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                <input [type]="showPassword ? 'text' : 'password'"  class="form-control" id="password" placeholder="••••••••••"/>
+                <input [type]="showPassword ? 'text' : 'password'" formControlName="password"  name="password" class="form-control" id="password" placeholder="••••••••••"/>
                 <span class="input-group-text toggle-password" (click)="togglePassword()"><i class="bi" [class.bi-eye]="!showPassword" [class.bi-eye-slash]="showPassword"></i></span>
               </div>
             </div>
             <hr>
-            <button type="submit" class="btn btn-outline-info w-100">LOGIN</button>
+            <button type="submit" class="btn btn-outline-info w-100">LOGIN </button>
             <div class="text-end mt-2">
-              <a href="/forms" class="text-light text-decoration-underline">Crear Cuenta</a>
+              <a href="/register" class="text-light text-decoration-underline">Crear Cuenta</a>
             </div>
           </form>
+          <div *ngIf="error" class="error">{{ error }}</div>
         </div>
       </div>
       <div class="col-md-6 text-center p-5 welcome-section d-none d-md-block">

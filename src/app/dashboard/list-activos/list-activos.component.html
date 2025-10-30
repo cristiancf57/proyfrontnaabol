@@ -1,4 +1,5 @@
-<div class="pagetitle">
+<div class="pagetitle d-flex justify-content-between">
+  <div>
     <h1>Data Tables</h1>
     <nav>
         <ol class="breadcrumb">
@@ -7,6 +8,12 @@
           <li class="breadcrumb-item active">Data</li>
         </ol>
     </nav>
+  </div>
+  <div>
+    <div class="d-flex justify-content-around">
+      <button type="submit" class="btn btn-outline-dark"><i class="bi bi-printer-fill"><strong>&nbsp; Imprimir</strong></i></button>
+    </div>
+  </div>
 </div><!-- End Page Title -->
 
 <section class="section">
@@ -14,17 +21,6 @@
         <div class="col-lg-12">
 
           <div class="card">
-            <div class="filter d-flex flex-row-reverse">
-              <a class="icon " href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                  </li>
-                  <li><a class="dropdown-item" href="#" (click)="filterByDate('today'); $event.preventDefault()">Todos</a></li>
-                  <li><a class="dropdown-item" href="#" (click)="filterByDate('month'); $event.preventDefault()">Este mes</a></li>
-                  <li><a class="dropdown-item" href="#" (click)="filterByDate('year'); $event.preventDefault()">este Año</a></li>
-              </ul>
-            </div>
             <div class="card-body">
               <h5 class="card-title">Activos <span>| Todos</span></h5>
 
@@ -60,6 +56,7 @@
                     <th scope="col">Tipo</th>
                     <th scope="col">Area</th>
                     <th scope="col">Estado</th>
+                    <th scope="col">Accion</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -72,19 +69,16 @@
                     <td> {{item.color}}</td>
                     <td> {{item.tipo}}</td>
                     <td> {{item.area}}</td>
-                    <td>
-                      <span
-                        class="badge"
-                        [class.bg-success]="item.estado === 'activo'"
-                        [class.bg-warning]="item.estado === 'mantenimiento'"
-                        [class.bg-danger]="item.estado === 'baja'">
-                        {{ getEstadoText(item.estado) }}
-                      </span>
-                    </td>
-                    <td>
-                      <i (click)="detalle(item)" class="bi bi-file-earmark-diff text-info"></i>&nbsp;
-                      <i (click)="editar(item)" class="bi bi-pencil-square text-warning"></i>&nbsp;
-                      <i (click)="eliminar(item)" class="bi bi-trash text-danger"></i>
+                    <td><span class="badge" [class]="getEstadoBadgeClass(item.estado)">
+                      {{ item.estado }}
+                    </span></td>
+                    <td class="text-center">
+                      <a class="icon " href="#" data-bs-toggle="dropdown"><i class="bi bi-stack text-info"></i></a>
+                      <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow text-center ">
+                        <li><a><i (click)="detalle(item)" class="bi bi-eye text-info-emphasis"> Ver</i></a></li>
+                        <li><a><i (click)="editar(item)" class="bi bi-pencil-square text-info"> Editar</i></a></li>
+                        <li><a><i (click)="eliminar(item)" class="bi bi-trash text-danger"> Eliminar</i></a></li>
+                      </ul>
                     </td>
                   </tr>            
                 </tbody> 

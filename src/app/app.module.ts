@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,11 +17,19 @@ import { PrincipalComponent } from './dashboard/principal/principal.component';
 import { CalendarComponent } from './dashboard/principal/calendar/calendar.component';
 import { GrafficChartComponent } from './dashboard/principal/graffic-chart/graffic-chart.component';
 import { ListActivosComponent } from './dashboard/list-activos/list-activos.component';
-import { FormActivoComponent } from './dashboard/activos/form-activo/form-activo.component';
 import { ActivoChartComponent } from './dashboard/principal/activo-chart/activo-chart.component';
 import { ListMantenimientoComponent } from './dashboard/principal/list-mantenimiento/list-mantenimiento.component';
 import { FormsComponent } from './dashboard/forms/forms.component';
 import { ListMantDetalleComponent } from './dashboard/list-mant-detalle/list-mant-detalle.component';
+import { ListActividadComponent } from './dashboard/list-actividad/list-actividad.component';
+import { DetalleActividadComponent } from './dashboard/list-actividad/detalle-actividad/detalle-actividad.component';
+import { EditActividadComponent } from './dashboard/list-actividad/edit-actividad/edit-actividad.component';
+import { FormActividadComponent } from './dashboard/forms/form-actividad/form-actividad.component';
+import { BuscadorActivoComponent } from './dashboard/buscador-activo/buscador-activo.component';
+import { DetalleActivoComponent } from './dashboard/list-activos/detalle-activo/detalle-activo.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ProfileSettingsComponent } from './dashboard/profile-settings/profile-settings.component';
+
 
 @NgModule({
   declarations: [
@@ -36,17 +45,26 @@ import { ListMantDetalleComponent } from './dashboard/list-mant-detalle/list-man
     CalendarComponent,
     GrafficChartComponent,
     ListActivosComponent,
-    FormActivoComponent,
     ActivoChartComponent,
     ListMantenimientoComponent,
     FormsComponent,
-    ListMantDetalleComponent
+    ListMantDetalleComponent,
+    ListActividadComponent,
+    DetalleActividadComponent,
+    EditActividadComponent,
+    FormActividadComponent,
+    BuscadorActivoComponent,
+    DetalleActivoComponent,
+    ProfileSettingsComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

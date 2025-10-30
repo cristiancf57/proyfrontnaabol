@@ -1,0 +1,55 @@
+.container {
+    max-width: 950px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 40px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+img{
+    height: 100px;
+}
+.header {
+    text-align: center;
+    /* margin-bottom: 20px; */
+    padding: 10px;
+}
+.header h1 {
+    font-size: 16px;
+    margin: 5px 0;
+    font-weight: bold;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+}
+td, th {
+    border: 1px solid #000;
+    padding: 5px 8px;
+    font-size: 12px;
+    vertical-align: top;
+}
+.section-title {
+    background-color: #d8ebfd;
+    font-weight: bold;
+    text-align: center;
+}
+.subtitle {
+    font-weight: bold;
+}
+.checkbox-cell {
+    width: 30px;
+    text-align: center;
+}
+.date-table {
+    width: 100%;
+}
+.date-table td {
+    border: none;
+    padding: 0;
+    text-align: center;
+}
+.centered {
+    text-align: center;
+}

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ListActivosComponent } from './list-activos.component';
+import { FormActividadComponent } from './form-actividad.component';
 
-describe('ListActivosComponent', () => {
-  let component: ListActivosComponent;
-  let fixture: ComponentFixture<ListActivosComponent>;
+describe('FormActividadComponent', () => {
+  let component: FormActividadComponent;
+  let fixture: ComponentFixture<FormActividadComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ListActivosComponent]
+      declarations: [FormActividadComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ListActivosComponent);
+    fixture = TestBed.createComponent(FormActividadComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

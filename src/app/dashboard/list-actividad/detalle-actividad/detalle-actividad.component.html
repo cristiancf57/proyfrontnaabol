@@ -1,0 +1,189 @@
+
+<div class="col-12">
+    <div *ngIf="actividad" class="card">
+        <div class="card-body">
+            <div class="d-flex justify-content-between p-3">
+                <div>
+                    <h5 class="card-title ">Actividad del equipo <span>| {{ actividad.id }}</span></h5>
+                </div>
+                <div>
+                    <button type="button" routerLink="/dashboard/mantenimiento" class="btn btn-outline-success "><i class="bi bi-arrow-left-circle-fill"><strong>&nbsp; Volver </strong></i></button>&nbsp;
+                    <button type="button" (click)="imprimirFormulario()" class="btn btn-outline-dark "><i class="bi bi-printer-fill"><strong>&nbsp; Imprimir</strong></i></button>
+                </div>
+            </div>
+
+            <div id="contenidoImprimir" class="container">
+                <div class="d-flex justify-content-between">
+                    <img [src]="logoMin" class="rounded float-start">
+                    <img [src]="logoInst" class="rounded float-end">
+                </div>
+
+                <table>
+                    <div class="header card-body">
+                        <h1 class="text-light">MANTENIMIENTO DE ACTIVOS INFORMATICOS</h1>
+                        <h1 class="text-light">Mantenimiento del Equipo de {{ actividad.mantenimiento.activo.tipo }} </h1>
+                    </div>
+                </table>
+
+                <!-- Sección FICHA -->
+                <table >
+                    <tr>
+                        <td class="subtitle text-center text-uppercase">MANTENIMIENTO DE {{ actividad.mantenimiento.activo.detalle }} <p> ENCARGADO {{ actividad.encargado }}</p></td>
+                        <td>
+                            <table class="date-table">
+                                <tr>
+                                    <td class="subtitle">Día</td>
+                                    <td class="subtitle">Mes</td>
+                                    <td class="subtitle">Año</td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top: 1px solid #000;">{{ dia }}</td>
+                                    <td style="border-top: 1px solid #000;">{{ mes }}</td>
+                                    <td style="border-top: 1px solid #000;">{{ anio }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- Sección DATOS DEL TIPO DE MANTENIMIENTO -->
+                <table>
+                    <tr>
+                        <td colspan="3" class="section-title">TIPO DE MANTENIMIENTO</td>
+                    </tr>
+                    <tr>
+                        <th>EQUIPO</th>
+                        <th>PREVENTIVO</th>
+                        <th>CORRECTIVO</th>
+                    </tr>
+                    <tr>
+                        <td>TIPO DE MANTENIMIENTO</td>
+                        <td class="text-center">
+                            <i *ngIf="actividad.tipo_mantenimiento == 'preventivo'" class="bi bi-check-circle-fill text-success"></i>
+                        </td>
+                        <td class="text-center">
+                            <i *ngIf="actividad.tipo_mantenimiento == 'correctivo'" class="bi bi-check-circle-fill text-success"></i>
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- Sección DESCRIPCIÓN DEL HARDWARE -->
+                <table>
+                    <tr>
+                        <td colspan="5" class="section-title">DESCRIPCIÓN DEL HARDWARE</td>
+                    </tr>
+                    <tr>
+                        <td class="subtitle">DISPOSITIVO</td>
+                        <td class="subtitle">ACTIVO</td>
+                        <td class="subtitle">MARCA</td>
+                        <td class="subtitle">MODELO</td>
+                        <td class="subtitle">SERIE</td>
+                    </tr>
+                    <tr>
+                        <td class="subtitle text-uppercase">{{ actividad.mantenimiento.activo.tipo }}</td>
+                        <td>{{ actividad.mantenimiento.activo.codigo }}</td>
+                        <td>{{ actividad.mantenimiento.activo.marca }}</td>
+                        <td>{{ actividad.mantenimiento.activo.modelo }}</td>
+                        <td>{{ actividad.mantenimiento.activo.serie }}</td>
+                    </tr>
+                    <!-- <tr>
+                        <td class="subtitle"></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr> -->
+                </table>
+
+                <!-- Sección ACTIVIDADES -->
+                <table>
+                    <tr>
+                        <td colspan="4" class="section-title">ACTIVIDADES</td>
+                    </tr>
+                    <tr>
+                        <td class="subtitle">DETALLE</td>
+                        <td class="checkbox-cell">SI</td>
+                        <td class="checkbox-cell">NO</td>
+                        <td class="subtitle">Observaciones</td>
+                    </tr>
+                    <tr>
+                        <td class="subtitle text-uppercase">limpieza del equipo </td>
+                        <td class="checkbox-cell"><i *ngIf="actividad.limpieza == 'si'" class="bi bi-check-circle-fill text-success"></i></td>
+                        <td class="checkbox-cell"><i *ngIf="actividad.limpieza == 'no'" class="bi bi-x-circle-fill text-danger"></i></td>
+                        <td class="subtitle">{{ actividad.limpieza }}</td>
+                    </tr>
+                    <tr>
+                        <td class="subtitle text-uppercase">verificacion del sistema operativo</td>
+                        <td class="checkbox-cell"><i *ngIf="actividad.sistema_operativo == 'si'" class="bi bi-check-circle-fill text-success"></i></td>
+                        <td class="checkbox-cell"><i *ngIf="actividad.sistema_operativo == 'no'" class="bi bi-x-circle-fill text-danger"></i></td>
+                        <td class="subtitle">{{ actividad.sistema_operativo }}</td>
+                    </tr>
+                    <tr>
+                        <td class="subtitle text-uppercase">verificacion y resguardo de archivos</td>
+                        <td class="checkbox-cell"><i *ngIf="actividad.archivos == 'si'" class="bi bi-check-circle-fill text-success"></i></td>
+                        <td class="checkbox-cell"><i *ngIf="actividad.archivos == 'no' || actividad.archivos == 'null' " class="bi bi-x-circle-fill text-danger"></i></td>
+                        <td class="subtitle">{{ actividad.archivos }}</td>
+                    </tr>
+                    <tr>
+                        <td class="subtitle text-uppercase">revision de hardware</td>
+                        <td class="checkbox-cell"><i *ngIf="actividad.hardware == 'si'" class="bi bi-check-circle-fill text-success"></i></td>
+                        <td class="checkbox-cell"><i *ngIf="actividad.hardware == 'no'" class="bi bi-x-circle-fill text-danger"></i></td>
+                        <td class="subtitle">{{ actividad.hardware }}</td>
+                    </tr>
+                    <tr>
+                        <td class="subtitle text-uppercase">revision de software</td>
+                        <td class="checkbox-cell"><i *ngIf="actividad.software == 'si'" class="bi bi-check-circle-fill text-success"></i></td>
+                        <td class="checkbox-cell"><i *ngIf="actividad.software == 'no'" class="bi bi-x-circle-fill text-danger"></i></td>
+                        <td class="subtitle">{{ actividad.software }}</td>
+                    </tr>
+                </table>
+
+                <!-- Sección SOFTWARE -->
+                <table>
+                    <tr>
+                        <td colspan="3" class="section-title">SOFTWARE</td>
+                    </tr>
+                    <tr>
+                        <td class="subtitle">SISTEMA OPERATIVO</td>
+                        <td class="subtitle">OFFICE</td>
+                        <td class="subtitle">OTROS</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+
+                <!-- Sección TRABAJO A REALIZAR -->
+                <table>
+                    <tr>
+                        <td class="section-title">OBSERVACIONES</td>
+                    </tr>
+                    <tr>
+                        <td style="height: 50px;">{{ actividad.observaciones }}</td>
+                    </tr>
+                </table>
+
+                <!-- Sección COSTO ESTIMADO y FIRMAS -->
+                <div class="container text-center p-3">
+                    <div style="height: 80px;" class="row align-items-end">
+                        <div class="col">
+                            <strong class="text-uppercase">encargado</strong><br><small>{{ actividad.encargado }}</small>
+                        </div>
+                        <div class="col">
+                            <strong class="text-uppercase">tecnico</strong><br><small>{{ actividad.tecnico }}</small>
+                        </div>
+                        <div class="col">
+                            <strong class="text-uppercase">supervisor</strong><br><small>{{ actividad.supervisor }}</small>
+                        </div>
+                    </div>
+                </div>
+
+                <table>
+                    <tr></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div><!-- End Reports -->

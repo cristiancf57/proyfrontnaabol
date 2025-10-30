@@ -141,17 +141,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                <i class="bi bi-person"></i>
-                <span>My Profile</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <a class="dropdown-item d-flex align-items-center" routerLink="perfil">
                 <i class="bi bi-gear"></i>
                 <span>Settings</span>
               </a>
@@ -190,17 +180,17 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed"  data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-menu-button-wide"></i><span>Components</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-menu-button-wide"></i><span>Buscadores</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="components-alerts.html">
-              <i class="bi bi-circle"></i><span>Alerts</span>
+            <a routerLink="buscar-activo">
+              <i class="bi bi-circle"></i><span>Buscar Activo</span>
             </a>
           </li>
           <li>
-            <a href="components-accordion.html">
-              <i class="bi bi-circle"></i><span>Accordion</span>
+            <a routerLink="">
+              <i class="bi bi-circle"></i><span>Buscar Mantenimiento</span>
             </a>
           </li>
         </ul>
@@ -255,7 +245,7 @@
             </a>
           </li>
           <li>
-            <a routerLink="actividad">
+            <a routerLink="actividades">
               <i class="bi bi-circle"></i><span>Tabla de actividades</span>
             </a>
           </li>
@@ -278,7 +268,7 @@
       <li class="nav-heading">Pages</li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.html">
+        <a class="nav-link collapsed" routerLink="perfil">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>

@@ -19,7 +19,7 @@
                 <label for="yourName" class="form-label">Nombres</label>
                 <div class="input-group">
                     <span class="input-group-text">
-                        <i class="bi bi-person" [class.green-icon]="this.form.get('nombre')?.valid" [class.red-icon]="this.form.get('nombre')?.invalid && this.form.get('nombre')?.touched"></i>
+                      <i class="bi bi-person" [class.green-icon]="this.form.get('nombre')?.valid" [class.red-icon]="this.form.get('nombre')?.invalid && this.form.get('nombre')?.touched"></i>
                     </span>
                     <input type="text" formControlName = "nombre" class="form-control" id="yourName" placeholder="Nombre" [class.is-valid]="this.form.get('nombre')?.valid" [class.is-invalid]="this.form.get('nombre')?.invalid && this.form.get('nombre')?.touched"/>
                 </div>

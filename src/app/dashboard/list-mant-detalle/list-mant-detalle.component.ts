@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IMantenimientoDetalle } from '../models/mantenimiento';
 import { CalendarService } from '../../services/calendario/calendar.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-mant-detalle',
@@ -13,7 +14,7 @@ export class ListMantDetalleComponent implements OnInit{
   currentFilter: string = 'Today';
   searchTerm: string = '';
 
-  constructor(private mantenimientoService: CalendarService){}
+  constructor(private mantenimientoService: CalendarService, private router: Router, private route:ActivatedRoute){}
   
   ngOnInit(): void {
     this.datosMantenimiento()
@@ -42,27 +43,42 @@ export class ListMantDetalleComponent implements OnInit{
     this.mantenimientosFiltrados = [...this.mantenimientos];
   }
 
+  // onSearch(event: any) {
+  //   this.searchTerm = event.target.value.toLowerCase();
+  //   if (this.searchTerm) {
+  //     this.mantenimientosFiltrados = this.mantenimientos.filter(item =>
+  //       item.activo?.detalle.toLowerCase().includes(this.searchTerm) ||
+  //       item.activo?.codigo.toString().includes(this.searchTerm) ||
+  //       item.activo?.area.toLowerCase().includes(this.searchTerm)
+  //     );
+  //   } else {
+  //     this.mantenimientosFiltrados = [...this.mantenimientos];
+  //   }
+  // }
+
   onSearch(event: any) {
+  // Verificar que el event y target existan
+    if (!event?.target) {
+      this.mantenimientosFiltrados = [...this.mantenimientos];
+      return;
+    }
+    
     this.searchTerm = event.target.value.toLowerCase();
+    
     if (this.searchTerm) {
-      this.mantenimientosFiltrados = this.mantenimientos.filter(item =>
-        item.observaciones.toLowerCase().includes(this.searchTerm) ||
-        item.activo?.detalle.toLowerCase().includes(this.searchTerm) ||
-        item.activo?.codigo.toString().includes(this.searchTerm) ||
-        item.activo?.area.toLowerCase().includes(this.searchTerm)
-      );
+      this.mantenimientosFiltrados = this.mantenimientos.filter(item => {
+        // Verificar que item y item.activo existan
+        if (!item?.activo) return false;
+        
+        return (
+          item.activo.detalle?.toLowerCase().includes(this.searchTerm) ||
+          item.activo.codigo?.toString().includes(this.searchTerm) ||
+          item.activo.area?.toLowerCase().includes(this.searchTerm)
+        );
+      });
     } else {
       this.mantenimientosFiltrados = [...this.mantenimientos];
     }
-  }
-
-  getEstadoText(estado: string): string {
-    const estados: { [key: string]: string } = {
-      'completado': 'Completed',
-      'pendiente': 'Pending',
-      'cancelado': 'Cancelled'
-    };
-    return estados[estado] || 'Unknown';
   }
 
   getEstadoBadgeClass(estado: string): string {
@@ -78,6 +94,11 @@ export class ListMantDetalleComponent implements OnInit{
   verDetalle(mantenimiento: IMantenimientoDetalle) {
     console.log('Ver detalle:', mantenimiento);
     // Aquí puedes navegar a la página de detalle o abrir un modal
+  }
+
+  realizarMnatenimiento(mantenimiento: IMantenimientoDetalle) {
+    console.log('realizar mantenimiento:', mantenimiento);
+    this.router.navigate(['../form-Actividad', mantenimiento.id],{relativeTo: this.route })
   }
 
   editar(mantenimiento: IMantenimientoDetalle) {

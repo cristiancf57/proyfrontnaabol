@@ -1,0 +1,63 @@
+
+<div class="col-12">
+    <div class="card">
+      <div class="card-body">
+      <h5 class="card-title">Actividades <span>| {{ currentFilter }}</span></h5>
+
+      <!-- Search Bar -->
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-search"></i>
+            </span>
+            <input 
+              type="text" 
+              class="form-control" 
+              placeholder="Buscar Activo"
+              (input)="onSearch($event)">
+          </div>
+        </div>
+        <div class="col-md-6 text-end">
+          <small class="text-muted">Filtrados {{ actividadFiltrados.length }} de {{ actividades.length }} mantenimientos</small>
+        </div>
+      </div>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Equipo</th>
+            <th scope="col">Activo</th>
+            <th scope="col">Fecha Programaga</th>
+            <th scope="col">Fecha Realizada</th>
+            <th scope="col">ip</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Accion</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of actividadFiltrados; let i = index">
+                <th scope="row">{{ i + 1}}</th>
+                <td>{{ item.mantenimiento?.activo?.detalle }}</td>
+                <th scope="row">{{ item.mantenimiento?.activo?.codigo}}</th>
+                <td>{{ item.mantenimiento?.fecha }}</td>
+                <td>{{ item.fecha }}</td>
+                <td>{{ item.mantenimiento?.activo?.ip }}</td>
+                <td><span class="badge" [class]="getEstadoBadgeClass(item.mantenimiento!.estado)">
+                    {{ item.mantenimiento?.estado }}
+                </span></td>
+                <td class="text-center">
+                  <a class="icon " data-bs-toggle="dropdown"><i class="bi bi-stack text-info"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow text-center ">
+                    <li><a><i (click)="detalle(item)" class="bi bi-eye text-info-emphasis"> Ver</i></a></li>
+                    <li><a><i (click)="editar(item)" class="bi bi-pencil-square text-info"> Editar</i></a></li>
+                    <li><a><i (click)="eliminar(item)" class="bi bi-trash text-danger"> Eliminar</i></a></li>
+                  </ul>
+                </td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+    </div>
+</div><!-- End Reports -->

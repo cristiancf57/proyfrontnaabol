@@ -31,35 +31,35 @@ export class FormsComponent implements OnInit {
   }
 
   // Método para enviar el formulario
-    onGuardar(): void {
-      if (this.form.valid) {
-        this.loading = true;
-        this.mensajeExito = '';
-        this.mensajeError = '';
-  
-        // Preparar datos según la interface
-        const userData: IUserPost = this.form.value;
-  
-        this._usuarioservice.createUser(userData).subscribe({
-          next: (response: IUserPost) => {
-            this.loading = false;
-            this.mensajeExito = 'Usuario creado exitosamente con Nombre: ${response.nombre}','Usuario creado';
-            console.log('Usuario creado', response);
-            this.form.reset({
-              estado: 'Activo',
-              fecha: new Date().toISOString().split('T')[0]
-            });
-          },
-          error: (error) => {
-            this.loading = false;
-            this.mensajeError = 'Error al crear el Usuario: ' + error.message;
-            console.error('Error:', error);
-          }
-        });
-      } else {
-        this.marcarTocados();
-      }
+  onGuardar(): void {
+    if (this.form.valid) {
+      this.loading = true;
+      this.mensajeExito = '';
+      this.mensajeError = '';
+
+      // Preparar datos según la interface
+      const userData: IUserPost = this.form.value;
+
+      this._usuarioservice.createUser(userData).subscribe({
+        next: (response: IUserPost) => {
+          this.loading = false;
+          this.mensajeExito = 'Usuario creado exitosamente con Nombre: ${response.nombre}','Usuario creado';
+          console.log('Usuario creado', response);
+          this.form.reset({
+            estado: 'Activo',
+            fecha: new Date().toISOString().split('T')[0]
+          });
+        },
+        error: (error) => {
+          this.loading = false;
+          this.mensajeError = 'Error al crear el Usuario: ' + error.message;
+          console.error('Error:', error);
+        }
+      });
+    } else {
+      this.marcarTocados();
     }
+  }
 
   // Marcar campos como tocados para mostrar errores
   marcarTocados(): void {

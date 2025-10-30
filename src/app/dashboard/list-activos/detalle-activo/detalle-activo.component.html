@@ -1,0 +1,200 @@
+
+<div class="pagetitle d-flex justify-content-between">
+  <div>
+    <h1>Detalles</h1>
+    <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="">Home</a></li>
+          <li class="breadcrumb-item">Detalles</li>
+          <li class="breadcrumb-item active">Activo</li>
+        </ol>
+    </nav>
+  </div>
+  <div>
+    <div class="d-flex justify-content-around">
+        <button type="button" routerLink="/dashboard/buscar-activo" class="btn btn-outline-danger me-2"><strong><i class="bi bi-arrow-left-circle-fill"><strong>&nbsp; Inicio </strong></i></strong></button>
+        <button type="button" class="btn btn-outline-warning me-2"><strong><i class="bi bi-arrow-left-circle-fill"><strong>&nbsp; Inicio </strong></i></strong></button>
+        <button type="button" class="btn btn-outline-info me-2"><strong><i class="bi bi-arrow-left-circle-fill"><strong>&nbsp; Inicio </strong></i></strong></button>
+      <button type="submit" class="btn btn-outline-dark me-5"><i class="bi bi-printer-fill"><strong>&nbsp; Imprimir</strong></i></button>
+    </div>
+  </div>
+</div><!-- End Page Title -->
+
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div id="contenidoImprimir" class="container">
+              <div class="d-flex justify-content-between">
+                <img [src]="logoMin" class="rounded float-start">
+                <img [src]="logoInst" class="rounded float-end">
+              </div>
+
+              <table>
+                  <div class="header card-body">
+                      <h1 class="text-light">DETALLE DE ACTIVOS INFORMATICOS</h1>
+                      <h1 class="text-light">ACTIVO: {{ activo?.codigo }} </h1>
+                  </div>
+              </table>
+
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <td colspan="8" >
+                      <p>
+                        <strong>DETALLE DEL ACTIVO: </strong><span> {{ activo?.detalle }}  </span><br>
+                        <strong>CODIGO DEL ACTIVO: </strong><span> {{ activo?.codigo }} </span><br>
+                        <strong>FECHA DE ADQUISICION: </strong><span> {{ activo?.fecha }} </span>
+                      </p>
+                    </td>
+                  </tr>
+                  <tr class="text-center">
+                    <th rowspan="2" class="section-title">ACTIVO</th>
+                    <th colspan="5" class="section-title">DETALLES</th>
+                    <th colspan="2" class="section-title">Ubicaciones</th>
+                  </tr>
+                  <tr class="text-center">
+                    <th class="section-title">MARCA</th>
+                    <th class="section-title">MEDELO</th>
+                    <th class="section-title">SERIE</th>
+                    <th class="section-title">COLOR</th>
+                    <th class="section-title">ESTADO</th>
+                    <th class="section-title">AREA</th>
+                    <th class="section-title">UBICACION</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td rowspan="3">{{ activo?.codigo }}</td>
+                    <td>{{ activo?.marca }}</td>
+                    <td>{{ activo?.modelo }}</td>
+                    <td>{{ activo?.serie }}</td>
+                    <td>{{ activo?.color }}</td>
+                    <td>{{ activo?.estado }}</td>
+                    <td>{{ activo?.area }}</td>
+                    <td>{{ activo?.ubicacion }}</td>
+                  </tr>
+                  <tr class="text-center">
+                    <th class="section-title">DETALLE</th>
+                    <th colspan="3" class="section-title">DESCRIPCION</th>
+                    <th class="section-title">TIPO</th>
+                    <th class="section-title">IP</th>
+                    <th class="section-title">OBTENIDO</th>
+                  </tr>
+                  <tr>
+                    <td>{{ activo?.detalle }}</td>
+                    <td colspan="3">{{ activo?.descripcion }}</td>
+                    <td>{{ activo?.tipo }}</td>
+                    <td>{{ activo?.ip }}</td>
+                    <td>{{ activo?.fecha }}</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <!-- Sección DESCRIPCIÓN DE mantenimientos -->
+              <table>
+                <thead>
+                  <tr>
+                    <td colspan="5" class="section-title">
+                      <span>DESCRIPCIÓN DE MANTENIMIENTO </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="subtitle">OBSERVACIONES</td>
+                    <td class="subtitle">FECHA</td>
+                    <td class="subtitle">ESTADO</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor=" let item of mantenimiento">
+                    <td>{{ item.observaciones }}</td>
+                    <td>{{ item.fecha }}</td>
+                    <td>{{ item.estado }}</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <!-- Sección DESCRIPCIÓN DE COMPONENTES -->
+              <table>
+                <thead>
+                  <tr>
+                    <td colspan="6" class="section-title">
+                      <span>COMPONENTES ASIGNADOS </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="subtitle">DISPOSITIVO</td>
+                    <td class="subtitle">MARCA</td>
+                    <td class="subtitle">MODELO</td>
+                    <td class="subtitle">FECHA</td>
+                    <td class="subtitle">UNIDADES</td>
+                    <td class="subtitle">DESCRIPCION</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let items of componentes">
+                    <td class="subtitle text-uppercase">{{ items.repuesto.nombre }}</td>
+                    <td>{{ items.repuesto.marca }}</td>
+                    <td>{{ items.repuesto.modelo }}</td>
+                    <td>{{ items.fecha }}</td>
+                    <td>{{ items.cantidad }}</td>
+                    <td>{{ items.descripcion }}</td>
+                  </tr>
+                </tbody>
+              </table>
+
+            </div><br>
+            
+          </div>
+          
+        </div>
+    </div>
+</section>
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="pagetitle d-flex justify-content-between mt-4">
+            <div>
+              <h1>Asignar</h1>
+            </div>
+            <div class=" ">
+              <button type="button" (click)="agregarComponente()" class="btn btn-outline-danger btn-sm me-3"><strong><i class="bi bi-plus-square-fill"><strong>&nbsp; Accesorio </strong></i></strong></button>
+              <!-- <button type="button" class="btn btn-outline-warning btn-sm me-3"><strong><i class="bi bi-arrow-left-circle-fill"><strong>&nbsp; monitor </strong></i></strong></button> -->
+              <button type="button" *ngIf="mostrarFormulario && !loading" class="btn btn-outline-info btn-sm me-5"><strong><i class="bi bi-x-square-fill"><strong>&nbsp; Cancelar </strong></i></strong></button>
+            </div>
+          </div>
+          
+          <div *ngIf="mostrarFormulario && !loading" class="mt-4">
+            <form [formGroup]="myForm" (ngSubmit)="guardarAccesorio()">
+              <div class="row">
+                <div class="col-md-3 mb-3">
+                  <label class="form-label">seleccionar componente</label>
+                  <select class="form-select" formControlName="componente_id" [class.is-valid]="this.myForm.get('componente_id')?.valid" [class.is-invalid]="this.myForm.get('componente_id')?.invalid && this.myForm.get('componente_id')?.touched">
+                    <option value="">seleccionar</option>
+                    <option  *ngFor="let item of accesorios"value="{{ item.id }}">{{ item.nombre }} - {{ item.stock }}</option>
+                  </select>
+                </div>
+                <div class="col-md-1 mb-3">
+                  <label class="form-label">Cantidad</label>
+                  <input type="number" class="form-control" min="1" formControlName="cantidad" [class.is-valid]="this.myForm.get('cantidad')?.valid" [class.is-invalid]="this.myForm.get('cantidad')?.invalid && this.myForm.get('cantidad')?.touched">
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Descripcion</label>
+                  <input type="text" class="form-control" formControlName="detalle" [class.is-valid]="this.myForm.get('detalle')?.valid" [class.is-invalid]="this.myForm.get('detalle')?.invalid && this.myForm.get('detalle')?.touched">
+                </div>
+                <div class="col-md-2 mb-3">
+                  <label class="form-label"></label><br>
+                  <button type="submit" class="btn btn-outline-success btn-sm me-10"><i class="bi bi-database-fill-add"><strong>&nbsp; Agregar</strong></i></button>
+                </div>
+              </div>
+            </form>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

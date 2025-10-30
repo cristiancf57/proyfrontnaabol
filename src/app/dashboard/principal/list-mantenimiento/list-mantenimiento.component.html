@@ -6,9 +6,8 @@
             <li class="dropdown-header text-start">
               <h6>Filter</h6>
             </li>
-            <li><a class="dropdown-item" href="#" (click)="filterByDate('today'); $event.preventDefault()">Today</a></li>
-            <li><a class="dropdown-item" href="#" (click)="filterByDate('month'); $event.preventDefault()">This Month</a></li>
-            <li><a class="dropdown-item" href="#" (click)="filterByDate('year'); $event.preventDefault()">This Year</a></li>
+            <li><a class="dropdown-item" (click)="filterByDate('today'); $event.preventDefault()">Today</a></li>
+            <li><a class="dropdown-item" (click)="filterByDate('month'); $event.preventDefault()">Este Mes</a></li>
           </ul>
         </div>
         <div class="card-body">

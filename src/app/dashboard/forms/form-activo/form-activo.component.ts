@@ -21,7 +21,7 @@ export class FormActivoComponent implements OnInit {
   originalCodigo: string = '';
   originalIp: string = '';
    
-  constructor(private fb: FormBuilder, private _activoService: ActivoService){
+  constructor(private fb: FormBuilder, private _activoService: ActivoService,){
     this.myForm = this.fb.group({
       detalle: ['', Validators.required],
       codigo: ['', Validators.required],
@@ -72,6 +72,7 @@ export class FormActivoComponent implements OnInit {
             estado: 'Activo',
             fecha: new Date().toISOString().split('T')[0]
           });
+          // this.router.navigate(['/dashboard/actividades']);
         },
         error: (error) => {
           this.loading = false;
