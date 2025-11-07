@@ -1,0 +1,130 @@
+<div class="pagetitle">
+    <h1>Gestión de Roles y Permisos</h1>
+    <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+          <li class="breadcrumb-item">Roles</li>
+          <li class="breadcrumb-item active">Permisos</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<section class="section">
+    <div class="row justify-content-center">
+        <div class="col-10">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Loading -->
+                    <div *ngIf="loading" class="text-center mt-4">
+                        <div class="spinner-border text-success" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                        </div>
+                    </div>
+
+                    <!-- Roles -->
+                    <div *ngIf="!loading" class="row mt-4">
+                        <div class="col-md-12">
+                            <h4>Roles</h4>
+                            <div class="list-group">
+                                <div *ngFor="let role of roles" class="list-group-item">
+                                <h5 class="mb-1">{{ role.name }}</h5>
+                                <p class="mb-1 pb-2 mb-4 text-danger border-bottom border-danger">Permisos: 
+                                    <span *ngFor="let permission of role.permissions" class="badge text-bg-success me-1">
+                                    {{ permission.name }}
+                                    </span>
+                                </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- src/app/components/user-management/user-management.component.html -->
+                    <div class="container">
+                    <h2>Gestión de Roles de Usuarios</h2>
+
+                    <!-- Mensajes -->
+                    <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show">
+                        {{ successMessage }}
+                        <button type="button" class="btn-close" (click)="clearMessages()"></button>
+                    </div>
+
+                    <div *ngIf="error" class="alert alert-danger alert-dismissible fade show">
+                        {{ error }}
+                        <button type="button" class="btn-close" (click)="clearMessages()"></button>
+                    </div>
+
+                    <!-- Contenido principal -->
+                    <div *ngIf="!loading" class="row">
+                        <!-- Lista de usuarios -->
+                        <div class="col-md-6">
+                        <h4>Usuarios</h4>
+                        <div class="list-group">
+                            <div *ngFor="let user of users" 
+                                class="list-group-item list-group-item-action border-success"
+                                [class.active]="selectedUser?.id === user.id"
+                                (click)="selectUser(user)">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h6 class="mb-1">{{ user.nombre }}</h6>
+                                        <small class="text-muted">{{ user.email }}</small>
+                                    </div>
+                                </div>
+                                <div class="mt-2 pb-2 mb-4 text-danger border-bottom border-danger">
+                                    <small>Roles: </small>
+                                    <span *ngFor="let role of user.roles" 
+                                        class="badge bg-danger me-1">
+                                    {{ role }}
+                                    <button *ngIf="selectedUser?.id === user.id"
+                                            class="btn-close btn-close-white btn ms-1"
+                                            style="font-size: 0.7rem;"
+                                            (click)="$event.stopPropagation(); removeRole(user, role)">
+                                    </button>
+                                    </span>
+                                    <span *ngIf="!user.length" class="text-muted small">Sin roles asignados</span>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+
+                        <!-- Panel de asignación de roles -->
+                        <div class="col-md-6">
+                        <div *ngIf="selectedUser" class="card">
+                            <div class="card-header">
+                            <h5 class="card-title mb-0">Asignar Rol a {{ selectedUser.nombre }}</h5>
+                            </div>
+                            <div class="card-body">
+                            <div class="mb-3">
+                                <label for="roleSelect" class="form-label">Seleccionar Rol</label>
+                                <select id="roleSelect" class="form-select" [(ngModel)]="selectedRole">
+                                <option value="">-- Selecciona un rol --</option>
+                                <option *ngFor="let role of availableRoles" [value]="role">
+                                    {{ role }}
+                                </option>
+                                </select>
+                            </div>
+                            <button class="btn btn-outline-danger" 
+                                    (click)="assignRole()"
+                                    [disabled]="!selectedRole">
+                                Asignar Rol
+                            </button>
+                            </div>
+                        </div>
+
+                        <div *ngIf="!selectedUser" class="text-center text-muted p-4">
+                            <i class="bi bi-person fs-1"></i>
+                            <p class="mt-2">Selecciona un usuario para gestionar sus roles</p>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- <p>admin works!</p> -->
+<div class="container">
+  
+</div>

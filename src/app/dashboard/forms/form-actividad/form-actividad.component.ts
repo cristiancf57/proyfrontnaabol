@@ -106,7 +106,7 @@ export class FormActividadComponent implements OnInit{
           // console.log('Datos del formulario:', response);
           // console.log('Tiene propiedad id?:', response.actividad.id);
           // const nuevoId = response.id;
-          this.cambiarEstrado(Number(this.mantenimiento.id));
+          this.cambiarEstado(Number(this.mantenimiento.id),this.myForm.value.observaciones,);
           alert('Formulario enviado correctamente. Redirigiendo...');
           if (response && response.actividad.id !== undefined && response.actividad.id !== null) {
             this.router.navigate(['/dashboard/actividades/detalle', response.actividad.id]);
@@ -139,8 +139,8 @@ export class FormActividadComponent implements OnInit{
     });
   }
   // actualizar estado
-  cambiarEstrado(id: number) {
-    this._mantenimientoService.actualizarMantenimiento(id).subscribe({
+  cambiarEstado(id: number, detalle: string) {
+    this._mantenimientoService.actualizarMantenimiento(id,detalle).subscribe({
       next: (response) => {
         console.log('Estado actualizado a CULMINADO:', response);
       },

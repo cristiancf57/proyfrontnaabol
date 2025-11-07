@@ -17,8 +17,8 @@ export class MantenimientoService {
     return this.http.get<IMantenimiento>(this.baseUrl+`mantenimientos/${id}`)
   }
 
-  actualizarMantenimiento(id: number) {
-    const updateEstado = {estado: 'completado'}
+  actualizarMantenimiento(id: number, detalle: string) {
+    const updateEstado = {estado: 'completado', observaciones: detalle}
     return this.http.patch<IMantenimiento>(`${this.baseUrl}mantenimientos/${id}`,updateEstado);
   }
 

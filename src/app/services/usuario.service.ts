@@ -20,12 +20,25 @@ export class UsuarioService {
     return this.http.post<IUser>(this.baseUrl + 'usuarios', usuario)
   }
 
-  // getActivos() {
-  //   return this.http.get<IUser>(this.baseUrl+'activos')
-  // }
+  getUserDetalle(id:number) {
+    return this.http.get<any>(this.baseUrl+`usuarios/${id}`)
+  }
 
   createUser(usuario: IUserPost): Observable<IUserPost> {
     return this.http.post<IUserPost>(this.baseUrl+'usuarios', usuario);
   }
 
+  getCargoIndividual(id:number){
+    return this.http.get<any>(this.baseUrl+`designacioncargo/${id}`)
+  }
+
+  // Subir imagen de perfil
+  uploadProfileImage(id:number, file: any): Observable<any> {
+    return this.http.patch(`${this.baseUrl}usuarios/${id}`, file);
+  }
+
+  // Eliminar imagen de perfil
+  deleteProfileImage(): Observable<any> {
+    return this.http.delete(`${this.baseUrl}profile/`);
+  }
 }

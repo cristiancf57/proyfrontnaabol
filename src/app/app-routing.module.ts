@@ -15,6 +15,8 @@ import { FormActividadComponent } from './dashboard/forms/form-actividad/form-ac
 import { BuscadorActivoComponent } from './dashboard/buscador-activo/buscador-activo.component';
 import { DetalleActivoComponent } from './dashboard/list-activos/detalle-activo/detalle-activo.component';
 import { ProfileSettingsComponent } from './dashboard/profile-settings/profile-settings.component';
+import { AdminComponent } from './dashboard/admin/admin.component';
+import { EditActivoComponent } from './dashboard/list-activos/edit-activo/edit-activo.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -23,11 +25,13 @@ const routes: Routes = [
   {path: 'register', component:FormsComponent},
   {path: 'dashboard', component:DashboardComponent, 
     children:[
+      {path: 'admins', component:AdminComponent},
       {path: 'principal', component:PrincipalComponent},
       {path: 'usuario', component:ListUsuariosComponent},
-      {path: 'perfil', component:ProfileSettingsComponent},
+      {path: 'perfil/:id', component:ProfileSettingsComponent},
       {path: 'activo', component:ListActivosComponent},
       {path: 'activos/detalle/:id', component:DetalleActivoComponent},
+      {path: 'activos/edit/:id', component:EditActivoComponent},
       {path: 'mantenimiento', component:ListMantDetalleComponent},
       {path: 'actividades', component:ListActividadComponent},
       {path: 'actividades/detalle/:id', component:DetalleActividadComponent},

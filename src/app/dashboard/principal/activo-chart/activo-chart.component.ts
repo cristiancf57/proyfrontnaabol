@@ -130,8 +130,7 @@ export class ActivoChartComponent implements OnInit, OnDestroy {
     }
     
     // Si no hay datos, usar meses por defecto
-    return ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 
-            'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    return ['Computadoras', 'Impresoras', 'Mini PC', 'Switch', 'ZKTeco', 'Cámaras'];
   }
 
   private obtenerValores(datos: any): number[] {
@@ -141,11 +140,11 @@ export class ActivoChartComponent implements OnInit, OnDestroy {
     }
     
     // Datos de ejemplo si la API falla
-    return [65, 59, 80, 81, 56, 55, 40, 30, 45, 60, 75, 50];
+    return [65, 59, 80, 81, 56, 55];
   }
 
   private inicializarGraficoConDatosEjemplo(): void {
-    const labels = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'];
+    const labels = ['Computadoras', 'Impresoras', 'Mini PC', 'Switch', 'ZKTeco', 'Cámaras'];
     const dataValues = [65, 59, 80, 81, 56, 55];
 
     this.chart = new Chart(this.barChart.nativeElement, {

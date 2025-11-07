@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IActivo } from '../models/activos';
 import { ActivoService } from '../../services/activos/activo.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-activos',
@@ -13,7 +14,7 @@ export class ListActivosComponent implements OnInit {
   currentFilter: string = 'Today';
   searchTerm: string = '';
 
-  constructor(private activoService:ActivoService){}
+  constructor(private activoService:ActivoService, private router: Router){}
 
   ngOnInit(): void {
     this.datosActivos()
@@ -109,17 +110,6 @@ export class ListActivosComponent implements OnInit {
     }
   }
 
-  // buscarPorIP(ip: string | undefined, searchTerm: string): boolean {
-  //   if (!ip) return false;
-  //   // Múltiples formas de búsqueda
-  //   return (
-  //     ip.toLowerCase().includes(searchTerm) ||
-  //     ip.split('.').some(segment =>
-  //       segment.toLowerCase().includes(searchTerm)
-  //     )
-  //   );
-  // }
-
   getEstadoBadgeClass(estado: string): string {
     const clases: { [key: string]: string } = {
       'activo': 'bg-success',
@@ -131,14 +121,17 @@ export class ListActivosComponent implements OnInit {
 
   detalle(activos: IActivo){
     console.log('Ver detalle:', activos);
+    this.router.navigate(['/dashboard/activos/detalle', activos.id]);
   }
+
   editar(activos: IActivo){
     console.log('Editar:', activos);
+    this.router.navigate(['/dashboard/activos/edit', activos.id]);
   }
   eliminar(activos: IActivo){
     if (confirm(`¿Estás seguro de eliminar el mantenimiento #${activos.id}?`)) {
       console.log('Eliminar:', activos);
-      // Llamar servicio para eliminar
+       
       this.activoFiltrados = this.activoFiltrados.filter(m => m.id !== activos.id);
       this.activos = this.activos.filter(m => m.id !== activos.id);
     }

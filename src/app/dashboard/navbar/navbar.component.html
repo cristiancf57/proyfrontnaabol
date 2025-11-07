@@ -104,7 +104,7 @@
 
             <li class="message-item">
               <a href="#">
-                <img [src]="UrlImg"  alt="" class="rounded-circle">
+                <img [src]="Urlperfil"  alt="" class="rounded-circle">
                 <div>
                   <h4>Anna Nelson</h4>
                   <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
@@ -127,21 +127,26 @@
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img [src]="UrlImg"  alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+            <img [src]="profileImage"  alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2"> {{ currentUser ? userInitials : 'Invitado' }}</span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-            <li class="dropdown-header">
-              <h6>Kevin Anderson</h6>
-              <span>cargo</span>
+            <li class="dropdown-header" *ngIf="currentUser">
+              <h6>{{ fullName }}</h6>
+              <span>{{ currentUser.roles[0] || 'Usuario' }} - {{ userPosition }}</span>
+              
+            </li>
+            <li class="dropdown-header" *ngIf="!currentUser">
+              <h6>No logueado</h6>
+              <span>Inicia sesión</span>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" routerLink="perfil">
+              <a class="dropdown-item d-flex align-items-center" (click)="goToProfile()">
                 <i class="bi bi-gear"></i>
                 <span>Settings</span>
               </a>
@@ -268,9 +273,9 @@
       <li class="nav-heading">Pages</li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" routerLink="perfil">
+        <a class="nav-link collapsed" routerLink="admins">
           <i class="bi bi-person"></i>
-          <span>Profile</span>
+          <span>Roles</span>
         </a>
       </li><!-- End Profile Page Nav -->
 

@@ -26,28 +26,13 @@ export class AuthService {
     }
   }
 
-  // login(email: string, password: string): Observable<AuthResponse> {
-  //   return this.http.post<AuthResponse>(`${this.baseUrl}/login`, {
-  //     email,
-  //     password
-  //   }).pipe(
-  //     tap(response => {
-  //       localStorage.setItem('token', response.token);
-  //       localStorage.setItem('currentUser', JSON.stringify(response.user));
-  //       this.currentUserSubject.next(response.user);
-  //     })
-  //   );
-  // }
-
   // Método principal de login que acepta email o username
   login(login: string, password: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.baseUrl}login`, {
-      login, // Cambiado de 'email' a 'login'
-      password
-    }).pipe(
+    return this.http.post<AuthResponse>(`${this.baseUrl}login`, {login, password}).pipe(
       tap(response => {
         localStorage.setItem('token', response.token);
         localStorage.setItem('currentUser', JSON.stringify(response.user));
+        
         this.currentUserSubject.next(response.user);
       })
     );
@@ -60,23 +45,6 @@ export class AuthService {
 
   loginWithUsername(username: string, password: string): Observable<AuthResponse> {
     return this.login(username, password);
-  }
-
-  // Método de registro (opcional)
-  register(userData: {
-    name: string;
-    username: string;
-    email: string;
-    password: string;
-    password_confirmation: string;
-  }): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.baseUrl}/register`, userData).pipe(
-      tap(response => {
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('currentUser', JSON.stringify(response.user));
-        this.currentUserSubject.next(response.user);
-      })
-    );
   }
 
   logout(): Observable<void> {

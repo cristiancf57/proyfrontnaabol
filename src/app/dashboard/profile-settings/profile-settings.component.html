@@ -5,16 +5,22 @@
     <div class="cover-image-container">
       <img [src]="coverImage" alt="Portada" class="cover-image">
       <div class="cover-overlay position-absolute top-0 end-0 m-3">
-        <button class="btn btn-light btn-sm" (click)="triggerCoverImageChange()">
+        <!-- <button class="btn btn-light btn-sm" (click)="triggerCoverImageChange()">
           <i class="bi bi-camera"></i> Cambiar portada
-        </button>
+        </button> -->
       </div>
     </div>
     
     <!-- Imagen de perfil con opción de edición -->
     <div class="profile-image-section position-relative">
       <div class="profile-image-container">
-        <img [src]="profileImage" alt="Perfil" class="profile-image rounded-circle border border-4 border-white">
+        <img [src]="profileImage || 'assets/img/perfiles/default.jpg'" alt="Perfil" class="profile-image rounded-circle border border-4 border-white">
+        <!-- Loading spinner -->
+        <div *ngIf="loading" class="position-absolute top-0 start-0 w-100 h-100 bg-light bg-opacity-75 rounded-circle d-flex align-items-center justify-content-center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+        </div>
         <div class="profile-image-overlay position-absolute bottom-0 end-0">
           <button class="btn btn-primary btn-sm rounded-circle" (click)="cambiarPerfil()">
             <i class="bi bi-camera-fill"></i>
@@ -26,21 +32,21 @@
 
   <!-- Inputs ocultos para selección de archivos -->
   <input type="file" id="profileImageInput" (change)="onProfileImageChange($event)" accept="image/*" style="display: none;">
-  <input type="file" id="coverImageInput" (change)="onCoverImageChange($event)" accept="image/*" style="display: none;">
 
   <!-- Información del perfil -->
   <div class="profile-info mt-5 pt-4">
     <div class="container">
       <div class="row">
         <div class="col-md-8">
-          <h2 class="text-uppercase fw-bold"> {{ profileData.name }}</h2>
-          <h4 class="text-uppercase fw-bold">PROFESIONAL I AREA DE SISTEMAS</h4>
+          <h2 class="text-uppercase fw-bold"> {{ user?.nombre }} {{ user?.apellido }}</h2>
+          <h4 class="text-uppercase fw-bold">{{ userCargo?.cargo?.descripcion }} | AREA DE {{ userCargo?.cargo?.area }}</h4>
           
           <div class="d-flex flex-wrap gap-3 mt-3">
-            <span class="text-muted"><i class="bi bi-person-lock"></i> username</span>
-            <span class="text-muted"><i class="bi bi-envelope-at"></i> example&#64;gmail.com</span>
-            <span class="text-muted"><i class="bi bi-calendar-date"></i> Desde 20-10-2025</span>
-            <span class="text-muted"><i class="bi bi-telephone-inbound"></i> 65633276</span>
+            <span class="badge text-bg-success"><i class="bi bi-person-check"></i> {{ userCargo?.estado }}</span>
+            <span class="text-muted"><i class="bi bi-person-lock"></i> {{ user?.username }}</span>
+            <span class="text-muted"><i class="bi bi-envelope-at"></i> {{ user?.email }}</span>
+            <span class="text-muted"><i class="bi bi-calendar-date"></i> Desde {{ userCargo?.fecha_inicio }}</span>
+            <span class="text-muted"><i class="bi bi-telephone-inbound"></i> {{ user?.telefono }}</span>
           </div>
         </div>
         
@@ -70,11 +76,11 @@
               <ul class="nav nav-tabs nav-tabs-bordered">
 
                 <li class="nav-item">
-                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-edit">Editar Datos</button>
                 </li>
 
                 <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Cambiar Password</button>
                 </li>
 
               </ul>
@@ -85,86 +91,37 @@
                   <!-- Profile Edit Form -->
                   <form>
                     <div class="row mb-3">
-                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
+                      <label for="nombre" class="col-md-4 col-lg-3 col-form-label">Nombre</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="fullName" type="text" class="form-control" id="fullName" value="Kevin Anderson">
+                        <input name="nombre" type="text" class="form-control" id="nombre" value="{{user?.nombre}}">
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
+                      <label for="apellido" class="col-md-4 col-lg-3 col-form-label">Apellido</label>
                       <div class="col-md-8 col-lg-9">
-                        <textarea name="about" class="form-control" id="about" style="height: 100px">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea>
+                        <input name="apellido" type="text" class="form-control" id="apellido" value="{{user?.apellido}}">
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="company" class="col-md-4 col-lg-3 col-form-label">Company</label>
+                      <label for="telefono" class="col-md-4 col-lg-3 col-form-label">Telefono</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="company" type="text" class="form-control" id="company" value="Lueilwitz, Wisoky and Leuschke">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Job" class="col-md-4 col-lg-3 col-form-label">Job</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="job" type="text" class="form-control" id="Job" value="Web Designer">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Country" class="col-md-4 col-lg-3 col-form-label">Country</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="country" type="text" class="form-control" id="Country" value="USA">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="address" type="text" class="form-control" id="Address" value="A108 Adam Street, New York, NY 535022">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="phone" type="text" class="form-control" id="Phone" value="(436) 486-3538 x29071">
+                        <input name="telefono" type="text" class="form-control" id="telefono" value="{{ user?.telefono }}">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="email" type="email" class="form-control" id="Email" value="k.anderson@example.com">
+                        <input name="email" type="email" class="form-control" id="Email" value="{{ user?.email }}">
                       </div>
                     </div>
-
+                    
                     <div class="row mb-3">
-                      <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Twitter Profile</label>
+                      <label for="username" class="col-md-4 col-lg-3 col-form-label">Username</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="twitter" type="text" class="form-control" id="Twitter" value="https://twitter.com/#">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook Profile</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="facebook" type="text" class="form-control" id="Facebook" value="https://facebook.com/#">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram Profile</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="instagram" type="text" class="form-control" id="Instagram" value="https://instagram.com/#">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin Profile</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="linkedin" type="text" class="form-control" id="Linkedin" value="https://linkedin.com/#">
+                        <input name="username" type="text" class="form-control" id="username" value="{{ user?.username }}">
                       </div>
                     </div>
 
@@ -180,28 +137,28 @@
                   <form>
 
                     <div class="row mb-3">
-                      <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                      <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Password Actual</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="password" type="password" class="form-control" id="currentPassword">
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+                      <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Nuevo Password</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="newpassword" type="password" class="form-control" id="newPassword">
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+                      <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Repetir Nuevo Password</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="renewpassword" type="password" class="form-control" id="renewPassword">
                       </div>
                     </div>
 
                     <div class="text-center">
-                      <button type="submit" class="btn btn-primary">Change Password</button>
+                      <button type="submit" class="btn btn-primary">Cambiar Password</button>
                     </div>
                   </form><!-- End Change Password Form -->
 

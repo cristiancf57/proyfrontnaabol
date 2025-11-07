@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LoginService } from '../services/logins/login.service';
 
 @Component({
   selector: 'app-login',
@@ -58,7 +59,6 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     if (this.loginForm.invalid) {
-      // Marcar todos los campos como touched para mostrar errores
       this.loginForm.markAllAsTouched();
       return;
     }
@@ -69,14 +69,15 @@ export class LoginComponent implements OnInit {
     const { login, password } = this.loginForm.value;
 
     this.authService.login(login, password).subscribe({
-      next: () => {
+      next: (response) => {
+        console.log('dato login',response)
         this.loading = false;
+        // El servicio ya actualiza el estado del usuario automáticamente
         this.router.navigate(['/dashboard']);
       },
       error: (error) => {
         this.loading = false;
         this.error = error.error?.message || 'Error en el login. Verifique sus credenciales.';
-        // Opcional: limpiar el formulario en caso de error
         this.loginForm.get('password')?.reset();
       }
     });

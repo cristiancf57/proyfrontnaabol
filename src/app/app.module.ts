@@ -29,6 +29,9 @@ import { BuscadorActivoComponent } from './dashboard/buscador-activo/buscador-ac
 import { DetalleActivoComponent } from './dashboard/list-activos/detalle-activo/detalle-activo.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProfileSettingsComponent } from './dashboard/profile-settings/profile-settings.component';
+import { AdminComponent } from './dashboard/admin/admin.component';
+import { ImageStateService } from './services/imagenes/image-state.service';
+import { EditActivoComponent } from './dashboard/list-activos/edit-activo/edit-activo.component';
 
 
 @NgModule({
@@ -56,6 +59,8 @@ import { ProfileSettingsComponent } from './dashboard/profile-settings/profile-s
     BuscadorActivoComponent,
     DetalleActivoComponent,
     ProfileSettingsComponent,
+    AdminComponent,
+    EditActivoComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,7 +71,7 @@ import { ProfileSettingsComponent } from './dashboard/profile-settings/profile-s
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
   ],
-  providers: [],
+  providers: [ImageStateService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
