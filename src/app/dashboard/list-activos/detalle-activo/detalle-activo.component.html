@@ -14,7 +14,7 @@
     <div class="d-flex justify-content-around">
         <button type="button" routerLink="/dashboard/buscar-activo" class="btn btn-outline-danger me-2"><strong><i class="bi  bi-search"><strong>&nbsp; Buscador </strong></i></strong></button>
         <button type="button" routerLink="/dashboard/activo" class="btn btn-outline-success me-2"><strong><i class="bi bi-database-check"><strong>&nbsp; Activos </strong></i></strong></button>
-        <button type="button" routerLink="/dashboard" class="btn btn-outline-secondary me-2"><strong><i class="bi bi-arrow-left-circle-fill"><strong>&nbsp; Inicio </strong></i></strong></button>
+        <button type="button" (click)="editar(activo.id)" class="btn btn-outline-secondary me-2"><strong><i class="bi bi-arrow-left-circle-fill"><strong>&nbsp; Editar </strong></i></strong></button>
       <button type="submit" (click)="imprimirFormulario()" class="btn btn-outline-dark me-5"><i class="bi bi-printer-fill"><strong>&nbsp; Imprimir</strong></i></button>
     </div>
   </div>

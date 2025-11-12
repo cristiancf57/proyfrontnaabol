@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivoService } from '../../../services/activos/activo.service';
 import { IActivo } from '../../models/activos';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MantenimientoService } from '../../../services/mantenimientos/mantenimiento.service';
 import { IMantenimiento } from '../../models/mantenimiento';
 import { ComponenteService } from '../../../services/componentes/componente.service';
@@ -30,7 +30,7 @@ export class DetalleActivoComponent implements OnInit{
   stock: number = 0
   stockAct!:number;
 
-  constructor(private activoService: ActivoService, private route: ActivatedRoute, private mantenimientoServ: MantenimientoService, private componenteService: ComponenteService,private toastr: ToastrService, private fb: FormBuilder){
+  constructor(private activoService: ActivoService, private route: ActivatedRoute, private mantenimientoServ: MantenimientoService, private componenteService: ComponenteService,private toastr: ToastrService, private fb: FormBuilder, private router: Router){
     this.myForm = this.fb.group({
       componente_id: ['',[Validators.required,Validators.pattern(/^[1-9]\d*$/)]],
       cantidad: ['',Validators.required],
@@ -170,6 +170,11 @@ export class DetalleActivoComponent implements OnInit{
       const control = this.myForm.get(key);
       control?.markAsTouched();
     });
+  }
+
+  editar(activo: IActivo){
+    console.log('Editar:', activo);
+    this.router.navigate(['/dashboard/activos/edit', this.activo.id]);
   }
 
   // actualizar stock

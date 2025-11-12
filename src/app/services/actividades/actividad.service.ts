@@ -23,4 +23,16 @@ export class ActividadService {
   createActividad(actividad: IActividadPost): Observable<IActividadPost> {
     return this.http.post<IActividadPost>(this.baseUrl+'actividades', actividad);
   }
+
+  deleteActividad(id:number) {
+    return this.http.delete<any>(this.baseUrl+`actividades/${id}`)
+  }
+
+  actividadReciente() {
+    return this.http.get<IActividadesDet>(this.baseUrl+'actividad')
+  }
+
+  getActividadEst() {
+    return this.http.get<any>(this.baseUrl+'actividadesest')
+  }
 }

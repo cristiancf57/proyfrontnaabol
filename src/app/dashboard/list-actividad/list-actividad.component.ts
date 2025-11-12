@@ -72,10 +72,15 @@ export class ListActividadComponent implements OnInit {
   eliminar(actividad: IActividadesDet) {
     if (confirm(`¿Estás seguro de eliminar el actividad #${actividad.id}?`)) {
       console.log('Eliminar:', actividad);
-      // Llamar servicio para eliminar
-      this.actividadFiltrados = this.actividadFiltrados.filter(m => m.id !== actividad.id);
-      this.actividades = this.actividades.filter(m => m.id !== actividad.id);
+      this.actividadService.deleteActividad(actividad.id).subscribe({
+        next:(response)=>{
+          console.log('registro eliminado',response)
+          this.actividadFiltrados = this.actividadFiltrados.filter(m => m.id !== actividad.id);
+          this.actividades = this.actividades.filter(m => m.id !== actividad.id);
+        }
+      })
+      
     }
-  }
+  }  
 
 }

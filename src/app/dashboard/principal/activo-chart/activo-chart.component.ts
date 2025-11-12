@@ -35,8 +35,6 @@ export class ActivoChartComponent implements OnInit, OnDestroy {
         console.error('Error al cargar datos del gráfico:', error);
         this.error = 'Error al cargar los datos';
         this.loading = false;
-        // Opcional: Mostrar datos de ejemplo en caso de error
-        this.inicializarGraficoConDatosEjemplo();
       }
     });
   }
@@ -141,34 +139,6 @@ export class ActivoChartComponent implements OnInit, OnDestroy {
     
     // Datos de ejemplo si la API falla
     return [65, 59, 80, 81, 56, 55];
-  }
-
-  private inicializarGraficoConDatosEjemplo(): void {
-    const labels = ['Computadoras', 'Impresoras', 'Mini PC', 'Switch', 'ZKTeco', 'Cámaras'];
-    const dataValues = [65, 59, 80, 81, 56, 55];
-
-    this.chart = new Chart(this.barChart.nativeElement, {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [{
-          label: 'Datos de Ejemplo',
-          data: dataValues,
-          backgroundColor: 'rgba(54, 162, 235, 0.7)',
-          borderColor: 'rgb(54, 162, 235)',
-          borderWidth: 2
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    });
   }
 
   actualizarGrafico(): void {

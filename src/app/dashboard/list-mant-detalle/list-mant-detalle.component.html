@@ -32,7 +32,7 @@
             <th scope="col">Activo</th>
             <th scope="col">Fecha</th>
             <th scope="col">ip</th>
-            <th scope="col">Estado</th>
+            <th scope="col">Mantenimiento</th>
             <th scope="col">Accion</th>
           </tr>
         </thead>
@@ -40,7 +40,7 @@
             <tr *ngFor="let item of mantenimientosFiltrados; let i = index">
                 <th scope="row">{{ i + 1}}</th>
                 <th><a class="text-primary-emphasis " [routerLink]="['/dashboard/form-actividad', item.id]">{{ item.activo?.detalle }}</a></th>
-                <td>{{ item.activo?.estado }}</td>
+                <td><span class="badge" [class]="getEstadoClass(item.activo?.estado)">{{ item.activo?.estado || 'Desconocido' }}</span></td>
                 <th scope="row">{{ item.activo?.codigo}}</th>
                 <td>{{ item.fecha }}</td>
                 <td>{{ item.activo?.ip }}</td>
@@ -50,8 +50,8 @@
                 <td class="text-center">
                   <a class="icon " href="#" data-bs-toggle="dropdown"><i class="bi bi-stack text-info"></i></a>
                   <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow text-center ">
-                    <li><a><i (click)="verDetalle(item)" class="bi bi-eye text-info-emphasis"> Ver</i></a></li>
-                    <li><a><i (click)="editar(item)" class="bi bi-pencil-square text-info"> Editar</i></a></li>
+                    <li><a><i [routerLink]="['/dashboard/form-actividad', item.id]" class="bi bi-eye text-info-emphasis"> Realizar</i></a></li>
+                    <li><a><i (click)="cancelar(item)" class="bi bi-pencil-square text-info"> Cancelar</i></a></li>
                     <li><a><i (click)="eliminar(item)" class="bi bi-trash text-danger"> Eliminar</i></a></li>
                   </ul>
                 </td>

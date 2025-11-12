@@ -33,14 +33,16 @@
                   <label for="tipo" class="form-label">Tipo</label>
                   <select id="tipo" formControlName="tipo" class="form-select" [class.is-valid]="this.myForm.get('tipo')?.valid" [class.is-invalid]="this.myForm.get('tipo')?.invalid && this.myForm.get('tipo')?.touched">
                     <option selected>Seleccionar</option>
-                    <option value="computadora">computadora</option>
-                    <option value="impresora">impresora</option>
-                    <option value="enrutador">enrutador</option>
-                    <option value="camara">camara</option>
-                    <option value="switch">switch</option>
-                    <option value="router">router</option>
-                    <option value="monitor">monitor</option>
+                    <option value="computadora">Computadora</option>
+                    <option value="laptop">Laptop</option>
                     <option value="miniPC">Mini PC</option>
+                    <option value="impresora">Impresora</option>
+                    <option value="monitor">Monitor</option>
+                    <option value="camara">Cámara</option>
+                    <option value="switch">Switch</option>
+                    <option value="router">Router</option>
+                    <option value="enrutador">Enrutadores, Redes</option>
+                    <option value="otro">Otro</option>
                   </select>
                 </div>
                 <div class="col-md-4">

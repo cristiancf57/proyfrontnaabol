@@ -1,0 +1,16 @@
+
+<div class="card-body">
+    <h5 class="card-title">Actividades Realizadas <span>| Todo</span></h5>
+
+    <div class="activity">
+
+        <div class="activity-item d-flex" *ngFor="let item of actividad">
+          <div class="activite-label">{{ calcularDias(item.fecha) }}</div>
+          <i class='bi bi-circle-fill activity-badge text-success align-self-start' [ngClass]="getBadgeColor(item.mantenimiento?.activo?.tipo || item.tipo_mantenimiento)"></i>
+          <div class="activity-content">
+            {{ item.mantenimiento?.activo?.detalle }}  <a class="fw-bold text-dark"> {{ item.observaciones }}</a> 
+          </div>
+        </div><!-- End activity item-->
+
+    </div>
+</div>

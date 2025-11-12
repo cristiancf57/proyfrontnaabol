@@ -32,6 +32,7 @@ import { ProfileSettingsComponent } from './dashboard/profile-settings/profile-s
 import { AdminComponent } from './dashboard/admin/admin.component';
 import { ImageStateService } from './services/imagenes/image-state.service';
 import { EditActivoComponent } from './dashboard/list-activos/edit-activo/edit-activo.component';
+import { ActividadRecienteComponent } from './dashboard/principal/actividad-reciente/actividad-reciente.component';
 
 
 @NgModule({
@@ -61,6 +62,7 @@ import { EditActivoComponent } from './dashboard/list-activos/edit-activo/edit-a
     ProfileSettingsComponent,
     AdminComponent,
     EditActivoComponent,
+    ActividadRecienteComponent,
   ],
   imports: [
     BrowserModule,

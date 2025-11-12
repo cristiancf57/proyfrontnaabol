@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IMantenimiento } from '../../models/mantenimiento';
 import { IActividadesDet, IActividadPost } from '../../models/actividades';
 import { ActividadService } from '../../../services/actividades/actividad.service';
+import { ActivoService } from '../../../services/activos/activo.service';
 
 @Component({
   selector: 'app-form-actividad',
@@ -13,6 +14,8 @@ import { ActividadService } from '../../../services/actividades/actividad.servic
 })
 export class FormActividadComponent implements OnInit{
   mantenimiento: any;
+  activo: any;
+  tipoActivo = ''
   tipoMantenimiento: string = 'preventivo';
   // Variables individuales
   limpiezaAct: string ='no'
@@ -26,10 +29,10 @@ export class FormActividadComponent implements OnInit{
   mensajeExito = '';
   mensajeError = '';
 
-  constructor(private fb: FormBuilder, private _mantenimientoService: MantenimientoService, private _actividadService: ActividadService, private route: ActivatedRoute, private router: Router){
+  constructor(private fb: FormBuilder, private _mantenimientoService: MantenimientoService, private _actividadService: ActividadService, private route: ActivatedRoute, private router: Router, private activoService : ActivoService){
     this.myForm = this.fb.group({
       tipo: ['', Validators.required],
-      encargado: ['', Validators.required],
+      encargado: ['',Validators.required],
       tecnico: ['', Validators.required],
       supervisor: ['', Validators.required],
       limpieza: [false],
@@ -53,9 +56,23 @@ export class FormActividadComponent implements OnInit{
       next: (data) => {
         this.mantenimiento = data;
         console.log('Actividad cargada:', data)
+        this.cargarActivo(this.mantenimiento.activo_id)
       },
       error: (error) => {
         console.error('Error al cargar actividad:', error);
+      }
+    });
+  }
+
+  cargarActivo(id: number) {
+    this.activoService.detallesActivo(id).subscribe({
+      next: (data) => {
+        this.activo = data;
+        this.tipoActivo = this.activo.tipo
+        console.log('Activo cargada:', data)
+      },
+      error: (error) => {
+        console.error('Error al cargar activo:', error);
       }
     });
   }
@@ -93,20 +110,22 @@ export class FormActividadComponent implements OnInit{
         archivos: this.archivosAct,
         hardware: this.hardwareAct,
         software: this.softwareAct,
-        mantenimiento_id: this.mantenimiento.id
+        mantenimiento_id: this.mantenimiento.id,
+        tipo_activo: this.activo.tipo
       };
 
       // Preparar datos según la interface
-      const datosForm: any = this.myForm.value;
+      const datosForm: IActividadPost = this.myForm.value;
+      console.log('datos antes de enviar a back',dataActividad)
 
       this._actividadService.createActividad(dataActividad).subscribe({
         next: (response: any) => {
           this.loading = false;
           this.mensajeExito = 'Enviado con exito';
-          // console.log('Datos del formulario:', response);
+          console.log('Datos del form para crear:', response);
           // console.log('Tiene propiedad id?:', response.actividad.id);
           // const nuevoId = response.id;
-          this.cambiarEstado(Number(this.mantenimiento.id),this.myForm.value.observaciones,);
+          this.cambiarEstado(Number(this.mantenimiento.id),this.tipoActivo);
           alert('Formulario enviado correctamente. Redirigiendo...');
           if (response && response.actividad.id !== undefined && response.actividad.id !== null) {
             this.router.navigate(['/dashboard/actividades/detalle', response.actividad.id]);

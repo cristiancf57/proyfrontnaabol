@@ -128,6 +128,7 @@ export class ListActivosComponent implements OnInit {
     console.log('Editar:', activos);
     this.router.navigate(['/dashboard/activos/edit', activos.id]);
   }
+
   eliminar(activos: IActivo){
     if (confirm(`¿Estás seguro de eliminar el mantenimiento #${activos.id}?`)) {
       console.log('Eliminar:', activos);
@@ -140,6 +141,5 @@ export class ListActivosComponent implements OnInit {
   formatearFecha(fecha: Date): string {
     return new Date(fecha).toLocaleDateString('es-ES');
   }
-
 
 }

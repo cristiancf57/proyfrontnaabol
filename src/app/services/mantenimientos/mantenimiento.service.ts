@@ -22,6 +22,15 @@ export class MantenimientoService {
     return this.http.patch<IMantenimiento>(`${this.baseUrl}mantenimientos/${id}`,updateEstado);
   }
 
+  cancelarMantenimiento(id: number, detalle: string) {
+    const updateEstado = {estado: 'cancelado', observaciones: detalle}
+    return this.http.patch<IMantenimiento>(`${this.baseUrl}mantenimientos/${id}`,updateEstado);
+  }
+
+  deleteMantenimiento(id:number) {
+    return this.http.delete<IMantenimiento>(this.baseUrl+`mantenimientos/${id}`)
+  }
+
   mantenimientoActivo(id:number) {
     return this.http.get<IMantenimiento>(this.baseUrl+`mantenimientoac/${id}`)
   }

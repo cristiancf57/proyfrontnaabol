@@ -49,5 +49,6 @@ export interface IActividadPost {
     tecnico: string
     supervisor: string
     observaciones: string
-    mantenimiento_id: number
+    mantenimiento_id: string
+    tipo_activo: string
 }
