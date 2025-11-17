@@ -50,6 +50,12 @@ export class BuscadorActivoComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.inicializarFormulario();
+    this.route.queryParams.subscribe(params => {
+      const datoRecibido = params['dato'];
+      if (datoRecibido) {
+        this.procesarCodigo(datoRecibido);
+      }
+    });
   }
 
   inicializarFormulario(): void {
@@ -76,7 +82,6 @@ export class BuscadorActivoComponent implements OnInit, OnDestroy {
       this.escaneando = true;
       this.mensaje = 'Iniciando cámara...';
 
-      // Solicitar acceso a la cámara
       this.stream = await navigator.mediaDevices.getUserMedia({ 
         video: { facingMode: 'environment' } 
       });
@@ -87,7 +92,6 @@ export class BuscadorActivoComponent implements OnInit, OnDestroy {
       await video.play();
       this.mensaje = 'Escaneando código QR...';
 
-      // Iniciar detección de QR
       this.detectarQR();
 
     } catch (error) {
@@ -140,7 +144,7 @@ export class BuscadorActivoComponent implements OnInit, OnDestroy {
         if (code) {
           this.codigoEncontrado = code;
           this.detenerEscaneo();
-          this.buscarPorCodigo(code);
+          this.buscarCodigo(code);
           return;
         }
 
@@ -158,7 +162,6 @@ export class BuscadorActivoComponent implements OnInit, OnDestroy {
 
   // Decodificar QR usando jsQR
   async decodificarQR(imageData: ImageData): Promise<string | null> {
-    // Importación dinámica de jsQR
     try {
       const jsQR = await import('jsqr');
       const code = jsQR.default(
@@ -174,7 +177,7 @@ export class BuscadorActivoComponent implements OnInit, OnDestroy {
   }
 
   // ========== BÚSQUEDA EN API ==========
-  async buscarPorCodigo(datoCompleto: string): Promise<void> {
+  async buscarCodigo(datoCompleto: string): Promise<void> {
     this.loading = true;
     this.mensaje = `Buscando: ${datoCompleto}`;
 
@@ -197,23 +200,23 @@ export class BuscadorActivoComponent implements OnInit, OnDestroy {
             // Redirigir a detalles del activo encontrado
             if (activo && activo.id) {
               setTimeout(() => {
-                console.log('id encontrado',activo.id)
+                // console.log('id encontrado',activo.id)
                 this.router.navigate(['/dashboard/activos/detalle', activo.id]);
               }, 1500);
             } else {
-              console.warn('ID no recibido en el activo:', activo);
+              // console.warn('ID no recibido en el activo:', activo);
               this.mensaje = 'Código encontrado, pero no tiene ID válido';
               this.reiniciar();
             }
           } else {
             this.mensaje = 'Código no encontrado en el sistema';
-            this.procesarCodigoNoEncontrado(datoCompleto);
+            this.procesarCodigo(datoCompleto);
           }
         },
         error: (error) => {
           // Si no existe (error 404), procesar datos del QR
           if (error.status === 404) {
-            this.procesarCodigoNoEncontrado(datoCompleto);
+            this.procesarCodigo(datoCompleto);
           } else {
             this.loading = false;
             this.mensaje = 'Error al buscar el código en el sistema';
@@ -229,8 +232,7 @@ export class BuscadorActivoComponent implements OnInit, OnDestroy {
     }
   }
 
-  private procesarCodigoNoEncontrado(codigo: string): void {
-    // Procesar datos del QR para el formulario
+  private procesarCodigo(codigo: string): void {
     const datosQR = this.procesarDatosQR(codigo);
     
     if (datosQR) {
@@ -247,7 +249,7 @@ export class BuscadorActivoComponent implements OnInit, OnDestroy {
   buscarManual(): void {
     const codigoManual = prompt('Ingrese el código a buscar:');
     if (codigoManual && codigoManual.trim()) {
-      this.buscarPorCodigo(codigoManual.trim());
+      this.buscarCodigo(codigoManual.trim());
     }
   }
 
@@ -260,7 +262,7 @@ export class BuscadorActivoComponent implements OnInit, OnDestroy {
       const [codigo, ...descripcionParts] = datosDecodificados.split('|');
       const descripcionCompleta = descripcionParts.join('|');
 
-      const datosProcesados = this.procesarDescripcionCompleta(descripcionCompleta);
+      const datosProcesados = this.procesarDescripcion(descripcionCompleta);
       // const datosProcesados = extraerDatos(descripcionCompleta)
       datosProcesados.codigo = codigo.trim();
 
@@ -273,7 +275,7 @@ export class BuscadorActivoComponent implements OnInit, OnDestroy {
     }
   }
 
-  private procesarDescripcionCompleta(descripcion: string): any {
+  private procesarDescripcion(descripcion: string): any {
     const datos: any = {};
     
     const patrones = [

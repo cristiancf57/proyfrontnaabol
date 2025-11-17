@@ -1,0 +1,6 @@
+<div class="search-bar">
+    <form class="search-form d-flex align-items-center">
+        <input #searchInput type="text" name="query" placeholder="Search" title="Enter search keyword" [formControl]="searchControl">
+        <button type="button" (click)="buscarPorCodigo(searchControl.value || '')" title="Search"><i class="bi bi-search"></i></button>
+    </form>
+</div><!-- End Search Bar -->

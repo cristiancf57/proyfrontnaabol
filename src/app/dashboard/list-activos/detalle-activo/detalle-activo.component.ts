@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivoService } from '../../../services/activos/activo.service';
 import { IActivo } from '../../models/activos';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,13 +8,15 @@ import { ComponenteService } from '../../../services/componentes/componente.serv
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, Validators } from '@angular/forms';
 import { IRepuestos } from '../../models/repuestos';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-detalle-activo',
   templateUrl: './detalle-activo.component.html',
   styleUrl: './detalle-activo.component.css'
 })
-export class DetalleActivoComponent implements OnInit{
+export class DetalleActivoComponent implements OnInit, OnDestroy{
+  private destroy$ = new Subject<void>();
   logoMin = '/assets/img/fondos/logo_min.png'
   logoInst = '/assets/img/fondos/logo_inst.png'
   activo!: any;
@@ -38,12 +40,27 @@ export class DetalleActivoComponent implements OnInit{
     });
   }
   
+  // ngOnInit(): void {
+  //   const id = this.route.snapshot.paramMap.get('id');
+  //   if (id) {
+  //     this.cargarActivo(Number(id));
+  //   }
+  // }
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.cargarActivo(Number(id));
-    }
-
+    this.route.paramMap
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(params => {
+        const id = params.get('id');
+        if (id) {
+          console.log('ID cambiado:', id);
+          this.cargarActivo(Number(id));
+        }
+      });
+  }
+  
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   cargarActivo(id: number) {
@@ -216,8 +233,8 @@ export class DetalleActivoComponent implements OnInit{
       alert('No se pudo abrir la ventana de impresión. Por favor, permite ventanas emergentes.');
       return;
     }
-    
-    ventanaImpresion.document.write(`
+
+    const htmlContent = `
       <!DOCTYPE html>
       <html>
       <head>
@@ -290,29 +307,45 @@ export class DetalleActivoComponent implements OnInit{
             height: 60px;
           }
           
-          /* Asegurar que los colores se impriman */
           @media print {
-            * { -webkit-print-color-adjust: exact; }
-            .header { background-color: #1e3b58ff !important; }
-            .section-title { background-color: #d7e1eeff !important; }
+            @page {
+              margin-bottom: 50px;
+              @bottom-center {
+                content: "Navegación Aérea y Aeropuertos Bolivianos (NAABOL) naabol@naabol.gob.bo ${new Date().toLocaleDateString('es-ES')} - ${new Date().toLocaleTimeString('es-ES')} - Pág. " counter(page);
+                font-size: 10px;
+                color: #666;
+              }
+            }
+            
+            .page-break {
+              page-break-after: always;
+            }
           }
         </style>
       </head>
       <body>
         ${contenido.innerHTML}
-        <div style="text-align: center; margin-top: 10px; font-size: 10px; color: #2f2f30ff;">
-          <p>Navegación Aérea y Aeropuertos Bolivianos (NAABOL) naabol@naabol.gob.bo ${new Date().toLocaleDateString('es-ES')} a las ${new Date().toLocaleTimeString('es-ES')}</p>
-        </div>
+
+        <script>
+          // Imprimir automáticamente y cerrar después
+          window.onload = function() {
+            window.print();
+          };
+          
+          window.onafterprint = function() {
+            setTimeout(function() {
+              window.close();
+            }, 100);
+          };
+        </script>
+
       </body>
       </html>
-    `);
+    `;
 
+    ventanaImpresion.document.write(htmlContent);
     ventanaImpresion.document.close();
     
-    setTimeout(() => {
-      ventanaImpresion.focus();
-      ventanaImpresion.print();
-    }, 500);
   }
 
 }

@@ -14,10 +14,16 @@ export class ListActivosComponent implements OnInit {
   currentFilter: string = 'Today';
   searchTerm: string = '';
 
+  // Variables de paginación
+  paginaActual: number = 1;
+  itemsPorPagina: number = 5;
+  terminoBusqueda: string = '';
+
   constructor(private activoService:ActivoService, private router: Router){}
 
   ngOnInit(): void {
     this.datosActivos()
+    this.activoFiltrados = [...this.activos];
   }
 
   datosActivos(): void {
@@ -36,35 +42,8 @@ export class ListActivosComponent implements OnInit {
     });
   }
 
-  filterByDate(filter: string) {
-    this.currentFilter = filter === 'today' ? 'Today' : 
-    filter === 'month' ? 'This Month' : 'This Year';
-    // filtrado real
-    this.activoFiltrados = [...this.activos];
-  }
-
-  // onSearch(event: any) {
-  //   this.searchTerm = event.target.value.toLowerCase();
-    
-  //   if (this.searchTerm) {
-  //     this.activoFiltrados = this.activos.filter(item => {
-  //       const searchTerm = this.searchTerm;
-        
-  //       return (
-  //         // Búsqueda en campos básicos con optional chaining
-  //         item.detalle?.toLowerCase().includes(searchTerm) ||
-  //         item.codigo?.toString().includes(searchTerm) ||
-  //         // Búsqueda por IP
-  //         this.buscarPorIP(item.ip, searchTerm)
-  //       );
-  //     });
-  //   } else {
-  //     this.activoFiltrados = [...this.activos];
-  //   }
-  // }
 
   onSearch(event: any) {
-  // Verificación adicional del event
     if (!event || !event.target) {
       this.activoFiltrados = [...this.activos];
       return;
@@ -72,7 +51,6 @@ export class ListActivosComponent implements OnInit {
     
     const searchValue = event.target.value;
     
-    // Si no hay término de búsqueda, mostrar todos
     if (!searchValue || searchValue.trim() === '') {
       this.activoFiltrados = [...this.activos];
       return;
@@ -140,6 +118,10 @@ export class ListActivosComponent implements OnInit {
 
   formatearFecha(fecha: Date): string {
     return new Date(fecha).toLocaleDateString('es-ES');
+  }
+
+  computatoras(){
+
   }
 
 }

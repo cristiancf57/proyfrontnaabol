@@ -10,8 +10,15 @@
     </nav>
   </div>
   <div>
-    <div class="d-flex justify-content-around">
+    <!-- <div class="d-flex justify-content-around">
+      
       <button type="submit" class="btn btn-outline-dark"><i class="bi bi-printer-fill"><strong>&nbsp; Imprimir</strong></i></button>
+    </div> -->
+    <div class="d-flex justify-content-around">
+      <button type="button"  class="btn btn-outline-dark me-2"><strong><i class="bi bi-database-fill-check"><strong>&nbsp; Todos </strong></i></strong></button>
+      <button type="button"  class="btn btn-outline-dark me-2"><strong><i class="bi bi-pc-display-horizontal"><strong>&nbsp; Computadoras </strong></i></strong></button>
+      <button type="button" class="btn btn-outline-dark me-2"><strong><i class="bi bi-printer"><strong>&nbsp; Impresoras </strong></i></strong></button>
+      <button type="submit" class="btn btn-outline-dark me-5"><i class="bi bi-camera-video"><strong>&nbsp; Camaras</strong></i></button>
     </div>
   </div>
 </div><!-- End Page Title -->
@@ -24,18 +31,13 @@
             <div class="card-body">
               <h5 class="card-title">Activos <span>| Todos</span></h5>
 
-              <!-- Search Bar -->
               <div class="row mb-3">
                 <div class="col-md-4">
                   <div class="input-group">
                     <span class="input-group-text">
                       <i class="bi bi-search"></i>
                     </span>
-                    <input 
-                      type="text" 
-                      class="form-control" 
-                      placeholder="Buscar Activo"
-                      (input)="onSearch($event)">
+                    <input type="text" class="form-control" placeholder="Buscar Activo" (input)="onSearch($event)">
                   </div>
                 </div>
                 <div class="col-md-6 text-end">
@@ -43,8 +45,7 @@
                 </div>
               </div>
 
-              <!-- Table with stripped rows -->
-              <table class="table ">
+              <table class="table table-hover table-striped">
                 <thead>
                   <tr>
                     <th scope="col">Nro</th>
@@ -73,7 +74,7 @@
                       {{ item.estado }}
                     </span></td>
                     <td class="text-center">
-                      <a class="icon " href="#" data-bs-toggle="dropdown"><i class="bi bi-stack text-info"></i></a>
+                      <a class="icon " data-bs-toggle="dropdown"><i class="bi bi-database-fill-gear text-info-emphasis"></i></a>
                       <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow text-center ">
                         <li><a><i (click)="detalle(item)" class="bi bi-eye text-info-emphasis"> Ver</i></a></li>
                         <li><a><i (click)="editar(item)" class="bi bi-pencil-square text-info"> Editar</i></a></li>
@@ -83,11 +84,8 @@
                   </tr>            
                 </tbody> 
               </table>
-              <!-- End Table with stripped rows -->
-            </div>
+             </div>
           </div>
-
         </div>
     </div>
 </section>
-

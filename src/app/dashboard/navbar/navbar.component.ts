@@ -14,6 +14,7 @@ import { ImageStateService } from '../../services/imagenes/image-state.service';
 })
 export class NavbarComponent  implements OnInit, OnDestroy{
   
+  urlIcon = 'assets/img/fondos/logo.png'
   currentUser: IUser | null = null;
   private userSubscription: Subscription = new Subscription();
   UrlImg = 'assets/img/perfiles/default.jpg'

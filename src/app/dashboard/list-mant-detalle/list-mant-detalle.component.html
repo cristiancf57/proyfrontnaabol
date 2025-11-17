@@ -23,7 +23,7 @@
         </div>
       </div>
 
-      <table class="table">
+      <table class="table table-hover table-striped">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -48,7 +48,7 @@
                   {{ item.estado }}
                 </span></td>
                 <td class="text-center">
-                  <a class="icon " href="#" data-bs-toggle="dropdown"><i class="bi bi-stack text-info"></i></a>
+                  <a class="icon " data-bs-toggle="dropdown"><i class="bi bi-database-fill-gear text-info-emphasis"></i></a>
                   <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow text-center ">
                     <li><a><i [routerLink]="['/dashboard/form-actividad', item.id]" class="bi bi-eye text-info-emphasis"> Realizar</i></a></li>
                     <li><a><i (click)="cancelar(item)" class="bi bi-pencil-square text-info"> Cancelar</i></a></li>

@@ -33,6 +33,8 @@ import { AdminComponent } from './dashboard/admin/admin.component';
 import { ImageStateService } from './services/imagenes/image-state.service';
 import { EditActivoComponent } from './dashboard/list-activos/edit-activo/edit-activo.component';
 import { ActividadRecienteComponent } from './dashboard/principal/actividad-reciente/actividad-reciente.component';
+import { LectorqrComponent } from './dashboard/buscador-activo/lectorqr/lectorqr.component';
+import { ManualComponent } from './dashboard/buscador-activo/manual/manual.component';
 
 
 @NgModule({
@@ -63,6 +65,8 @@ import { ActividadRecienteComponent } from './dashboard/principal/actividad-reci
     AdminComponent,
     EditActivoComponent,
     ActividadRecienteComponent,
+    LectorqrComponent,
+    ManualComponent,
   ],
   imports: [
     BrowserModule,

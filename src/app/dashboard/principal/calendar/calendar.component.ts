@@ -24,11 +24,10 @@ export class CalendarComponent implements OnInit {
   }
 
   cargarCalendario() {
-    // Aquí llamas a tu servicio para obtener los datos
     this.calendarservice.getCalendario().subscribe({
       next: (data: any) => {
         this.calendary = data;
-        this.mapearEventosDesdeAPI();
+        this.mapearEventos();
         this.generateCalendar();
       },
       error: (error) => {
@@ -37,11 +36,12 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-  mapearEventosDesdeAPI(): void {
+  mapearEventos(): void {
     this.events = [];
 
     this.calendary.forEach((item: ICalendario) => {
-      const fecha = new Date(item.fecha);
+      const fecha = new Date(item.fecha + 'T00:00:00');
+      // const fecha = item.fecha;
       const dia = fecha.getDate();
       
       const evento = {
@@ -58,13 +58,12 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-   // Función para formatear el título del evento
+  // Función para formatear el título del evento
   obtenerTituloEvento(item: ICalendario): string {
-    // Puedes personalizar cómo se muestra el título
     return `${item.activo.detalle} - ${item.estado}`;
   }
 
-   generateCalendar() {
+  generateCalendar() {
     const year = this.currentDate.getFullYear();
     const month = this.currentDate.getMonth();
     
@@ -167,11 +166,9 @@ export class CalendarComponent implements OnInit {
     this.calendarservice.getCalendario().subscribe({
       next: (response: any) =>{
         this.calendary = response
-        this.mapearEventosDesdeAPI(); // Mapear los datos de la API
+        this.mapearEventos();
         this.renderCalendar(this.currentDate);
-        // console.log('Datos del calendario:', response);
-        console.log('Eventos mapeados:', this.events);
-        // console.log(response)
+        // console.log('Eventos mapeados:', this.events);
       },
       error: error =>{
         console.log(error)
@@ -180,30 +177,6 @@ export class CalendarComponent implements OnInit {
     })
   }
 
-  mapearEventosDesdeAPIs(): void {
-    // Reiniciar el objeto events
-    // this.events = {};
-
-     // Mapear cada item del calendario al objeto events
-    this.calendary.forEach((item: ICalendario) => {
-      // Asumiendo que ICalendario tiene propiedades como fecha y descripcion
-      const fecha = this.formatearFecha(item.fecha); // Ajusta según fecha
-      const descripcion = item.activo.detalle; // Ajusta según  propiedad
-      const estado = item.estado; // Ajusta según estado
-      const tipo = item.activo.tipo; // Ajusta según tipo
-      // this.events[fecha] = descripcion;
-    });
-  }
-
-  formatearFecha(fecha: string | Date): string {
-    // Convierte la fecha al formato YYYY-MM-DD
-    const date = new Date(fecha);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    
-    return `${year}-${month}-${day}`;
-  }
   renderCalendar(date: Date) {
     this.calendarDays = [];
     const year = date.getFullYear();
@@ -224,24 +197,4 @@ export class CalendarComponent implements OnInit {
       this.calendarDays.push(i);
     }
   }
-
-  // prevMonth() {
-  //   this.currentDate.setMonth(this.currentDate.getMonth() - 1);
-  //   this.renderCalendar(this.currentDate);
-  // }
-
-  // nextMonth() {
-  //   this.currentDate.setMonth(this.currentDate.getMonth() + 1);
-  //   this.renderCalendar(this.currentDate);
-  // }
-
-  // getEvent(day: number): string {
-  //   if (day === 0) return '';
-  //   const month = String(this.currentDate.getMonth() + 1).padStart(2, '0');
-  //   const dayStr = String(day).padStart(2, '0');
-  //   const year = this.currentDate.getFullYear();
-  //   const fechaKey = `${year}-${month}-${dayStr}`;
-    
-  //   return this.events[fechaKey] || '';
-  // }
 }

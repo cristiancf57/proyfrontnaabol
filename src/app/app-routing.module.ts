@@ -17,6 +17,8 @@ import { DetalleActivoComponent } from './dashboard/list-activos/detalle-activo/
 import { ProfileSettingsComponent } from './dashboard/profile-settings/profile-settings.component';
 import { AdminComponent } from './dashboard/admin/admin.component';
 import { EditActivoComponent } from './dashboard/list-activos/edit-activo/edit-activo.component';
+import { LectorqrComponent } from './dashboard/buscador-activo/lectorqr/lectorqr.component';
+import { ManualComponent } from './dashboard/buscador-activo/manual/manual.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -38,7 +40,9 @@ const routes: Routes = [
       {path: 'form-activo', component:FormActivoComponent},
       {path: 'form-actividad/:id', component:FormActividadComponent},
       {path: 'buscar-activo', component:BuscadorActivoComponent},
-      {path: '', redirectTo: 'principal', pathMatch: 'full'} //default
+      {path: 'lectorqr', component:LectorqrComponent},
+      {path: 'buscadormanual', component:ManualComponent},
+      {path: '', redirectTo: 'principal', pathMatch: 'full'}
     ]
   },
   {path: '**', redirectTo: 'login', pathMatch: 'full'}

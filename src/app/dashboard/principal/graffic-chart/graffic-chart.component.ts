@@ -40,52 +40,52 @@ export class GrafficChartComponent implements OnInit, AfterViewInit {
   }
 
   initChart(datos: any) {
-  this.chart = echarts.init(this.chartDiv.nativeElement);
+    this.chart = echarts.init(this.chartDiv.nativeElement);
 
-  // Transformar datos
-  const chartData = datos.map((item: any) => ({
-    value: item.cantidad,
-    name: item.categoria
-  }));
+    // Transformar datos
+    const chartData = datos.map((item: any) => ({
+      value: item.cantidad,
+      name: item.categoria
+    }));
 
-  const option: echarts.EChartsOption = {
-    title: {
-      text: 'Actividades por Tipo de Activo',
-      left: 'center',
-      top: '0%'
-    },
-    tooltip: {
-      trigger: 'item',
-      formatter: (params: any) => {
-        return `${params.name}<br/>Cantidad: ${params.value} (${params.percent}%)`;
-      }
-    },
-    legend: {
-      orient: 'vertical',
-      left: 'left',
-      top: '15%'
-    },
-    series: [
-      {
-        name: 'Actividades',
-        type: 'pie',
-        radius: '70%',
-        center: ['60%', '50%'],
-        data: chartData,
-        emphasis: {
-          itemStyle: {
-            shadowBlur: 10,
-            shadowOffsetX: 0,
-            shadowColor: 'rgba(0, 0, 0, 0.5)'
-          }
-        },
-        label: {
-          formatter: '{b}: {c} ({d}%)'
+    const option: echarts.EChartsOption = {
+      title: {
+        text: 'mantenimientos por Tipo de Activo',
+        left: 'center',
+        top: '0%'
+      },
+      tooltip: {
+        trigger: 'item',
+        formatter: (params: any) => {
+          return `${params.name}<br/>Cantidad: ${params.value} (${params.percent}%)`;
         }
-      }
-    ]
-  };
+      },
+      legend: {
+        orient: 'vertical',
+        left: 'left',
+        top: '15%'
+      },
+      series: [
+        {
+          name: 'Actividades',
+          type: 'pie',
+          radius: '70%',
+          center: ['60%', '50%'],
+          data: chartData,
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          },
+          label: {
+            formatter: '{b}: {c} ({d}%)'
+          }
+        }
+      ]
+    };
 
-  this.chart.setOption(option);
-}
+    this.chart.setOption(option);
+  }
 }

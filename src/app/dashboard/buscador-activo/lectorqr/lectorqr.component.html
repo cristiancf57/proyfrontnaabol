@@ -1,0 +1,147 @@
+<p>lectorqr works!</p>
+<div class="col-10 mx-auto">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title text-center">
+                <i class="bi bi-qr-code-scan"></i> Buscador con Lector QR
+            </h5>
+
+            <!-- Estado del escaneo -->
+            <div *ngIf="mensaje" class="alert alert-info text-center">
+                {{ mensaje }}
+            </div>
+
+            <!-- Cámara QR -->
+            <div *ngIf="escaneando" class="text-center mb-4">
+                <div class="camera-container">
+                    <video #videoElement class="camera-preview" autoplay playsinline></video>
+                    <canvas #canvasElement class="d-none"></canvas>
+                </div>
+                <button class="btn btn-danger mt-3" (click)="cancelarScaneo()">
+                    <i class="bi bi-stop-circle"></i> Detener Escaneo
+                </button>
+            </div>
+
+            <!-- Controles principales -->
+            <div *ngIf="!escaneando && !mostrarFormulario" class="text-center">
+                <button class="btn btn-primary btn-lg mb-3" (click)="iniciarEscaneo()">
+                    <i class="bi bi-camera"></i> Escanear Código QR
+                </button>
+            </div>
+
+            <!-- Spinner de carga -->
+            <div *ngIf="loading" class="text-center py-4">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+                <p class="mt-2">Buscando en registros...</p>
+            </div>
+
+            <!-- Formulario de registro -->
+            <div *ngIf="mostrarFormulario && !loading" class="mt-4">
+                <h6 class="text-center text-warning">
+                    <i class="bi bi-exclamation-triangle"></i> Equipo No Encontrado
+                </h6>
+                <p class="text-center">Complete los datos para registrar el nuevo equipo:</p>
+
+                <!-- <form [formGroup]="myForm" (ngSubmit)="registrarNuevo()">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Código Activo</label>
+                            <input type="text" class="form-control" formControlName="codigo" [class.is-valid]="this.myForm.get('codigo')?.valid" [class.is-invalid]="this.myForm.get('codigo')?.invalid && this.myForm.get('codigo')?.touched">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Tipo</label>
+                            <select class="form-select" formControlName="tipo" [class.is-valid]="this.myForm.get('tipo')?.valid" [class.is-invalid]="this.myForm.get('tipo')?.invalid && this.myForm.get('tipo')?.touched">
+                                <option value="computadora">Computadora</option>
+                                <option value="laptop">Laptop</option>
+                                <option value="miniPC">Mini PC</option>
+                                <option value="impresora">Impresora</option>
+                                <option value="monitor">Monitor</option>
+                                <option value="camara">Cámara</option>
+                                <option value="switch">Switch</option>
+                                <option value="router">Router</option>
+                                <option value="enrutador">Enrutadores, Redes</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Detalle</label>
+                            <input type="text" class="form-control" formControlName="detalle" [class.is-valid]="this.myForm.get('detalle')?.valid" [class.is-invalid]="this.myForm.get('detalle')?.invalid && this.myForm.get('detalle')?.touched">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Marca</label>
+                            <input type="text" class="form-control" formControlName="marca" [class.is-valid]="this.myForm.get('marca')?.valid" [class.is-invalid]="this.myForm.get('marca')?.invalid && this.myForm.get('marca')?.touched">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Modelo</label>
+                            <input type="text" class="form-control" formControlName="modelo" [class.is-valid]="this.myForm.get('modelo')?.valid" [class.is-invalid]="this.myForm.get('modelo')?.invalid && this.myForm.get('modelo')?.touched">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Número de Serie</label>
+                            <input type="text" class="form-control" formControlName="serie" [class.is-valid]="this.myForm.get('serie')?.valid" [class.is-invalid]="this.myForm.get('serie')?.invalid && this.myForm.get('serie')?.touched">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="inputState" class="form-label">Area</label>
+                            <select id="inputState" formControlName="area" class="form-select" [class.is-valid]="this.myForm.get('area')?.valid" [class.is-invalid]="this.myForm.get('area')?.invalid && this.myForm.get('area')?.touched">
+                                <option value="Sistemas">Sistemas</option>
+                                <option value="Electronica">Electronica</option>
+                                <option value="CNS">CNS</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Direccion IP</label>
+                            <input type="text" class="form-control" formControlName="ip" [class.is-valid]="this.myForm.get('ip')?.valid" [class.is-invalid]="this.myForm.get('ip')?.invalid && this.myForm.get('ip')?.touched">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Ubicacion</label>
+                            <input type="text" class="form-control" formControlName="ubicacion" [class.is-valid]="this.myForm.get('ubicacion')?.valid" [class.is-invalid]="this.myForm.get('ubicacion')?.invalid && this.myForm.get('ubicacion')?.touched">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Color</label>
+                            <input type="text" class="form-control" formControlName="color" [class.is-valid]="this.myForm.get('color')?.valid" [class.is-invalid]="this.myForm.get('color')?.invalid && this.myForm.get('color')?.touched">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Fecha</label>
+                            <input type="date" class="form-control" formControlName="fecha" [class.is-valid]="this.myForm.get('fecha')?.valid" [class.is-invalid]="this.myForm.get('fecha')?.invalid && this.myForm.get('fecha')?.touched">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Estado</label>
+                            <select class="form-select" formControlName="estado" [class.is-valid]="this.myForm.get('estado')?.valid" [class.is-invalid]="this.myForm.get('estado')?.invalid && this.myForm.get('estado')?.touched">
+                                <option value="activo">Activo</option>
+                                <option value="mantenimiento">En Mantenimiento</option>
+                                <option value="baja">De Baja</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Descripción Adicional</label>
+                        <textarea class="form-control" formControlName="descripcion" rows="3"
+                                placeholder="Observaciones adicionales..."></textarea>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success me-2" 
+                                [disabled]="!myForm.valid || loading">
+                            <i class="bi bi-check-circle"></i> Registrar Equipo
+                        </button>
+                        <button type="button" class="btn btn-secondary" (click)="reiniciar()">
+                            <i class="bi bi-arrow-repeat"></i> Reiniciar
+                        </button>
+                    </div>
+                </form> -->
+            </div>
+        </div>
+    </div>
+</div>

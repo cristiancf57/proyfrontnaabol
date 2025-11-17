@@ -53,14 +53,14 @@ export class DetalleActividadComponent implements OnInit {
       return;
     }
 
-    const ventanaImpresion = window.open('', '_blank', 'width=800,height=600');
+    const ventanaImpresion = window.open('', '_blank', 'width=800,height=700');
     
     if (!ventanaImpresion) {
       alert('No se pudo abrir la ventana de impresión. Por favor, permite ventanas emergentes.');
       return;
     }
     
-    ventanaImpresion.document.write(`
+    const htmlContent = `
       <!DOCTYPE html>
       <html>
       <head>
@@ -132,30 +132,48 @@ export class DetalleActividadComponent implements OnInit {
             max-width: auto; 
             height: 60px;
           }
+
+          .footer {
+            display: none;
+          }
           
-          /* Asegurar que los colores se impriman */
           @media print {
-            * { -webkit-print-color-adjust: exact; }
-            .header { background-color: #343a40 !important; }
-            .section-title { background-color: #e0e0e0 !important; }
+            @page {
+              margin-bottom: 50px;
+              @bottom-center {
+                content: "Navegación Aérea y Aeropuertos Bolivianos (NAABOL) naabol@naabol.gob.bo ${new Date().toLocaleDateString('es-ES')} - ${new Date().toLocaleTimeString('es-ES')} - Pág. " counter(page);
+                font-size: 10px;
+                color: #666;
+              }
+            }
+            
+            .page-break {
+              page-break-after: always;
+            }
           }
         </style>
       </head>
       <body>
         ${contenido.innerHTML}
-        <div style="text-align: center; margin-top: 10px; font-size: 10px; color: #666;">
-          <p>Navegación Aérea y Aeropuertos Bolivianos (NAABOL) naabol@naabol.gob.bo ${new Date().toLocaleDateString('es-ES')} a las ${new Date().toLocaleTimeString('es-ES')}</p>
-        </div>
+
+        <script>
+          window.onload = function() {
+            window.print();
+          };
+          
+          window.onafterprint = function() {
+            setTimeout(function() {
+              window.close();
+            }, 100);
+          };
+        </script>
+
       </body>
       </html>
-    `);
+    `;
 
+    ventanaImpresion.document.write(htmlContent);
     ventanaImpresion.document.close();
-    
-    setTimeout(() => {
-      ventanaImpresion.focus();
-      ventanaImpresion.print();
-    }, 500);
   }
 
 }

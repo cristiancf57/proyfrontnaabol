@@ -2,17 +2,12 @@
 
     <div class="d-flex align-items-center justify-content-between">
       <a routerLink="principal" class="logo d-flex align-items-center">
-        <img src="assets/img/fondos/logo.png" alt="">
+        <img [src]="urlIcon" alt="">
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
 
-    <div class="search-bar">
-      <form class="search-form d-flex align-items-center" method="POST" action="#">
-        <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-        <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-      </form>
-    </div><!-- End Search Bar -->
+    <app-manual></app-manual>
 
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
@@ -178,10 +173,21 @@
 
       <li class="nav-item">
         <a class="nav-link " routerLink="principal">
-          <i class="bi bi-grid"></i>
-          <span>Dashboard</span>
+          <i class="bi bi-house"></i><span>Dashboard</span>
         </a>
-      </li><!-- End Dashboard Nav -->
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link " routerLink="lectorqr">
+          <i class="bi bi-qr-code-scan"></i><span>Lector QR</span>
+        </a>
+      </li>
+
+      <!-- <li class="nav-item">
+        <a class="nav-link " routerLink="buscadormanual">
+          <i class="bi bi-search"></i><span>Buscador</span>
+        </a>
+      </li> -->
 
       <li class="nav-item">
         <a class="nav-link collapsed"  data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
@@ -194,12 +200,40 @@
             </a>
           </li>
           <li>
-            <a routerLink="">
+            <!-- <a routerLink="">
               <i class="bi bi-circle"></i><span>Buscar Mantenimiento</span>
-            </a>
+            </a> -->
           </li>
         </ul>
       </li><!-- End Components Nav -->
+      
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a routerLink="usuario">
+              <i class="bi bi-circle"></i><span>tabla de usuarios</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="activo">
+              <i class="bi bi-circle"></i><span>Tabla de activos</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="mantenimiento">
+              <i class="bi bi-circle"></i><span>Tabla de mantenimientos</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="actividades">
+              <i class="bi bi-circle"></i><span>Tabla de actividades</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Tables Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
@@ -228,34 +262,6 @@
           </li>
         </ul>
       </li><!-- End Forms Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a routerLink="usuario">
-              <i class="bi bi-circle"></i><span>tabla de usuarios</span>
-            </a>
-          </li>
-          <li>
-            <a routerLink="activo">
-              <i class="bi bi-circle"></i><span>Tabla de activos</span>
-            </a>
-          </li>
-          <li>
-            <a routerLink="mantenimiento">
-              <i class="bi bi-circle"></i><span>Tabla de mantenimientos</span>
-            </a>
-          </li>
-          <li>
-            <a routerLink="actividades">
-              <i class="bi bi-circle"></i><span>Tabla de actividades</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Tables Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">

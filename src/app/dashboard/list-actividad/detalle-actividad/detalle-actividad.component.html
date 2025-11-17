@@ -16,7 +16,7 @@
 
             <div id="contenidoImprimir" class="container">
                 <div class="d-flex justify-content-between">
-                    <img [src]="logoMin" class="rounded float-start">
+                    <!-- <img [src]="logoMin" class="rounded float-start"> -->
                     <img [src]="logoInst" class="rounded float-end">
                 </div>
 
@@ -143,12 +143,9 @@
                 <!-- Sección SOFTWARE -->
                 <table>
                     <tr>
-                        <td colspan="3" class="section-title">SOFTWARE</td>
-                    </tr>
-                    <tr>
-                        <td class="subtitle">SISTEMA OPERATIVO</td>
-                        <td class="subtitle">OFFICE</td>
-                        <td class="subtitle">OTROS</td>
+                        <td class="section-title">SISTEMA OPERATIVO</td>
+                        <td class="section-title">OFFICE</td>
+                        <td class="section-title">OTROS</td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
@@ -163,21 +160,21 @@
                         <td class="section-title">OBSERVACIONES</td>
                     </tr>
                     <tr>
-                        <td style="height: 50px;">{{ actividad.observaciones }}</td>
+                        <td style="height: 60px;">{{ actividad.observaciones }}</td>
                     </tr>
                 </table>
 
                 <!-- Sección COSTO ESTIMADO y FIRMAS -->
-                <div class="container text-center p-3">
-                    <div style="height: 80px;" class="row align-items-end">
+                <div class="text-center">
+                    <div style="height: 100px;" class="row align-items-end">
                         <div class="col">
-                            <strong class="text-uppercase">encargado</strong><br><small>{{ actividad.encargado }}</small>
+                            <strong class="text-uppercase">Encargado</strong><br><small>{{ actividad.encargado }}</small>
                         </div>
                         <div class="col">
-                            <strong class="text-uppercase">tecnico</strong><br><small>{{ actividad.tecnico }}</small>
+                            <strong class="text-uppercase">Tecnico</strong><br><small>{{ actividad.tecnico }}</small>
                         </div>
                         <div class="col">
-                            <strong class="text-uppercase">supervisor</strong><br><small>{{ actividad.supervisor }}</small>
+                            <strong class="text-uppercase">Supervisor</strong><br><small>{{ actividad.supervisor }}</small>
                         </div>
                     </div>
                 </div>
