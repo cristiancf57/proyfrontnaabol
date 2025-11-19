@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   error = '';
   loading = false;
 
-  constructor(private fb: FormBuilder ,private authService: AuthService,private router: Router) {
+  constructor(private fb: FormBuilder ,private authService: AuthService, private router: Router) {
     this.loginForm = this.fb.group({
       login: ['', Validators.required],
       password: ['', Validators.required]
@@ -41,22 +41,6 @@ export class LoginComponent implements OnInit {
     this.showPassword = !this.showPassword;
   }
 
-  // onSubmit(): void {
-  //   this.loading = true;
-  //   this.error = '';
-
-  //   this.authService.login(this.login, this.password).subscribe({
-  //     next: () => {
-  //       this.loading = false;
-  //       this.router.navigate(['/dashboard']);
-  //     },
-  //     error: (error) => {
-  //       this.loading = false;
-  //       this.error = error.error?.message || 'Error en el login';
-  //     }
-  //   });
-  // }
-
   onSubmit(): void {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
@@ -70,10 +54,25 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(login, password).subscribe({
       next: (response) => {
-        console.log('dato login',response)
+        console.log('dato obtenidos en login',response)
+        console.log('Intentando redirigir a /dashboard');
+        // Guarda el token o usuario
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('user', JSON.stringify(response.user));
         this.loading = false;
-        // El servicio ya actualiza el estado del usuario automáticamente
-        this.router.navigate(['/dashboard']);
+        // this.router.navigate(['/dashboard']);
+        // Verifica que la ruta existe
+        console.log('Redirigiendo a /dashboard...');
+        this.router.navigate(['/dashboard'])
+          .then(success => {
+            if (success) {
+              console.log('Redirección exitosa');
+            } else {
+              console.error('No se pudo navegar a /dashboard');
+              // Fallback
+              // window.location.href = '/dashboard';
+            }
+          });
       },
       error: (error) => {
         this.loading = false;

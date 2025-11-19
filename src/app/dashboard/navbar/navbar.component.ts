@@ -84,8 +84,31 @@ export class NavbarComponent  implements OnInit, OnDestroy{
     return id ;
   }
 
+  // logout(): void {
+  //   this.authService.logout();
+  // }
   logout(): void {
-    this.authService.logout();
+    // Limpiar todo el localStorage
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    
+    // Limpiar sessionStorage también por seguridad
+    sessionStorage.clear();
+    
+    // Navegar al login y prevenir volver atrás
+    this.router.navigate(['/login']);
+    
+    // Prevenir que el navegador cachee la página
+    this.clearBrowserCache();
+  }
+
+  private clearBrowserCache(): void {
+    // Eliminar del cache del navegador
+    if ('caches' in window) {
+      caches.keys().then(keys => {
+        keys.forEach(key => caches.delete(key));
+      });
+    }
   }
 
   goToProfile(): void {

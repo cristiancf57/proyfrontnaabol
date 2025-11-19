@@ -35,6 +35,8 @@ import { EditActivoComponent } from './dashboard/list-activos/edit-activo/edit-a
 import { ActividadRecienteComponent } from './dashboard/principal/actividad-reciente/actividad-reciente.component';
 import { LectorqrComponent } from './dashboard/buscador-activo/lectorqr/lectorqr.component';
 import { ManualComponent } from './dashboard/buscador-activo/manual/manual.component';
+import { ListMovimientosComponent } from './dashboard/list-movimientos/list-movimientos.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -67,8 +69,10 @@ import { ManualComponent } from './dashboard/buscador-activo/manual/manual.compo
     ActividadRecienteComponent,
     LectorqrComponent,
     ManualComponent,
+    ListMovimientosComponent,
   ],
   imports: [
+    RouterModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

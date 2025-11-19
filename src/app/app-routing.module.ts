@@ -19,15 +19,16 @@ import { AdminComponent } from './dashboard/admin/admin.component';
 import { EditActivoComponent } from './dashboard/list-activos/edit-activo/edit-activo.component';
 import { LectorqrComponent } from './dashboard/buscador-activo/lectorqr/lectorqr.component';
 import { ManualComponent } from './dashboard/buscador-activo/manual/manual.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: 'login', component:LoginComponent},
   {path: 'layout', component:LayoutComponent},
   {path: 'register', component:FormsComponent},
-  {path: 'dashboard', component:DashboardComponent, 
+  {path: 'dashboard', component:DashboardComponent,// canActivate: [AuthGuard],
     children:[
-      {path: 'admins', component:AdminComponent},
+      {path: 'admins', component:AdminComponent}, //canActivate: [AuthGuard], data: { roles: ['admin,administrador']}
       {path: 'principal', component:PrincipalComponent},
       {path: 'usuario', component:ListUsuariosComponent},
       {path: 'perfil/:id', component:ProfileSettingsComponent},
