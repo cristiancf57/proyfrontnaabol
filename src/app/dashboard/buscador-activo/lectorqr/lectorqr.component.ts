@@ -57,6 +57,51 @@ export class LectorqrComponent implements OnInit{
     }
   }
 
+  // async iniciarEscaneo(): Promise<void> {
+  //   try {
+  //     this.escaneando = true;
+  //     this.mensaje = 'Iniciando cámara...';
+
+  //     const video = this.videoElement.nativeElement;
+
+  //     // iPhone fix
+  //     video.setAttribute('playsinline', 'true');
+
+  //     // Detectar lista de cámaras disponibles
+  //     const devices = await navigator.mediaDevices.enumerateDevices();
+  //     const cameras = devices.filter(d => d.kind === 'videoinput');
+
+  //     let constraints: MediaStreamConstraints;
+
+  //     if (cameras.length > 1) {
+  //       // Si hay más de una cámara → usar la trasera
+  //       constraints = {
+  //         video: { deviceId: { exact: cameras[cameras.length - 1].deviceId } }
+  //       };
+  //     } else {
+  //       // fallback para dispositivos viejos
+  //       constraints = {
+  //         video: { facingMode: { ideal: 'environment' } }
+  //       };
+  //     }
+
+  //     // Pedir acceso
+  //     this.stream = await navigator.mediaDevices.getUserMedia(constraints);
+
+  //     video.srcObject = this.stream;
+  //     await video.play();
+
+  //     this.mensaje = 'Escaneando código QR...';
+
+  //     this.detectarQR();
+
+  //   } catch (error) {
+  //     console.error('Error al acceder a la cámara:', error);
+  //     this.mensaje = 'No se pudo acceder a la cámara. Revisa permisos o activa HTTPS.';
+  //     this.escaneando = false;
+  //   }
+  // }
+
   cancelarScaneo(): void {
     this.escaneando = false;
     
