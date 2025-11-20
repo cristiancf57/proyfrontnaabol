@@ -41,4 +41,5 @@ export class UsuarioService {
   deleteProfileImage(): Observable<any> {
     return this.http.delete(`${this.baseUrl}profile/`);
   }
+
 }

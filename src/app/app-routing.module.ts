@@ -20,6 +20,7 @@ import { EditActivoComponent } from './dashboard/list-activos/edit-activo/edit-a
 import { LectorqrComponent } from './dashboard/buscador-activo/lectorqr/lectorqr.component';
 import { ManualComponent } from './dashboard/buscador-activo/manual/manual.component';
 import { AuthGuard } from './guards/auth.guard';
+import { ListMovimientosComponent } from './dashboard/list-movimientos/list-movimientos.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -38,6 +39,7 @@ const routes: Routes = [
       {path: 'mantenimiento', component:ListMantDetalleComponent},
       {path: 'actividades', component:ListActividadComponent},
       {path: 'actividades/detalle/:id', component:DetalleActividadComponent},
+      {path: 'movimientos', component:ListMovimientosComponent},
       {path: 'form-activo', component:FormActivoComponent},
       {path: 'form-actividad/:id', component:FormActividadComponent},
       {path: 'buscar-activo', component:BuscadorActivoComponent},

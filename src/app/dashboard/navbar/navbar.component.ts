@@ -1,10 +1,11 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { LoginService, UserLogin } from '../../services/logins/login.service';
 import { Subscription } from 'rxjs';
 import { IUser } from '../models/users';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { ImageStateService } from '../../services/imagenes/image-state.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -14,7 +15,7 @@ import { ImageStateService } from '../../services/imagenes/image-state.service';
 })
 export class NavbarComponent  implements OnInit, OnDestroy{
   
-  urlIcon = 'assets/img/fondos/logo.png'
+  urlIcon = environment.logoIcon
   currentUser: IUser | null = null;
   private userSubscription: Subscription = new Subscription();
   UrlImg = 'assets/img/perfiles/default.jpg'
@@ -22,6 +23,7 @@ export class NavbarComponent  implements OnInit, OnDestroy{
   currentUserId: number | null = null;
   Urlperfil: string | undefined;
   private imageSubscription!: Subscription;
+  isSidebarOpen = false;
 
   constructor(private authService: AuthService, private router: Router, private imageStateService: ImageStateService) {}
   
@@ -131,6 +133,37 @@ export class NavbarComponent  implements OnInit, OnDestroy{
     }
     if (this.userSubscription) {
       this.userSubscription.unsubscribe();
+    }
+  }
+
+  // Método para alternar sidebar
+  toggleSidebar(): void {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  // Método para cerrar sidebar
+  closeSidebar(): void {
+    this.isSidebarOpen = false;
+  }
+
+  // Cerrar sidebar al hacer clic en un enlace
+  onLinkClick(): void {
+    if (window.innerWidth <= 768) { // Solo en móviles
+      this.closeSidebar();
+    }
+  }
+
+  // Cerrar sidebar al hacer clic fuera de él
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event): void {
+    const target = event.target as HTMLElement;
+    const sidebar = document.querySelector('.sidebar');
+    const toggleBtn = document.querySelector('.toggle-sidebar-btn');
+
+    if (this.isSidebarOpen && 
+        !sidebar?.contains(target) && 
+        !toggleBtn?.contains(target)) {
+      this.closeSidebar();
     }
   }
 }

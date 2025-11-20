@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, Validators } from '@angular/forms';
 import { IRepuestos } from '../../models/repuestos';
 import { Subject, takeUntil } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-detalle-activo',
@@ -17,8 +18,8 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class DetalleActivoComponent implements OnInit, OnDestroy{
   private destroy$ = new Subject<void>();
-  logoMin = '/assets/img/fondos/logo_min.png'
-  logoInst = '/assets/img/fondos/logo_inst.png'
+  logoMin = environment.logoMinisterio
+  logoInst = environment.logoInstitucional
   activo!: any;
   mantenimiento: any[]=[];
   accesorios!: IRepuestos[];

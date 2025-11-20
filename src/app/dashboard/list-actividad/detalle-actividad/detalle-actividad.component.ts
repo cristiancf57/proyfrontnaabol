@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActividadService } from '../../../services/actividades/actividad.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-detalle-actividad',
@@ -9,8 +10,8 @@ import { ActividadService } from '../../../services/actividades/actividad.servic
 })
 export class DetalleActividadComponent implements OnInit {
   actividad: any;
-  logoMin = '/assets/img/fondos/logo_min.png'
-  logoInst = '/assets/img/fondos/logo_inst.png'
+  logoMin = environment.logoMinisterio
+  logoInst = environment.logoInstitucional
   dia: string = '';
   mes: string = '';
   anio: string = '';
