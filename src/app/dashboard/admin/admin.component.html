@@ -11,7 +11,7 @@
 
 <section class="section">
     <div class="row justify-content-center">
-        <div class="col-10">
+        <div class="col-12">
             <div class="card">
                 <div class="card-body">
                     <!-- Loading -->
@@ -21,101 +21,146 @@
                         </div>
                     </div>
 
-                    <!-- Roles -->
-                    <div *ngIf="!loading" class="row mt-4">
+                    <div class="row mt-4">
                         <div class="col-md-12">
-                            <h4>Roles</h4>
-                            <div class="list-group">
-                                <div *ngFor="let role of roles" class="list-group-item">
-                                <h5 class="mb-1">{{ role.name }}</h5>
-                                <p class="mb-1 pb-2 mb-4 text-danger border-bottom border-danger">Permisos: 
-                                    <span *ngFor="let permission of role.permissions" class="badge text-bg-success me-1">
-                                    {{ permission.name }}
-                                    </span>
-                                </p>
-                                </div>
-                            </div>
+                            <h2>Gestión de Roles de Usuarios</h2>
                         </div>
-                    </div>
 
-                    <!-- src/app/components/user-management/user-management.component.html -->
-                    <div class="container">
-                    <h2>Gestión de Roles de Usuarios</h2>
+                        <!-- Mensajes -->
+                        <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show">
+                            {{ successMessage }}
+                            <button type="button" class="btn-close" (click)="clearMessages()"></button>
+                        </div>
 
-                    <!-- Mensajes -->
-                    <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show">
-                        {{ successMessage }}
-                        <button type="button" class="btn-close" (click)="clearMessages()"></button>
-                    </div>
+                        <div *ngIf="error" class="alert alert-danger alert-dismissible fade show">
+                            {{ error }}
+                            <button type="button" class="btn-close" (click)="clearMessages()"></button>
+                        </div>
 
-                    <div *ngIf="error" class="alert alert-danger alert-dismissible fade show">
-                        {{ error }}
-                        <button type="button" class="btn-close" (click)="clearMessages()"></button>
-                    </div>
-
-                    <!-- Contenido principal -->
-                    <div *ngIf="!loading" class="row">
-                        <!-- Lista de usuarios -->
-                        <div class="col-md-6">
-                        <h4>Usuarios</h4>
-                        <div class="list-group">
-                            <div *ngFor="let user of users" 
-                                class="list-group-item list-group-item-action border-success"
-                                [class.active]="selectedUser?.id === user.id"
-                                (click)="selectUser(user)">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <div>
-                                        <h6 class="mb-1">{{ user.nombre }}</h6>
-                                        <small class="text-muted">{{ user.email }}</small>
+                        <!-- Contenido principal -->
+                        <div *ngIf="!loading" class="row">
+                            <!-- Lista de usuarios -->
+                            <div class="col-md-6">
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                        <i class="bi bi-search"></i>
+                                        </span><input type="text" class="form-control" placeholder="Buscar por CI 101234567">
                                     </div>
                                 </div>
-                                <div class="mt-2 pb-2 mb-4 text-danger border-bottom border-danger">
-                                    <small>Roles: </small>
-                                    <span *ngFor="let role of user.roles" 
-                                        class="badge bg-danger me-1">
-                                    {{ role }}
-                                    <button *ngIf="selectedUser?.id === user.id"
-                                            class="btn-close btn-close-white btn ms-1"
-                                            style="font-size: 0.7rem;"
-                                            (click)="$event.stopPropagation(); removeRole(user, role)">
-                                    </button>
-                                    </span>
-                                    <span *ngIf="!user.length" class="text-muted small">Sin roles asignados</span>
+                                <h6 class="text-muted mb-3 mt-4">
+                                    <i class="bi bi-people me-2"></i>USUARIOS ({{ users.length }})
+                                </h6>
+                                
+                                <div class="list-group">
+                                    <div *ngFor="let user of users" 
+                                        class="list-group-item list-group-item-action border-0 py-2 px-3 mb-1"
+                                        [class.bg-success]="selectedUser?.id === user.id"
+                                        [class.text-white]="selectedUser?.id === user.id"
+                                        (click)="selectUser(user)">
+                                        
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="flex-grow-1">
+                                                <div class="d-flex align-items-center mb-1">
+                                                    <strong class="me-2" style="font-size: 0.9rem;">{{ user.nombre }} {{ user.apellido }}</strong>
+                                                    <small class="opacity-75">{{ user.email }}</small>
+                                                </div>
+                                            </div>
+                                            <i *ngIf="selectedUser?.id === user.id" class="bi bi-check-lg ms-2"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Panel de asignación de roles -->
+                            <div class="col-md-6">
+                                <div *ngIf="selectedUser" class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0">Asignar Rol a {{ selectedUser.nombre }} {{ selectedUser.apellido }}</h5>
+                                         <div *ngIf="hasCurrentDesignacion(); else sinCargo" class="mt-2">
+                                            <div class="alert alert-info py-2 mb-0">
+                                                <i class="bi bi-info-circle me-1"></i>
+                                                <strong>Cargo actual:</strong> {{ getCurrentCargoDescription() }}
+                                                <span class="badge bg-success ms-2">{{ designacion[0]?.estado }}</span>
+                                            </div>
+                                        </div>
+                                        <ng-template #sinCargo>
+                                            <div class="alert alert-warning py-2 mb-0 mt-2">
+                                                <i class="bi bi-exclamation-triangle me-1"></i>
+                                                Sin cargo asignado
+                                            </div>
+                                        </ng-template>
+                                    </div>
+
+                                    <div class="card-body mt-2">
+                                        <!-- MOSTRAR FORMULARIO DE ASIGNACIÓN si NO tiene cargo -->
+                                        <div *ngIf="!hasCurrentDesignacion()">
+                                            <h6 class="text-success mb-3">
+                                                <i class="bi bi-plus-circle me-1"></i>Asignar Nuevo Cargo
+                                            </h6>
+                                            <form>
+                                                <div class="mb-3">
+                                                    <label for="cargoSelect" class="form-label">Seleccionar cargo</label>
+                                                    <select id="cargoSelect" class="form-select text-uppercase" [(ngModel)]="selectedCargo" name="cargoSelect">
+                                                        <option value="">-- Selecciona un cargo --</option>
+                                                        <option *ngFor="let itemCargo of cargos" [value]="itemCargo.id" class="text-uppercase">
+                                                            {{ itemCargo.descripcion }}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                
+                                                <div class="mb-3">
+                                                    <label for="roleSelect" class="form-label">Seleccionar Rol</label>
+                                                    <select id="roleSelect" class="form-select" [(ngModel)]="selectedRole" name="roleSelect">
+                                                        <option value="">-- Selecciona un rol --</option>
+                                                        <option *ngFor="let role of roles" [value]="role.id">
+                                                            {{ role.name }}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <button class="btn btn-success" 
+                                                        (click)="Designacion()" 
+                                                        [disabled]="!selectedCargo || !selectedRole">
+                                                    <i class="bi bi-plus-circle me-1"></i> Asignar Cargo y Rol
+                                                </button>
+                                            </form>
+                                        </div>
+
+                                        <!-- MOSTRAR OPCIONES DE ELIMINACIÓN si TIENE cargo -->
+                                        <div *ngIf="hasCurrentDesignacion()">
+                                            <h6 class="text-danger mb-3">
+                                                <i class="bi bi-gear me-1"></i>Gestionar Cargo Actual
+                                            </h6>
+                                            
+                                            <div class="alert alert-warning">
+                                                <i class="bi bi-exclamation-triangle me-2"></i>
+                                                El usuario ya tiene un cargo asignado. Puedes:
+                                            </div>
+                                            
+                                            <div class="d-flex gap-2 flex-wrap">
+                                                <!-- Opción 1: Eliminar designación -->
+                                                <button class="btn btn-outline-danger" 
+                                                        (click)="removeDesignacion()">
+                                                    <i class="bi bi-trash me-1"></i> Eliminar Cargo
+                                                </button>
+
+                                                <!-- Opción 3: Desactivar designación -->
+                                                <button class="btn btn-outline-warning" 
+                                                        (click)="deactivateDesignacion()"
+                                                        *ngIf="designacion[0]?.estado === 'activo'">
+                                                    <i class="bi bi-pause-circle me-1"></i> Desactivar Temporalmente
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div *ngIf="!selectedUser" class="text-center text-muted p-4">
+                                    <i class="bi bi-person fs-1"></i>
+                                    <p class="mt-2">Selecciona un usuario para gestionar sus roles</p>
                                 </div>
                             </div>
                         </div>
-                        </div>
-
-                        <!-- Panel de asignación de roles -->
-                        <div class="col-md-6">
-                        <div *ngIf="selectedUser" class="card">
-                            <div class="card-header">
-                            <h5 class="card-title mb-0">Asignar Rol a {{ selectedUser.nombre }}</h5>
-                            </div>
-                            <div class="card-body">
-                            <div class="mb-3">
-                                <label for="roleSelect" class="form-label">Seleccionar Rol</label>
-                                <select id="roleSelect" class="form-select" [(ngModel)]="selectedRole">
-                                <option value="">-- Selecciona un rol --</option>
-                                <option *ngFor="let role of availableRoles" [value]="role">
-                                    {{ role }}
-                                </option>
-                                </select>
-                            </div>
-                            <button class="btn btn-outline-danger" 
-                                    (click)="assignRole()"
-                                    [disabled]="!selectedRole">
-                                Asignar Rol
-                            </button>
-                            </div>
-                        </div>
-
-                        <div *ngIf="!selectedUser" class="text-center text-muted p-4">
-                            <i class="bi bi-person fs-1"></i>
-                            <p class="mt-2">Selecciona un usuario para gestionar sus roles</p>
-                        </div>
-                        </div>
-                    </div>
                     </div>
 
                 </div>

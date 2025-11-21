@@ -37,6 +37,7 @@ import { LectorqrComponent } from './dashboard/buscador-activo/lectorqr/lectorqr
 import { ManualComponent } from './dashboard/buscador-activo/manual/manual.component';
 import { ListMovimientosComponent } from './dashboard/list-movimientos/list-movimientos.component';
 import { RouterModule } from '@angular/router';
+import { FormMovimientoComponent } from './dashboard/forms/form-movimiento/form-movimiento.component';
 
 
 @NgModule({
@@ -70,6 +71,7 @@ import { RouterModule } from '@angular/router';
     LectorqrComponent,
     ManualComponent,
     ListMovimientosComponent,
+    FormMovimientoComponent,
   ],
   imports: [
     RouterModule,

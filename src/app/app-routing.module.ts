@@ -21,6 +21,7 @@ import { LectorqrComponent } from './dashboard/buscador-activo/lectorqr/lectorqr
 import { ManualComponent } from './dashboard/buscador-activo/manual/manual.component';
 import { AuthGuard } from './guards/auth.guard';
 import { ListMovimientosComponent } from './dashboard/list-movimientos/list-movimientos.component';
+import { FormMovimientoComponent } from './dashboard/forms/form-movimiento/form-movimiento.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -42,6 +43,7 @@ const routes: Routes = [
       {path: 'movimientos', component:ListMovimientosComponent},
       {path: 'form-activo', component:FormActivoComponent},
       {path: 'form-actividad/:id', component:FormActividadComponent},
+      {path: 'form-movimiento', component:FormMovimientoComponent},
       {path: 'buscar-activo', component:BuscadorActivoComponent},
       {path: 'lectorqr', component:LectorqrComponent},
       {path: 'buscadormanual', component:ManualComponent},

@@ -11,8 +11,8 @@ export interface IDesignacionCargo {
     estado: string
     fecha_inicio:Data
     cargo?: {
-        id: number
-        descripcion: string
-        area: string
+      id: number
+      descripcion: string
+      area: string
     }
 }

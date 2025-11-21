@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { IPermission, IRole, IRoles } from '../models/users';
 import { RoleService } from '../../services/roles/role.service';
+import { IDesignacion } from '../models/designacion';
+import { DesignacionService } from '../../services/designaciones/designacion.service';
+import { CargoService } from '../../services/cargos/cargo.service';
 
 @Component({
   selector: 'app-admin',
@@ -14,13 +17,20 @@ export class AdminComponent implements OnInit{
   error = '';
 
   users: any[] = [];
+  designacion: any;
+  cargos: any[] = [];
   availableRoles: string[] = [];
   successMessage = '';
 
   selectedUser: any | null = null;
   selectedRole = '';
 
-  constructor(private roleService: RoleService) {}
+  selectedCargo: any = null;
+  editCargo: any = null;
+  editRole: any = null;
+  isEditMode: boolean = false;
+
+  constructor(private roleService: RoleService, private desiganacionService: DesignacionService, private cargoService:CargoService) {}
 
   ngOnInit(): void {
     this.getRoles()
@@ -86,7 +96,8 @@ export class AdminComponent implements OnInit{
       next: (response:any) => {
         this.users = response;
         console.log('usuarios', response)
-        this.loadAvailableRoles();
+        // this.loadAvailableRoles()
+        this.loadCargos()
       },
       error: (error) => {
         this.error = 'Error al cargar usuarios';
@@ -95,61 +106,44 @@ export class AdminComponent implements OnInit{
     });
   }
 
-  loadAvailableRoles(): void {
-    this.roleService.getRoles().subscribe({
-      next: (response:any) => {
-        this.availableRoles = response.map((role: any) => role.name);
-        console.log('desde select', this.availableRoles)
-        this.loading = false;
-      },
-      error: (error) => {
-        this.availableRoles = [];
-        this.loading = false;
+  loadDesignacion(id:number){
+    this.desiganacionService.detallesdesignacion(id).subscribe({
+      next:(data:any)=>{
+        this.designacion = [data]
+        console.log('designaciones',this.designacion)
       }
-    });
+    })
   }
+  loadCargos(){
+    this.cargoService.getCargos().subscribe({
+      next:(cargo:any)=>{
+        this.cargos = cargo
+        console.log('cargos',this.cargos)
+      }
+    })
+  }
+
+  // loadAvailableRoles(): void {
+  //   this.roleService.getRoles().subscribe({
+  //     next: (response:any) => {
+  //       this.availableRoles = response
+  //       console.log('roles', this.availableRoles)
+  //       this.loading = false;
+  //     },
+  //     error: (error) => {
+  //       this.availableRoles = [];
+  //       this.loading = false;
+  //     }
+  //   });
+  // }
 
   selectUser(user: any): void {
     this.selectedUser = user;
     this.selectedRole = '';
     this.error = '';
     this.successMessage = '';
+    this.loadDesignacion(user.id)
   }
-
-  // assignRole(): void {
-  //   if (!this.selectedUser || !this.selectedRole) {
-  //     this.error = 'Selecciona un usuario y un rol';
-  //     return;
-  //   }
-
-  //   console.log('Enviando datos:', {
-  //     userId: this.selectedUser.id,
-  //     role: this.selectedRole
-  //   });
-
-  //   this.loading = true;
-  //   this.roleService.assignRole(this.selectedUser.id, this.selectedRole).subscribe({
-  //     next: (response) => {
-  //       this.successMessage = `Rol "${this.selectedRole}" asignado correctamente a ${this.selectedUser?.nombre}`;
-  //       console.log('Respuesta del servidor:', response);
-
-  //       this.loadData()
-        
-  //       // Actualizar el usuario en la lista
-  //       // const userIndex = this.users.findIndex(u => u.id === this.selectedUser!.id);
-  //       // if (userIndex !== -1) {
-  //       //   this.users[userIndex] = response.user;
-  //       // }
-        
-  //       this.loading = false;
-  //       this.selectedRole = '';
-  //     },
-  //     error: (error) => {
-  //       this.error = 'Error al asignar el rol';
-  //       this.loading = false;
-  //     }
-  //   });
-  // }
 
   // user-management.component.ts - VERSIÓN SIMPLIFICADA
   assignRole(): void {
@@ -209,6 +203,57 @@ export class AdminComponent implements OnInit{
         this.loading = false;
       }
     });
+  }
+
+  hasCurrentDesignacion(): boolean {
+    return this.designacion && 
+          this.designacion.length > 0 && 
+          this.designacion[0]?.cargo &&
+          Object.keys(this.designacion[0]).length > 0;
+  }
+
+  getCurrentCargoDescription(): string {
+    if (this.hasCurrentDesignacion()) {
+      return this.designacion[0].cargo?.descripcion || 'Sin descripción';
+    }
+    return 'Sin cargo';
+  }
+
+  getOtherCargos(): any[] {
+    if (!this.cargos || !this.hasCurrentDesignacion()) return this.cargos || [];
+    
+    const currentCargoId = this.designacion[0].cargo?.id;
+    return this.cargos.filter(cargo => cargo.id !== currentCargoId);
+  }
+
+  cancelEdit(): void {
+    this.isEditMode = false;
+    this.editCargo = null;
+    this.editRole = null;
+  }
+
+  Designacion(): void {
+    if (this.selectedCargo && this.selectedRole) {
+      // Lógica para asignar nueva designación
+      console.log('Asignando cargo:', this.selectedCargo, 'y rol:', this.selectedRole);
+      // Tu lógica de asignación aquí
+    }
+  }
+
+  removeDesignacion(): void {
+    if (confirm(`¿Estás seguro de eliminar el cargo de ${this.selectedUser.nombre}?`)) {
+      // Lógica para eliminar designación
+      console.log('Eliminando designación:', this.designacion[0].id);
+      // Tu lógica de eliminación aquí
+    }
+  }
+
+  deactivateDesignacion(): void {
+    if (confirm(`¿Desactivar temporalmente el cargo de ${this.selectedUser.nombre}?`)) {
+      // Lógica para desactivar designación
+      console.log('Desactivando designación:', this.designacion[0].id);
+      // Tu lógica de desactivación aquí
+    }
   }
 
   clearMessages(): void {
